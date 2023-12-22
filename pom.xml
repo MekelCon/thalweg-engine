@@ -24,6 +24,11 @@
     </dependency>
     <dependency>
       <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-backend-lwjgl3</artifactId>
+      <version>${dependency.gdx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
       <artifactId>gdx-platform</artifactId>
       <version>${dependency.gdx.version}</version>
       <classifier>natives-desktop</classifier>
