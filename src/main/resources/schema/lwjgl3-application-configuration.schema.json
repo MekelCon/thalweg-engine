@@ -28,6 +28,8 @@
       "default": 60
     }
   },
-  "required": ["title"],
+  "required": [
+    "title"
+  ],
   "additionalProperties": false
 }

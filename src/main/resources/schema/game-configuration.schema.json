@@ -5,9 +5,20 @@
   "description": "Basic game configuration",
   "type": "object",
   "properties": {
-    "lwjgl3ApplicationConfiguration" : {
+    "debug": {
+      "type": "boolean",
+      "default": false
+    },
+    "startScene": {
+      "type": "string",
+      "pattern": "^scene/.*(\\.json|\\.yaml)$"
+    },
+    "lwjgl3ApplicationConfiguration": {
       "$ref": "lwjgl3-application-configuration.schema.json"
     }
   },
+  "required": [
+    "startScene"
+  ],
   "additionalProperties": false
 }

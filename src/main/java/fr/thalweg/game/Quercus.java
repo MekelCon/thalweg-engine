@@ -4,14 +4,14 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import fr.thalweg.engine.ThalwegEngineGame;
 import fr.thalweg.engine.tolibgdx.ToLwjgl3ApplicationConfiguration;
 
-public class Drops {
+public class Quercus {
 
     public static void main(String[] arg) {
-        ThalwegEngineGame thalwegEngineGame = new ThalwegEngineGame("drops");
+        ThalwegEngineGame thalwegEngineGame = ThalwegEngineGame.build("./src/main/resources/quercus");
 
         new Lwjgl3Application(
                 thalwegEngineGame,
-                ToLwjgl3ApplicationConfiguration.from(thalwegEngineGame.getGameConfigurationSchema().getLwjgl3ApplicationConfiguration()));
+                ToLwjgl3ApplicationConfiguration.from(thalwegEngineGame.getConfig().getLwjgl3ApplicationConfiguration()));
     }
 
 }

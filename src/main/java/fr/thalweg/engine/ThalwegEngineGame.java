@@ -6,28 +6,41 @@ import com.badlogic.gdx.files.FileHandle;
 import fr.thalweg.engine.gen.GameConfigurationSchema;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.engine.validator.ProjectStructureValidator;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
+@Getter
 @Log
 public class ThalwegEngineGame extends Game {
 
-    final Directory rootDirectory;
-    @Getter
-    final GameConfigurationSchema gameConfigurationSchema;
+    private static ThalwegEngineGame INSTANCE;
+    final Directory root;
+    final GameConfigurationSchema config;
 
-    public ThalwegEngineGame(
-            String rootDirectory
+    protected ThalwegEngineGame(
+            String root
     ) {
-        this.rootDirectory = Directory.of(rootDirectory);
-        this.gameConfigurationSchema = Reader.getInstance().read(
-                new PublicFileHandle(rootDirectory + "/configuration.yaml", Files.FileType.Classpath),
+        this.root = Directory.of(root);
+        this.config = Reader.getInstance().read(
+                new PublicFileHandle(root + "/configuration.yaml", Files.FileType.Internal),
                 GameConfigurationSchema.class);
+    }
+
+    public static ThalwegEngineGame build(String rootDirectory) {
+        INSTANCE = new ThalwegEngineGame(rootDirectory);
+        return INSTANCE;
+    }
+
+    public static ThalwegEngineGame get() {
+        return INSTANCE;
     }
 
     @Override
     public void create() {
-
+        if (config.isDebug()) {
+            ProjectStructureValidator.validThalwegEngineGameStructure();
+        }
     }
 
     // TODO : get rid of this

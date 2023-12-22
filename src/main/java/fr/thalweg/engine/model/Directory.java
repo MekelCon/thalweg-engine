@@ -11,6 +11,9 @@ public class Directory {
 
     public static Directory of(String value) {
         Directory.assertValid(value);
+        // Remove trailing / if exist
+        value = value.endsWith("/") ? value.substring(0, value.length() - 1) : value;
+
         return new Directory(value);
     }
 
@@ -22,5 +25,9 @@ public class Directory {
 
     public String get() {
         return originalPath;
+    }
+
+    public String getSubFolder(String folder) {
+        return this.originalPath + "/" + folder;
     }
 }

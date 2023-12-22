@@ -51,7 +51,11 @@
       <artifactId>jackson-dataformat-yaml</artifactId>
       <version>${dependency.jackson.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>com.networknt</groupId>
+      <artifactId>json-schema-validator</artifactId>
+      <version>1.1.0</version>
+    </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -79,6 +83,7 @@
           <includeGeneratedAnnotation>false</includeGeneratedAnnotation>
           <usePrimitives>true</usePrimitives>
           <removeOldOutput>true</removeOldOutput>
+          <useJakartaValidation>true</useJakartaValidation>
         </configuration>
         <executions>
           <execution>
@@ -91,6 +96,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
         <configuration>
           <source>17</source>
           <target>17</target>

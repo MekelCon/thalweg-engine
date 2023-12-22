@@ -1,3 +1,5 @@
+startScene: scene/1.yaml
+debug: true
 lwjgl3ApplicationConfiguration:
   title: "Quercus"
   windowedHeight: 480
