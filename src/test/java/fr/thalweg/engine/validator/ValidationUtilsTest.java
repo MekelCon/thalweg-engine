@@ -17,7 +17,6 @@ public class ValidationUtilsTest {
         assertThrows(
                 IllegalArgumentException.class,
                 () -> ValidationUtils.get().notNull(null));
-
     }
 
     @Test

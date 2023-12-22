@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://www.thalweg.fr/lwjgl3-application-configuration.schema",
+  "title": "Lw3jgl application configuration",
+  "description": "Lw3jgl application configuration",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "windowedWidth": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 800
+    },
+    "windowedHeight": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 480
+    },
+    "useVSync": {
+      "type": "boolean",
+      "default": true
+    },
+    "foregroundFPS": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 60
+    }
+  },
+  "required": ["title"],
+  "additionalProperties": false
+}

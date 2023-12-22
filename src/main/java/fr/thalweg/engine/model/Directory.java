@@ -1,5 +1,6 @@
 package fr.thalweg.engine.model;
 
+import com.badlogic.gdx.Gdx;
 import fr.thalweg.engine.validator.ValidationUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,12 @@ public class Directory {
         ValidationUtils.get()
                 .notNull(value)
                 .notEmpty(value);
+        if (!Gdx.files.classpath(value).exists()) {
+            ValidationUtils.throwDedicatedException("Directory should exist");
+        }
     }
 
+    public String get() {
+        return originalPath;
+    }
 }
