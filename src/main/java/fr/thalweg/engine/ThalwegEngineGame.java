@@ -2,10 +2,12 @@ package fr.thalweg.engine;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import fr.thalweg.engine.gen.GameConfigurationSchema;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.engine.tolibgdx.ToLogLevel;
 import fr.thalweg.engine.validator.ProjectStructureValidator;
 import lombok.Getter;
 import lombok.extern.java.Log;
@@ -41,6 +43,11 @@ public class ThalwegEngineGame extends Game {
         if (config.isDebug()) {
             ProjectStructureValidator.validThalwegEngineGameStructure();
         }
+        initGdxConfig();
+    }
+
+    private void initGdxConfig() {
+        Gdx.app.setLogLevel(ToLogLevel.from(config.getGdx().getLogLevel()));
     }
 
     // TODO : get rid of this

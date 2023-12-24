@@ -6,7 +6,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
-@Getter
 public class Reader {
 
     @Getter

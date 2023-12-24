@@ -1,4 +1,6 @@
 startScene: "scene/1.yaml"
+gdx:
+  logLevel: DEBUG
 debug: true
 lwjgl3ApplicationConfiguration:
   title: "Quercus"

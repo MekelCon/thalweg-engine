@@ -13,12 +13,16 @@
       "type": "string",
       "pattern": "^scene/.*(\\.json|\\.yaml)$"
     },
+    "gdx": {
+      "$ref": "gdx-configuration.schema.json"
+    },
     "lwjgl3ApplicationConfiguration": {
       "$ref": "lwjgl3-application-configuration.schema.json"
     }
   },
   "required": [
-    "startScene"
+    "startScene",
+    "gdx"
   ],
   "additionalProperties": false
 }

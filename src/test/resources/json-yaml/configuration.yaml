@@ -2,3 +2,5 @@ lwjgl3ApplicationConfiguration:
   title: "Quercus"
   windowedHeight: 480
   windowedWidth: 800
+gdx: { }
+startScene: "scene/hello.yaml"
