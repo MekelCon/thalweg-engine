@@ -14,13 +14,13 @@ import lombok.extern.java.Log;
 
 @Getter
 @Log
-public class ThalwegEngineGame extends Game {
+public class ThalwegGame extends Game {
 
-    private static ThalwegEngineGame INSTANCE;
+    private static ThalwegGame INSTANCE;
     final Directory root;
     final GameConfigurationSchema config;
 
-    protected ThalwegEngineGame(
+    protected ThalwegGame(
             String root
     ) {
         this.root = Directory.of(root);
@@ -29,21 +29,22 @@ public class ThalwegEngineGame extends Game {
                 GameConfigurationSchema.class);
     }
 
-    public static ThalwegEngineGame build(String rootDirectory) {
-        INSTANCE = new ThalwegEngineGame(rootDirectory);
+    public static ThalwegGame build(String rootDirectory) {
+        INSTANCE = new ThalwegGame(rootDirectory);
         return INSTANCE;
     }
 
-    public static ThalwegEngineGame get() {
+    public static ThalwegGame get() {
         return INSTANCE;
     }
 
     @Override
     public void create() {
         if (config.isDebug()) {
-            ProjectStructureValidator.validThalwegEngineGameStructure();
+            ProjectStructureValidator.validThalwegGameStructure();
         }
         initGdxConfig();
+        this.setScreen(new ThalwegScreen(config.getStartScene()));
     }
 
     private void initGdxConfig() {

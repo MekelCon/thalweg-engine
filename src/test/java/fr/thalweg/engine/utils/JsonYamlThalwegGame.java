@@ -1,12 +1,12 @@
 package fr.thalweg.engine.utils;
 
-import fr.thalweg.engine.ThalwegEngineGame;
+import fr.thalweg.engine.ThalwegGame;
 
-public class JsonYamlThalwegEngineGame extends ThalwegEngineGame {
+public class JsonYamlThalwegGame extends ThalwegGame {
 
     private final static String ROOT = "./src/test/resources/json-yaml";
 
-    public JsonYamlThalwegEngineGame() {
+    public JsonYamlThalwegGame() {
         super(ROOT);
         build(ROOT);
     }

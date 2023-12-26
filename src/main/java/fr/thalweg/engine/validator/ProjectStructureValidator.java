@@ -6,10 +6,10 @@ import fr.thalweg.engine.model.AssetType;
 public class ProjectStructureValidator {
 
     public static void throwDedicatedException(String message) {
-        throw new InvalidThalwegEngineGameStructureException(message);
+        throw new InvalidThalwegGameStructureException(message);
     }
 
-    public static void validThalwegEngineGameStructure() {
+    public static void validThalwegGameStructure() {
         checkAssets();
     }
 

@@ -9,20 +9,38 @@
       "type": "boolean",
       "default": false
     },
-    "startScene": {
-      "type": "string",
-      "pattern": "^scene/.*(\\.json|\\.yaml)$"
-    },
     "gdx": {
       "$ref": "gdx-configuration.schema.json"
     },
     "lwjgl3ApplicationConfiguration": {
       "$ref": "lwjgl3-application-configuration.schema.json"
+    },
+    "startScene": {
+      "type": "string",
+      "pattern": "^scene/.*(\\.json|\\.yaml)$"
+    },
+    "virtualScreen": {
+      "type": "object",
+      "properties": {
+        "height": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "height",
+        "width"
+      ]
     }
   },
   "required": [
+    "gdx",
     "startScene",
-    "gdx"
+    "virtualScreen"
   ],
   "additionalProperties": false
 }

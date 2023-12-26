@@ -1,7 +1,7 @@
 package fr.thalweg.engine.validator;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import fr.thalweg.engine.utils.JsonYamlThalwegEngineGame;
+import fr.thalweg.engine.utils.JsonYamlThalwegGame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +11,13 @@ class ProjectStructureValidatorJsonYamlTest {
 
     @BeforeAll
     public static void beforeAll() {
-        new HeadlessApplication(new JsonYamlThalwegEngineGame());
+        new HeadlessApplication(new JsonYamlThalwegGame());
     }
 
     @Test
     void throwOnInvalid() {
         assertThrows(
-                InvalidThalwegEngineGameStructureException.class,
-                ProjectStructureValidator::validThalwegEngineGameStructure);
+                InvalidThalwegGameStructureException.class,
+                ProjectStructureValidator::validThalwegGameStructure);
     }
 }

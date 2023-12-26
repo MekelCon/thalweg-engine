@@ -1,7 +1,7 @@
 package fr.thalweg.engine.model;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import fr.thalweg.engine.utils.BasicThalwegEngineGame;
+import fr.thalweg.engine.utils.BasicThalwegGame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ class DirectoryTest {
 
     @BeforeAll
     public static void beforeAll() {
-        new HeadlessApplication(new BasicThalwegEngineGame());
+        new HeadlessApplication(new BasicThalwegGame());
     }
 
     @Test

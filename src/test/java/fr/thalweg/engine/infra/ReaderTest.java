@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import fr.thalweg.engine.gen.GameConfigurationSchema;
-import fr.thalweg.engine.utils.JsonYamlThalwegEngineGame;
+import fr.thalweg.engine.utils.JsonYamlThalwegGame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ class ReaderTest {
 
     @BeforeAll
     public static void beforeAll() {
-        new HeadlessApplication(new JsonYamlThalwegEngineGame());
+        new HeadlessApplication(new JsonYamlThalwegGame());
     }
 
     @Test
