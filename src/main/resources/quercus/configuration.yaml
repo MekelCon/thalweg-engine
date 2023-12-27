@@ -5,5 +5,5 @@ lwjgl3ApplicationConfiguration:
   title: "Quercus"
 startScreen: "screen/1.yaml"
 virtualScreen:
-  width: 1000
-  height: 1000
+  width: 256
+  height: 144
