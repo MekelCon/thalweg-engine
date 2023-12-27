@@ -1,4 +1,4 @@
-startScene: scene/1.yaml
+startScreen: screen/1.yaml
 virtualScreen:
   height: 1000
   width: 1000

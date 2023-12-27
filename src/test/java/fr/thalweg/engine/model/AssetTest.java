@@ -17,18 +17,18 @@ class AssetTest {
 
     @Test
     public void ok() {
-        assertDoesNotThrow(() -> Asset.of(AssetType.scene(), "scene/1.yaml"));
+        assertDoesNotThrow(() -> Asset.of(AssetType.screen(), "screen/1.yaml"));
     }
 
     @Test
     public void notExistShouldPass() {
-        assertDoesNotThrow(() -> Asset.of(AssetType.scene(), "scene/not-exist.yaml"));
+        assertDoesNotThrow(() -> Asset.of(AssetType.screen(), "screen/not-exist.yaml"));
     }
 
     @Test
     public void notStartWith() {
         assertThrows(IllegalArgumentException.class,
-                () -> Asset.of(AssetType.scene(), "toto/hello.png"));
+                () -> Asset.of(AssetType.screen(), "toto/hello.png"));
     }
 
     @Test
@@ -36,12 +36,12 @@ class AssetTest {
         assertThrows(IllegalArgumentException.class,
                 () -> Asset.of(null, "toto/hello.png"));
         assertThrows(IllegalArgumentException.class,
-                () -> Asset.of(AssetType.scene(), null));
+                () -> Asset.of(AssetType.screen(), null));
     }
 
     @Test
     public void refuseEmpty() {
         assertThrows(IllegalArgumentException.class,
-                () -> Asset.of(AssetType.scene(), ""));
+                () -> Asset.of(AssetType.screen(), ""));
     }
 }

@@ -33,6 +33,11 @@
       <version>${dependency.gdx.version}</version>
       <classifier>natives-desktop</classifier>
     </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.ashley</groupId>
+      <artifactId>ashley</artifactId>
+      <version>1.7.4</version>
+    </dependency>
 
     <dependency>
       <groupId>org.projectlombok</groupId>

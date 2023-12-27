@@ -15,9 +15,9 @@
     "lwjgl3ApplicationConfiguration": {
       "$ref": "lwjgl3-application-configuration.schema.json"
     },
-    "startScene": {
+    "startScreen": {
       "type": "string",
-      "pattern": "^scene/.*(\\.json|\\.yaml)$"
+      "pattern": "^screen/.*(\\.json|\\.yaml)$"
     },
     "virtualScreen": {
       "type": "object",
@@ -39,7 +39,7 @@
   },
   "required": [
     "gdx",
-    "startScene",
+    "startScreen",
     "virtualScreen"
   ],
   "additionalProperties": false

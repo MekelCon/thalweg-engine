@@ -1,7 +1,7 @@
 gdx: { }
 lwjgl3ApplicationConfiguration:
   title: "Quercus"
-startScene: "scene/hello.yaml"
+startScreen: "screen/hello.yaml"
 virtualScreen:
   height: 1000
   width: 1000

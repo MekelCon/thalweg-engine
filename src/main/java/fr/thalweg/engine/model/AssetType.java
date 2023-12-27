@@ -13,12 +13,12 @@ import java.util.Map;
 public class AssetType {
 
     private final static Map<ASSET_NAME, AssetType> allByName =
-            Map.of(ASSET_NAME.SCENE, new AssetType("scene"));
+            Map.of(ASSET_NAME.SCREEN, new AssetType("screen"));
 
     private final String folderName;
 
-    public static AssetType scene() {
-        return allByName.get(ASSET_NAME.SCENE);
+    public static AssetType screen() {
+        return allByName.get(ASSET_NAME.SCREEN);
     }
 
     public static List<AssetType> allType() {
@@ -33,6 +33,6 @@ public class AssetType {
     }
 
     private enum ASSET_NAME {
-        SCENE
+        SCREEN
     }
 }

@@ -44,7 +44,7 @@ public class ThalwegGame extends Game {
             ProjectStructureValidator.validThalwegGameStructure();
         }
         initGdxConfig();
-        this.setScreen(new ThalwegScreen(config.getStartScene()));
+        this.setScreen(new ThalwegScreen(config.getStartScreen()));
     }
 
     private void initGdxConfig() {

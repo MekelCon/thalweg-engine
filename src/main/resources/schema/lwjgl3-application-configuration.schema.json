@@ -8,15 +8,18 @@
     "title": {
       "type": "string"
     },
-    "windowedWidth": {
-      "type": "integer",
-      "minimum": 0,
-      "default": 800
-    },
-    "windowedHeight": {
-      "type": "integer",
-      "minimum": 0,
-      "default": 480
+    "windowed": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
     },
     "useVSync": {
       "type": "boolean",

@@ -4,7 +4,7 @@
   "lwjgl3ApplicationConfiguration": {
     "title": "Quercus"
   },
-  "startScene": "scene/hello.yaml",
+  "startScreen": "screen/hello.yaml",
   "virtualScreen": {
     "width": 1000,
     "height": 1000
