@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://www.thalweg.fr/thalweg-actor.schema",
+  "title": "Thalweg game screen",
+  "description": "Thalweg game screen",
+  "type": "object",
+  "properties": {
+    "position": {
+      "type": "object",
+      "description": "The position in the virtual screen coordinate system",
+      "properties": {
+        "x": {
+          "type": "integer",
+          "default": 0
+        },
+        "y": {
+          "type": "integer",
+          "default": 0
+        },
+        "z": {
+          "type": "integer",
+          "default": 0
+        }
+      }
+    },
+    "texture": {
+      "type": "string",
+      "pattern": "^sprite/.*\\..*$"
+    }
+  },
+  "additionalProperties": false
+}

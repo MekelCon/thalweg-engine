@@ -7,6 +7,12 @@
   "properties": {
     "name": {
       "type": "string"
+    },
+    "actors": {
+      "type": "array",
+      "items": {
+        "$ref": "thalweg-actor.schema.json"
+      }
     }
   },
   "required": [

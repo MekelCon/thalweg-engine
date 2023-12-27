@@ -1,5 +1,6 @@
 package fr.thalweg.engine;
 
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.files.FileHandle;
 import fr.thalweg.engine.gen.GameConfigurationSchema;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.engine.system.RenderingSystem;
 import fr.thalweg.engine.tolibgdx.ToLogLevel;
 import fr.thalweg.engine.validator.ProjectStructureValidator;
 import lombok.Getter;
@@ -17,8 +19,9 @@ import lombok.extern.java.Log;
 public class ThalwegGame extends Game {
 
     private static ThalwegGame INSTANCE;
-    final Directory root;
-    final GameConfigurationSchema config;
+    private final Directory root;
+    private final GameConfigurationSchema config;
+    private final PooledEngine ECSEngine;
 
     protected ThalwegGame(
             String root
@@ -27,6 +30,7 @@ public class ThalwegGame extends Game {
         this.config = Reader.getInstance().read(
                 new PublicFileHandle(root + "/configuration.yaml", Files.FileType.Internal),
                 GameConfigurationSchema.class);
+        this.ECSEngine = new PooledEngine();
     }
 
     public static ThalwegGame build(String rootDirectory) {
@@ -44,6 +48,7 @@ public class ThalwegGame extends Game {
             ProjectStructureValidator.validThalwegGameStructure();
         }
         initGdxConfig();
+        ECSEngine.addSystem(new RenderingSystem());
         this.setScreen(new ThalwegScreen(config.getStartScreen()));
     }
 
@@ -57,4 +62,6 @@ public class ThalwegGame extends Game {
             super(path, type);
         }
     }
+
+
 }

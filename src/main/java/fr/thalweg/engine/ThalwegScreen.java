@@ -2,8 +2,12 @@ package fr.thalweg.engine;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.graphics.Texture;
+import fr.thalweg.engine.component.PositionComponent;
+import fr.thalweg.engine.component.TextureComponent;
+import fr.thalweg.engine.component.TransformComponent;
+import fr.thalweg.engine.entity.ActorEntity;
+import fr.thalweg.engine.gen.ThalwegActorSchema;
 import fr.thalweg.engine.gen.ThalwegGameScreenSchema;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Asset;
@@ -16,9 +20,6 @@ public class ThalwegScreen implements Screen {
 
     private final ThalwegGameScreenSchema screenData;
 
-    // private final OrthographicCamera camera;
-    private final Stage stage;
-
     public ThalwegScreen(String sourceFile) {
         Gdx.app.debug(LOG_TAG, "Creating new screen : " + sourceFile);
         // Data related
@@ -26,20 +27,29 @@ public class ThalwegScreen implements Screen {
         screenData = Reader.getInstance().read(
                 Asset.of(AssetType.screen(), sourceFile).getFileHandle(),
                 ThalwegGameScreenSchema.class);
-        // UI Related
-        /*
-        camera = new OrthographicCamera(
-                ThalwegGame.get().getConfig().getVirtualScreen().getWidth(),
-                ThalwegGame.get().getConfig().getVirtualScreen().getWidth());
-
-         */
-        stage = this.initStage();
+        initActors();
     }
 
-    private Stage initStage() {
-        return new Stage(new FitViewport(
-                ThalwegGame.get().getConfig().getVirtualScreen().getWidth(),
-                ThalwegGame.get().getConfig().getVirtualScreen().getWidth()));
+    private void initActors() {
+        for (ThalwegActorSchema actorSchema : screenData.getActors()) {
+            ActorEntity actorEntity = new ActorEntity();
+
+            if (actorSchema.getTexture() != null) {
+                actorEntity.add(TextureComponent.builder()
+                        .region(new Texture(ThalwegGame.get().getRoot().getSubFolder(actorSchema.getTexture())))
+                        .build());
+                actorEntity.add(TransformComponent.builder()
+                        .build());
+            }
+
+            if (actorSchema.getPosition() != null) {
+                actorEntity.add(PositionComponent.builder()
+                        .x(actorSchema.getPosition().getX())
+                        .y(actorSchema.getPosition().getY())
+                        .build());
+            }
+            ThalwegGame.get().getECSEngine().addEntity(actorEntity);
+        }
     }
 
     @Override
@@ -49,7 +59,7 @@ public class ThalwegScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
+        ThalwegGame.get().getECSEngine().update(delta);
     }
 
     @Override
