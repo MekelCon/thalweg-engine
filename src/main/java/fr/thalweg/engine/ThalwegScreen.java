@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import fr.thalweg.engine.component.PositionComponent;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import fr.thalweg.engine.component.TextureComponent;
 import fr.thalweg.engine.component.TransformComponent;
 import fr.thalweg.engine.entity.ActorEntity;
@@ -41,18 +42,18 @@ public class ThalwegScreen implements Screen {
                 t.setFilter(
                         Texture.TextureFilter.Nearest,
                         Texture.TextureFilter.Nearest);
-
                 actorEntity.add(TextureComponent.builder()
                         .region(new TextureRegion(t))
-                        .build());
-                actorEntity.add(TransformComponent.builder()
                         .build());
             }
 
             if (actorSchema.getPosition() != null) {
-                actorEntity.add(PositionComponent.builder()
-                        .x(actorSchema.getPosition().getX())
-                        .y(actorSchema.getPosition().getY())
+                actorEntity.add(TransformComponent.builder()
+                        .pos(new Vector3(
+                                actorSchema.getPosition().getX(),
+                                actorSchema.getPosition().getY(),
+                                actorSchema.getPosition().getZ()))
+                        .scale(new Vector2(1.0f, 1.0f))
                         .build());
             }
             ThalwegGame.get().getECSEngine().addEntity(actorEntity);

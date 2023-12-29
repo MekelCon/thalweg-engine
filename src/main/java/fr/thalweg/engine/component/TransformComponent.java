@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @Builder
 public class TransformComponent implements Component {
-    public final Vector3 pos = new Vector3(0, 0, 0);
-    public final Vector2 scale = new Vector2(1.0f, 1.0f);
+    public Vector3 pos = new Vector3(0f, 0f, 0f);
+    public Vector2 scale = new Vector2(1.0f, 1.0f);
     public float rotation;
 }
