@@ -13,7 +13,6 @@ import fr.thalweg.engine.gen.ThalwegGameScreenSchema;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Asset;
 import fr.thalweg.engine.model.AssetType;
-import fr.thalweg.engine.system.CameraSystem;
 
 public class ThalwegScreen implements Screen {
 
@@ -21,13 +20,11 @@ public class ThalwegScreen implements Screen {
     public final String sourceFile;
 
     private final ThalwegGameScreenSchema screenData;
-    private final CameraSystem cameraSystem;
 
-    public ThalwegScreen(String sourceFile, CameraSystem cameraSystem) {
+    public ThalwegScreen(String sourceFile) {
         Gdx.app.debug(LOG_TAG, "Creating new screen : " + sourceFile);
         // Data related
         this.sourceFile = sourceFile;
-        this.cameraSystem = cameraSystem;
         screenData = Reader.getInstance().read(
                 Asset.of(AssetType.screen(), sourceFile).getFileHandle(),
                 ThalwegGameScreenSchema.class);
@@ -39,8 +36,14 @@ public class ThalwegScreen implements Screen {
             ActorEntity actorEntity = new ActorEntity();
 
             if (actorSchema.getTexture() != null) {
+                Texture t = new Texture(
+                        ThalwegGame.get().getRoot().getSubFolder(actorSchema.getTexture()));
+                t.setFilter(
+                        Texture.TextureFilter.Nearest,
+                        Texture.TextureFilter.Nearest);
+
                 actorEntity.add(TextureComponent.builder()
-                        .region(new TextureRegion(new Texture(ThalwegGame.get().getRoot().getSubFolder(actorSchema.getTexture()))))
+                        .region(new TextureRegion(t))
                         .build());
                 actorEntity.add(TransformComponent.builder()
                         .build());
@@ -69,7 +72,6 @@ public class ThalwegScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         Gdx.app.log("ThalwegScreen", "resize");
-        cameraSystem.getViewport().update(width, height);
     }
 
     @Override

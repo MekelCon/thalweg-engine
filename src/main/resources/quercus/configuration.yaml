@@ -6,4 +6,4 @@ lwjgl3ApplicationConfiguration:
 startScreen: "screen/1.yaml"
 virtualScreen:
   width: 256
-  height: 144
+  height: 256
