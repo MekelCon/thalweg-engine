@@ -1,8 +1,8 @@
 name: "1"
 actors:
   - position:
-      x: 0
-      y: 0
+      x: 50
+      y: 20
       z: 0
     texture: "sprite/norah.png"
   - position:

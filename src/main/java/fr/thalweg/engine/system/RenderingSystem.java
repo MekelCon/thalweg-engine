@@ -11,8 +11,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import fr.thalweg.engine.ThalwegGame;
 import fr.thalweg.engine.component.TextureComponent;
 import fr.thalweg.engine.component.TransformComponent;
@@ -21,6 +21,7 @@ import fr.thalweg.engine.entity.EntityComparator;
 public class RenderingSystem extends SortedIteratingSystem {
     private final Array<Entity> renderQueue;
     private final SpriteBatch batch;
+    private final OrthographicCamera camera;
     private final FrameBuffer worldBuffer;
     private final ComponentMapper<TextureComponent> textureMapper;
     private final ComponentMapper<TransformComponent> transformMapper;
@@ -33,6 +34,12 @@ public class RenderingSystem extends SortedIteratingSystem {
         );
         this.renderQueue = new Array<>();
         this.batch = batch;
+        this.camera = new OrthographicCamera();
+        camera.setToOrtho(
+                true,
+                ThalwegGame.get().getConfig().getVirtualScreen().getWidth(),
+                ThalwegGame.get().getConfig().getVirtualScreen().getHeight()
+        );
         this.worldBuffer = new FrameBuffer(
                 Pixmap.Format.RGBA8888,
                 ThalwegGame.get().getConfig().getVirtualScreen().getWidth(),
@@ -48,10 +55,8 @@ public class RenderingSystem extends SortedIteratingSystem {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-
-        Matrix4 m = new Matrix4();
-        m.setToOrtho2D(0, 0, 256, 256);
-        this.batch.setProjectionMatrix(m);
+        camera.update();
+        this.batch.setProjectionMatrix(camera.combined);
 
         this.worldBuffer.begin();
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -76,18 +81,21 @@ public class RenderingSystem extends SortedIteratingSystem {
         this.batch.end();
         this.worldBuffer.end();
 
-        Matrix4 m2 = new Matrix4();
-        m2.setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.batch.setProjectionMatrix(m2);
+
+        FitViewport viewport = new FitViewport(
+                256,
+                256
+        );
+        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport.apply(true);
+        batch.setProjectionMatrix(viewport.getCamera().combined);
 
         batch.disableBlending();
         batch.begin();
         batch.draw(
                 worldBuffer.getColorBufferTexture(),
                 0,
-                Gdx.graphics.getHeight() + 500,
-                256 * 5,
-                -256 * 5);
+                0);
         this.batch.end();
         batch.enableBlending();
     }
