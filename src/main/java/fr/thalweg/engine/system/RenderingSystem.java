@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -34,8 +33,8 @@ public class RenderingSystem extends SortedIteratingSystem {
         this.batch = batch;
         this.frameBuffer = new FrameBuffer(
                 Pixmap.Format.RGBA8888,
-                ThalwegGame.get().getConfig().getVirtualScreen().getWidth()*16,
-                ThalwegGame.get().getConfig().getVirtualScreen().getHeight()*16,
+                ThalwegGame.get().getConfig().getVirtualScreen().getWidth(),
+                ThalwegGame.get().getConfig().getVirtualScreen().getHeight(),
                 false);
         this.frameBuffer.getColorBufferTexture().setFilter(
                 Texture.TextureFilter.Nearest,
@@ -78,9 +77,9 @@ public class RenderingSystem extends SortedIteratingSystem {
         batch.draw(
                 frameBuffer.getColorBufferTexture(),
                 0,
-                Gdx.graphics.getHeight()*16,
-                Gdx.graphics.getWidth()*16,
-                -Gdx.graphics.getHeight()*16);
+                Gdx.graphics.getHeight() * 16,
+                Gdx.graphics.getWidth() * 16,
+                -Gdx.graphics.getHeight() * 16);
         this.batch.end();
         batch.enableBlending();
     }
