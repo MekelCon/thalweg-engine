@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import fr.thalweg.engine.gen.GameConfigurationSchema;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.engine.system.CameraSystem;
 import fr.thalweg.engine.system.RenderingSystem;
 import fr.thalweg.engine.tolibgdx.ToLogLevel;
 import fr.thalweg.engine.validator.ProjectStructureValidator;
@@ -57,7 +58,9 @@ public class ThalwegGame extends Game {
                 this.config.getVirtualScreen().getWidth(),
                 this.config.getVirtualScreen().getHeight()
         );
-        ECSEngine.addSystem(new RenderingSystem(batch, viewport));
+        CameraSystem cameraSystem = new CameraSystem();
+        ECSEngine.addSystem(new CameraSystem());
+        ECSEngine.addSystem(new RenderingSystem(batch, cameraSystem.getCamera(), viewport));
         this.setScreen(new ThalwegScreen(config.getStartScreen(), batch, viewport));
     }
 

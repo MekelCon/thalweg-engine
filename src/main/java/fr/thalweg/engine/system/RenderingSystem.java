@@ -5,7 +5,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -28,7 +31,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     private static final Matrix4 IDENTITY = new Matrix4();
 
 
-    public RenderingSystem(SpriteBatch batch, Viewport viewport) {
+    public RenderingSystem(SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
         super(
                 Family.all(TransformComponent.class, TextureComponent.class).get(),
                 new EntityComparator(),
@@ -36,12 +39,7 @@ public class RenderingSystem extends SortedIteratingSystem {
         );
         this.renderQueue = new Array<>();
         this.batch = batch;
-        this.camera = new OrthographicCamera();
-        camera.setToOrtho(
-                true,
-                ThalwegGame.get().getConfig().getVirtualScreen().getWidth(),
-                ThalwegGame.get().getConfig().getVirtualScreen().getHeight()
-        );
+        this.camera = camera;
         this.worldBuffer = new FrameBuffer(
                 Pixmap.Format.RGBA8888,
                 ThalwegGame.get().getConfig().getVirtualScreen().getWidth(),
@@ -60,8 +58,16 @@ public class RenderingSystem extends SortedIteratingSystem {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        camera.update();
+        this.updateWorld();
+        this.drawWorldBuffer();
+        this.displayWorldBuffer();
+    }
+
+    private void updateWorld() {
         this.batch.setProjectionMatrix(camera.combined);
+    }
+
+    private void drawWorldBuffer() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
@@ -84,8 +90,10 @@ public class RenderingSystem extends SortedIteratingSystem {
         }
         this.batch.flush();
         this.worldBuffer.end();
+    }
 
-        // save
+    private void displayWorldBuffer() {
+        // Save current batch state
         Matrix4 originalMatrix = this.batch.getProjectionMatrix();
         ShaderProgram originalShader = this.batch.getShader();
         int originalBlendSrcFunc = this.batch.getBlendSrcFunc();
@@ -97,12 +105,11 @@ public class RenderingSystem extends SortedIteratingSystem {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
         this.batch.setProjectionMatrix(IDENTITY);
-        // TODO center view calc
         this.batch.draw(this.worldBuffer.getColorBufferTexture(), -1, -1, 2, 2);
         this.batch.end();
         batch.enableBlending();
 
-        // Restore
+        // Restore batch state
         this.batch.setShader(originalShader);
         this.batch.setProjectionMatrix(originalMatrix);
         this.batch.setBlendFunction(originalBlendSrcFunc, originalBlendDstFunc);
