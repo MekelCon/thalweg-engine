@@ -5,14 +5,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.ThalwegGame;
 import fr.thalweg.engine.component.TextureComponent;
 import fr.thalweg.engine.component.TransformComponent;
@@ -25,8 +24,11 @@ public class RenderingSystem extends SortedIteratingSystem {
     private final FrameBuffer worldBuffer;
     private final ComponentMapper<TextureComponent> textureMapper;
     private final ComponentMapper<TransformComponent> transformMapper;
+    private final Viewport viewport;
+    private static final Matrix4 IDENTITY = new Matrix4();
 
-    public RenderingSystem(SpriteBatch batch) {
+
+    public RenderingSystem(SpriteBatch batch, Viewport viewport) {
         super(
                 Family.all(TransformComponent.class, TextureComponent.class).get(),
                 new EntityComparator(),
@@ -48,6 +50,9 @@ public class RenderingSystem extends SortedIteratingSystem {
         this.worldBuffer.getColorBufferTexture().setFilter(
                 Texture.TextureFilter.Nearest,
                 Texture.TextureFilter.Nearest);
+
+        this.viewport = viewport;
+
         this.textureMapper = ComponentMapper.getFor(TextureComponent.class);
         this.transformMapper = ComponentMapper.getFor(TransformComponent.class);
     }
@@ -57,11 +62,10 @@ public class RenderingSystem extends SortedIteratingSystem {
         super.update(deltaTime);
         camera.update();
         this.batch.setProjectionMatrix(camera.combined);
-
-        this.worldBuffer.begin();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
+        this.worldBuffer.begin();
         this.batch.begin();
         for (Entity entity : renderQueue) {
             TextureComponent textureComponent = textureMapper.get(entity);
@@ -78,26 +82,30 @@ public class RenderingSystem extends SortedIteratingSystem {
                     transformComponent.scale.y,
                     transformComponent.rotation);
         }
-        this.batch.end();
+        this.batch.flush();
         this.worldBuffer.end();
 
+        // save
+        Matrix4 originalMatrix = this.batch.getProjectionMatrix();
+        ShaderProgram originalShader = this.batch.getShader();
+        int originalBlendSrcFunc = this.batch.getBlendSrcFunc();
+        int originalBlendDstFunc = this.batch.getBlendDstFunc();
 
-        FitViewport viewport = new FitViewport(
-                256,
-                256
-        );
-        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport.apply(true);
-        batch.setProjectionMatrix(viewport.getCamera().combined);
 
         batch.disableBlending();
-        batch.begin();
-        batch.draw(
-                worldBuffer.getColorBufferTexture(),
-                0,
-                0);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+        this.batch.setProjectionMatrix(IDENTITY);
+        // TODO center view calc
+        this.batch.draw(this.worldBuffer.getColorBufferTexture(), -1, -1, 2, 2);
         this.batch.end();
         batch.enableBlending();
+
+        // Restore
+        this.batch.setShader(originalShader);
+        this.batch.setProjectionMatrix(originalMatrix);
+        this.batch.setBlendFunction(originalBlendSrcFunc, originalBlendDstFunc);
     }
 
     @Override

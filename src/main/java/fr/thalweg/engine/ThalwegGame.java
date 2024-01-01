@@ -5,8 +5,8 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import fr.thalweg.engine.gen.GameConfigurationSchema;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
@@ -25,6 +25,7 @@ public class ThalwegGame extends Game {
     private final GameConfigurationSchema config;
     private final PooledEngine ECSEngine;
     private SpriteBatch batch;
+    private FitViewport viewport;
 
     protected ThalwegGame(
             String root
@@ -52,8 +53,12 @@ public class ThalwegGame extends Game {
         }
         initGdxConfig();
         this.batch = new SpriteBatch();
-        ECSEngine.addSystem(new RenderingSystem(batch));
-        this.setScreen(new ThalwegScreen(config.getStartScreen()));
+        this.viewport = new FitViewport(
+                this.config.getVirtualScreen().getWidth(),
+                this.config.getVirtualScreen().getHeight()
+        );
+        ECSEngine.addSystem(new RenderingSystem(batch, viewport));
+        this.setScreen(new ThalwegScreen(config.getStartScreen(), batch, viewport));
     }
 
     private void initGdxConfig() {
