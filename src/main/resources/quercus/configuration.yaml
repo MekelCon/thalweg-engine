@@ -4,6 +4,6 @@ gdx:
 lwjgl3ApplicationConfiguration:
   title: "Quercus"
 startScreen: "screen/1.yaml"
-virtualScreen:
+world:
   width: 256
   height: 144

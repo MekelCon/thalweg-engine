@@ -42,8 +42,8 @@ public class RenderingSystem extends SortedIteratingSystem {
         this.camera = camera;
         this.worldBuffer = new FrameBuffer(
                 Pixmap.Format.RGBA8888,
-                ThalwegGame.get().getConfig().getVirtualScreen().getWidth(),
-                ThalwegGame.get().getConfig().getVirtualScreen().getHeight(),
+                ThalwegGame.get().getConfig().getWorld().getWidth(),
+                ThalwegGame.get().getConfig().getWorld().getHeight(),
                 false);
         this.worldBuffer.getColorBufferTexture().setFilter(
                 Texture.TextureFilter.Nearest,

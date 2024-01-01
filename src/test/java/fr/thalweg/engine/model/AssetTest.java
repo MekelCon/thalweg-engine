@@ -1,12 +1,12 @@
 package fr.thalweg.engine.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import fr.thalweg.engine.utils.BasicThalwegGame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AssetTest {
 
@@ -17,31 +17,65 @@ class AssetTest {
 
     @Test
     public void ok() {
-        assertDoesNotThrow(() -> Asset.of(AssetType.screen(), "screen/1.yaml"));
+        assertDoesNotThrow(() -> Asset.of(
+                BasicThalwegGame.ROOT_DIRECTORY,
+                AssetType.screen(),
+                "screen/1.yaml"));
     }
 
     @Test
     public void notExistShouldPass() {
-        assertDoesNotThrow(() -> Asset.of(AssetType.screen(), "screen/not-exist.yaml"));
+        assertDoesNotThrow(() -> Asset.of(
+                BasicThalwegGame.ROOT_DIRECTORY,
+                AssetType.screen(),
+                "screen/not-exist.yaml"));
     }
 
     @Test
     public void notStartWith() {
         assertThrows(IllegalArgumentException.class,
-                () -> Asset.of(AssetType.screen(), "toto/hello.png"));
+                () -> Asset.of(
+                        BasicThalwegGame.ROOT_DIRECTORY,
+                        AssetType.screen(),
+                        "toto/hello.png"));
     }
 
     @Test
     public void refuseNull() {
         assertThrows(IllegalArgumentException.class,
-                () -> Asset.of(null, "toto/hello.png"));
+                () -> Asset.of(
+                        null,
+                        AssetType.screen(),
+                        "toto/hello.png"));
         assertThrows(IllegalArgumentException.class,
-                () -> Asset.of(AssetType.screen(), null));
+                () -> Asset.of(
+                        BasicThalwegGame.ROOT_DIRECTORY,
+                        null,
+                        "toto/hello.png"));
+        assertThrows(IllegalArgumentException.class,
+                () -> Asset.of(
+                        BasicThalwegGame.ROOT_DIRECTORY,
+                        AssetType.screen(),
+                        null));
     }
 
     @Test
     public void refuseEmpty() {
         assertThrows(IllegalArgumentException.class,
-                () -> Asset.of(AssetType.screen(), ""));
+                () -> Asset.of(
+                        BasicThalwegGame.ROOT_DIRECTORY,
+                        AssetType.screen(),
+                        ""));
+    }
+
+    @Test
+    public void getFileHandle() {
+        Asset asset = Asset.of(
+                BasicThalwegGame.ROOT_DIRECTORY,
+                AssetType.screen(),
+                "screen/1.yaml");
+        assertEquals(Gdx.files.internal(
+                        BasicThalwegGame.ROOT + "/screen/1.yaml"),
+                asset.getFileHandle());
     }
 }

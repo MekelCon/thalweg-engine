@@ -1,13 +1,14 @@
 package fr.thalweg.engine.utils;
 
-import fr.thalweg.engine.ThalwegGame;
+import com.badlogic.gdx.ApplicationAdapter;
+import fr.thalweg.engine.model.Directory;
 
-public class JsonYamlThalwegGame extends ThalwegGame {
+public class JsonYamlThalwegGame extends ApplicationAdapter {
 
     private final static String ROOT = "./src/test/resources/json-yaml";
+    public final static Directory ROOT_DIRECTORY = Directory.of(ROOT);
 
     public JsonYamlThalwegGame() {
-        super(ROOT);
-        build(ROOT);
+        super();
     }
 }

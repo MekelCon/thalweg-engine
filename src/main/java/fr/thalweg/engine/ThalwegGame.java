@@ -50,18 +50,18 @@ public class ThalwegGame extends Game {
     @Override
     public void create() {
         if (config.isDebug()) {
-            ProjectStructureValidator.validThalwegGameStructure();
+            ProjectStructureValidator.validThalwegGameStructure(this.root);
         }
         initGdxConfig();
         this.batch = new SpriteBatch();
         this.viewport = new FitViewport(
-                this.config.getVirtualScreen().getWidth(),
-                this.config.getVirtualScreen().getHeight()
+                this.config.getWorld().getWidth(),
+                this.config.getWorld().getHeight()
         );
         CameraSystem cameraSystem = new CameraSystem();
         ECSEngine.addSystem(new CameraSystem());
         ECSEngine.addSystem(new RenderingSystem(batch, cameraSystem.getCamera(), viewport));
-        this.setScreen(new ThalwegScreen(config.getStartScreen(), batch, viewport));
+        this.setScreen(new ThalwegScreen(this.root, config.getStartScreen(), batch, viewport));
     }
 
     private void initGdxConfig() {

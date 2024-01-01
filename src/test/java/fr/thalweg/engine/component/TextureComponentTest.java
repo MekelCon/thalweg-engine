@@ -1,4 +1,4 @@
-package fr.thalweg.engine.validator;
+package fr.thalweg.engine.component;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import fr.thalweg.engine.utils.JsonYamlThalwegGame;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ProjectStructureValidatorJsonYamlTest {
+class TextureComponentTest {
 
     @BeforeAll
     public static void beforeAll() {
@@ -15,9 +15,13 @@ class ProjectStructureValidatorJsonYamlTest {
     }
 
     @Test
-    void throwOnInvalid() {
+    public void refuseNull() {
         assertThrows(
-                InvalidThalwegGameStructureException.class,
-                () -> ProjectStructureValidator.validThalwegGameStructure(JsonYamlThalwegGame.ROOT_DIRECTORY));
+                NullPointerException.class,
+                () -> TextureComponent
+                        .builder()
+                        .region(null)
+                        .build());
     }
+
 }

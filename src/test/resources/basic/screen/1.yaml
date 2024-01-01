@@ -1,1 +1,13 @@
 name: "1"
+actors:
+  - position:
+      x: 50
+      y: 20
+      z: 0
+    texture: "sprite/norah.png"
+  - position:
+      x: 0
+      y: 0
+      z: 1
+    texture: "sprite/sequence1.png"
+

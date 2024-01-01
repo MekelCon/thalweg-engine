@@ -1,18 +1,10 @@
 package fr.thalweg.engine.model;
 
-import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import fr.thalweg.engine.utils.BasicThalwegGame;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DirectoryTest {
-
-    @BeforeAll
-    public static void beforeAll() {
-        new HeadlessApplication(new BasicThalwegGame());
-    }
 
     @Test
     public void refuse() {

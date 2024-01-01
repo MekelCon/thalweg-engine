@@ -1,5 +1,5 @@
 startScreen: screen/1.yaml
-virtualScreen:
+world:
   height: 1000
   width: 1000
 debug: true

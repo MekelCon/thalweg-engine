@@ -1,6 +1,5 @@
 package fr.thalweg.engine.model;
 
-import fr.thalweg.engine.ThalwegGame;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +27,8 @@ public class AssetType {
                 .toList();
     }
 
-    public String getGameFolder() {
-        return ThalwegGame.get().getRoot().getSubFolder(folderName);
+    public String getGameFolder(Directory root) {
+        return root.getSubFolder(folderName);
     }
 
     private enum ASSET_NAME {

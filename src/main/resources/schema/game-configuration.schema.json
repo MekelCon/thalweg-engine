@@ -19,7 +19,7 @@
       "type": "string",
       "pattern": "^screen/.*(\\.json|\\.yaml)$"
     },
-    "virtualScreen": {
+    "world": {
       "type": "object",
       "properties": {
         "height": {
@@ -34,13 +34,14 @@
       "required": [
         "height",
         "width"
-      ]
+      ],
+      "additionalProperties": false
     }
   },
   "required": [
     "gdx",
     "startScreen",
-    "virtualScreen"
+    "world"
   ],
   "additionalProperties": false
 }

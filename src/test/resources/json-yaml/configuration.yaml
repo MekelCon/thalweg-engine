@@ -2,6 +2,6 @@ gdx: { }
 lwjgl3ApplicationConfiguration:
   title: "Quercus"
 startScreen: "screen/hello.yaml"
-virtualScreen:
+world:
   height: 1000
   width: 1000

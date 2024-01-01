@@ -5,7 +5,7 @@
     "title": "Quercus"
   },
   "startScreen": "screen/hello.yaml",
-  "virtualScreen": {
+  "world": {
     "width": 1000,
     "height": 1000
   }

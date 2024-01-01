@@ -14,8 +14,8 @@ public class CameraSystem extends EntitySystem {
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(
                 true,
-                ThalwegGame.get().getConfig().getVirtualScreen().getWidth(),
-                ThalwegGame.get().getConfig().getVirtualScreen().getHeight()
+                ThalwegGame.get().getConfig().getWorld().getWidth(),
+                ThalwegGame.get().getConfig().getWorld().getHeight()
         );
     }
 

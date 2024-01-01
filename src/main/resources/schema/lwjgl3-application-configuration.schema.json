@@ -19,7 +19,12 @@
           "type": "integer",
           "minimum": 0
         }
-      }
+      },
+      "required": [
+        "height",
+        "width"
+      ],
+      "additionalProperties": false
     },
     "useVSync": {
       "type": "boolean",
