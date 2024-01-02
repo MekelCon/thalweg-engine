@@ -16,24 +16,24 @@ import fr.thalweg.engine.gen.ThalwegGameScreenSchema;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Asset;
 import fr.thalweg.engine.model.AssetType;
-import fr.thalweg.engine.model.Directory;
 
 public class ThalwegScreen extends ScreenAdapter {
 
     private final static String LOG_TAG = "ThalwegScreen";
     public final String sourceFile;
+    private final ThalwegGame thalwegGame;
     private final SpriteBatch batch;
     private final Viewport viewport;
     private final ThalwegGameScreenSchema screenData;
 
-    public ThalwegScreen(Directory root, String sourceFile, SpriteBatch batch, Viewport viewport) {
+    public ThalwegScreen(ThalwegGame thalwegGame, String sourceFile, SpriteBatch batch, Viewport viewport) {
         Gdx.app.debug(LOG_TAG, "Creating new screen : " + sourceFile);
-        // Data related
+        this.thalwegGame = thalwegGame;
         this.sourceFile = sourceFile;
         this.batch = batch;
         this.viewport = viewport;
         screenData = Reader.getInstance().read(
-                Asset.of(root, AssetType.screen(), sourceFile).getFileHandle(),
+                Asset.of(thalwegGame.getRoot(), AssetType.screen(), sourceFile).getFileHandle(),
                 ThalwegGameScreenSchema.class);
         initActors();
     }
@@ -44,7 +44,7 @@ public class ThalwegScreen extends ScreenAdapter {
 
             if (actorSchema.getTexture() != null) {
                 Texture t = new Texture(
-                        ThalwegGame.get().getRoot().getSubFolder(actorSchema.getTexture()));
+                        this.thalwegGame.getRoot().getSubFolder(actorSchema.getTexture()));
                 t.setFilter(
                         Texture.TextureFilter.Nearest,
                         Texture.TextureFilter.Nearest);
@@ -62,14 +62,14 @@ public class ThalwegScreen extends ScreenAdapter {
                         .scale(new Vector2(1.0f, 1.0f))
                         .build());
             }
-            ThalwegGame.get().getECSEngine().addEntity(actorEntity);
+            this.thalwegGame.getECSEngine().addEntity(actorEntity);
         }
     }
 
     @Override
     public void render(float delta) {
-        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        ThalwegGame.get().getECSEngine().update(delta);
+        this.viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        this.thalwegGame.getECSEngine().update(delta);
     }
 
     @Override

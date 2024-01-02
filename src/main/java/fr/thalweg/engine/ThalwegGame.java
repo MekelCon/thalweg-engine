@@ -43,10 +43,6 @@ public class ThalwegGame extends Game {
         return INSTANCE;
     }
 
-    public static ThalwegGame get() {
-        return INSTANCE;
-    }
-
     @Override
     public void create() {
         if (config.isDebug()) {
@@ -61,7 +57,7 @@ public class ThalwegGame extends Game {
         CameraSystem cameraSystem = new CameraSystem(this.config.getWorld());
         ECSEngine.addSystem(cameraSystem);
         ECSEngine.addSystem(new RenderingSystem(this.config.getWorld(), batch, cameraSystem.getCamera(), viewport));
-        this.setScreen(new ThalwegScreen(this.root, config.getStartScreen(), batch, viewport));
+        this.setScreen(new ThalwegScreen(this, config.getStartScreen(), batch, viewport));
     }
 
     private void initGdxConfig() {

@@ -14,6 +14,6 @@ public class TransformComponent implements Component {
     @NonNull
     @Builder.Default()
     public Vector2 scale = new Vector2(1.0f, 1.0f);
-    @NonNull
+
     public float rotation;
 }
