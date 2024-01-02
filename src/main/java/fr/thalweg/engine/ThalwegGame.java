@@ -58,9 +58,9 @@ public class ThalwegGame extends Game {
                 this.config.getWorld().getWidth(),
                 this.config.getWorld().getHeight()
         );
-        CameraSystem cameraSystem = new CameraSystem();
-        ECSEngine.addSystem(new CameraSystem());
-        ECSEngine.addSystem(new RenderingSystem(batch, cameraSystem.getCamera(), viewport));
+        CameraSystem cameraSystem = new CameraSystem(this.config.getWorld());
+        ECSEngine.addSystem(cameraSystem);
+        ECSEngine.addSystem(new RenderingSystem(this.config.getWorld(), batch, cameraSystem.getCamera(), viewport));
         this.setScreen(new ThalwegScreen(this.root, config.getStartScreen(), batch, viewport));
     }
 

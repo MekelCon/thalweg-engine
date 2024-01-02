@@ -15,12 +15,13 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.ThalwegGame;
 import fr.thalweg.engine.component.TextureComponent;
 import fr.thalweg.engine.component.TransformComponent;
 import fr.thalweg.engine.entity.EntityComparator;
+import fr.thalweg.engine.gen.World;
 
 public class RenderingSystem extends SortedIteratingSystem {
+    private static final Matrix4 IDENTITY = new Matrix4();
     private final Array<Entity> renderQueue;
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
@@ -28,10 +29,9 @@ public class RenderingSystem extends SortedIteratingSystem {
     private final ComponentMapper<TextureComponent> textureMapper;
     private final ComponentMapper<TransformComponent> transformMapper;
     private final Viewport viewport;
-    private static final Matrix4 IDENTITY = new Matrix4();
 
 
-    public RenderingSystem(SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
+    public RenderingSystem(World world, SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
         super(
                 Family.all(TransformComponent.class, TextureComponent.class).get(),
                 new EntityComparator(),
@@ -42,8 +42,8 @@ public class RenderingSystem extends SortedIteratingSystem {
         this.camera = camera;
         this.worldBuffer = new FrameBuffer(
                 Pixmap.Format.RGBA8888,
-                ThalwegGame.get().getConfig().getWorld().getWidth(),
-                ThalwegGame.get().getConfig().getWorld().getHeight(),
+                world.getWidth(),
+                world.getHeight(),
                 false);
         this.worldBuffer.getColorBufferTexture().setFilter(
                 Texture.TextureFilter.Nearest,
