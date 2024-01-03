@@ -1,4 +1,4 @@
-package fr.thalweg.engine.tolibgdx;
+package fr.thalweg.engine.transformer.tolibgdx;
 
 import fr.thalweg.engine.gen.Lwjgl3ApplicationConfigurationSchema;
 import fr.thalweg.engine.gen.Windowed;

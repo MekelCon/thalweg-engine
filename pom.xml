@@ -89,6 +89,8 @@
                     <usePrimitives>true</usePrimitives>
                     <removeOldOutput>true</removeOldOutput>
                     <useJakartaValidation>true</useJakartaValidation>
+                    <useDoubleNumbers>false</useDoubleNumbers>
+                    <generateBuilders>true</generateBuilders>
                 </configuration>
                 <executions>
                     <execution>

@@ -2,20 +2,14 @@ package fr.thalweg.engine;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.component.TextureComponent;
-import fr.thalweg.engine.component.TransformComponent;
-import fr.thalweg.engine.entity.ActorEntity;
 import fr.thalweg.engine.gen.ThalwegActorSchema;
 import fr.thalweg.engine.gen.ThalwegGameScreenSchema;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Asset;
 import fr.thalweg.engine.model.AssetType;
+import fr.thalweg.engine.transformer.toECS.ToEntity;
 
 public class ThalwegScreen extends ScreenAdapter {
 
@@ -40,29 +34,10 @@ public class ThalwegScreen extends ScreenAdapter {
 
     private void initActors() {
         for (ThalwegActorSchema actorSchema : screenData.getActors()) {
-            ActorEntity actorEntity = new ActorEntity();
-
-            if (actorSchema.getTexture() != null) {
-                Texture t = new Texture(
-                        this.thalwegGame.getRoot().getSubFolder(actorSchema.getTexture()));
-                t.setFilter(
-                        Texture.TextureFilter.Nearest,
-                        Texture.TextureFilter.Nearest);
-                actorEntity.add(TextureComponent.builder()
-                        .region(new TextureRegion(t))
-                        .build());
-            }
-
-            if (actorSchema.getPosition() != null) {
-                actorEntity.add(TransformComponent.builder()
-                        .pos(new Vector3(
-                                actorSchema.getPosition().getX(),
-                                actorSchema.getPosition().getY(),
-                                actorSchema.getPosition().getZ()))
-                        .scale(new Vector2(1.0f, 1.0f))
-                        .build());
-            }
-            this.thalwegGame.getECSEngine().addEntity(actorEntity);
+            this.thalwegGame.getECSEngine().addEntity(ToEntity.from(
+                    this.thalwegGame.getRoot(),
+                    actorSchema
+            ));
         }
     }
 

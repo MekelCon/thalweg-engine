@@ -2,7 +2,7 @@ package fr.thalweg.game;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import fr.thalweg.engine.ThalwegGame;
-import fr.thalweg.engine.tolibgdx.ToLwjgl3ApplicationConfiguration;
+import fr.thalweg.engine.transformer.tolibgdx.ToLwjgl3ApplicationConfiguration;
 
 public class Quercus {
 

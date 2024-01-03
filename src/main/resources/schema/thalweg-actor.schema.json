@@ -10,17 +10,37 @@
       "description": "The position in the virtual screen coordinate system",
       "properties": {
         "x": {
-          "type": "integer",
+          "type": "number",
           "default": 0
         },
         "y": {
-          "type": "integer",
+          "type": "number",
           "default": 0
         },
         "z": {
-          "type": "integer",
+          "type": "number",
           "default": 0
         }
+      },
+      "additionalProperties": false
+    },
+    "scale": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0
+        },
+        "y": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0
+        }
+      },
+      "default": {
+        "x": 1,
+        "y": 1
       },
       "additionalProperties": false
     },

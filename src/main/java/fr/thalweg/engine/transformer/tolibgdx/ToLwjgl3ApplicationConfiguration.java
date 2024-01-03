@@ -1,4 +1,4 @@
-package fr.thalweg.engine.tolibgdx;
+package fr.thalweg.engine.transformer.tolibgdx;
 
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;

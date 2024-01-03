@@ -1,4 +1,4 @@
-package fr.thalweg.engine.tolibgdx;
+package fr.thalweg.engine.transformer.tolibgdx;
 
 import com.badlogic.gdx.Application;
 import fr.thalweg.engine.gen.GdxConfigurationSchema;
