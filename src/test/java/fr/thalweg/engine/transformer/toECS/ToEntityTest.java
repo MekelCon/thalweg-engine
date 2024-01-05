@@ -3,14 +3,12 @@ package fr.thalweg.engine.transformer.toECS;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import fr.thalweg.engine.component.TransformComponent;
 import fr.thalweg.engine.entity.ActorEntity;
 import fr.thalweg.engine.gen.Position;
 import fr.thalweg.engine.gen.Scale;
 import fr.thalweg.engine.gen.ThalwegActorSchema;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ToEntityTest {

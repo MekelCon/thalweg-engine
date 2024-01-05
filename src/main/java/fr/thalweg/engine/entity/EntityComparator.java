@@ -2,20 +2,20 @@ package fr.thalweg.engine.entity;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import fr.thalweg.engine.component.TransformComponent;
+import fr.thalweg.engine.component.SpriteComponent;
 
 import java.util.Comparator;
 
 public class EntityComparator implements Comparator<Entity> {
-    private final ComponentMapper<TransformComponent> transformMapper;
+    private final ComponentMapper<SpriteComponent> spriteComponentMapper;
 
     public EntityComparator() {
-        this.transformMapper = ComponentMapper.getFor(TransformComponent.class);
+        this.spriteComponentMapper = ComponentMapper.getFor(SpriteComponent.class);
     }
 
     @Override
     public int compare(Entity e1, Entity e2) {
-        return (int) Math.signum(transformMapper.get(e2).pos.z -
-                transformMapper.get(e1).pos.z);
+        return (int) Math.signum(spriteComponentMapper.get(e2).zIndex -
+                spriteComponentMapper.get(e1).zIndex);
     }
 }

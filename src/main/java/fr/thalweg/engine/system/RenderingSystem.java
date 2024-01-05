@@ -15,8 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.component.TextureComponent;
-import fr.thalweg.engine.component.TransformComponent;
+import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.entity.EntityComparator;
 import fr.thalweg.engine.gen.World;
 
@@ -26,14 +25,13 @@ public class RenderingSystem extends SortedIteratingSystem {
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     private final FrameBuffer worldBuffer;
-    private final ComponentMapper<TextureComponent> textureMapper;
-    private final ComponentMapper<TransformComponent> transformMapper;
+    private final ComponentMapper<SpriteComponent> spriteComponentMapper;
     private final Viewport viewport;
 
 
     public RenderingSystem(World world, SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
         super(
-                Family.all(TransformComponent.class, TextureComponent.class).get(),
+                Family.all(SpriteComponent.class).get(),
                 new EntityComparator(),
                 1
         );
@@ -51,8 +49,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 
         this.viewport = viewport;
 
-        this.textureMapper = ComponentMapper.getFor(TextureComponent.class);
-        this.transformMapper = ComponentMapper.getFor(TransformComponent.class);
+        this.spriteComponentMapper = ComponentMapper.getFor(SpriteComponent.class);
     }
 
     @Override
@@ -74,19 +71,8 @@ public class RenderingSystem extends SortedIteratingSystem {
         this.worldBuffer.begin();
         this.batch.begin();
         for (Entity entity : renderQueue) {
-            TextureComponent textureComponent = textureMapper.get(entity);
-            TransformComponent transformComponent = transformMapper.get(entity);
-            batch.draw(
-                    textureComponent.region,
-                    transformComponent.pos.x,
-                    transformComponent.pos.y,
-                    0,
-                    0,
-                    textureComponent.region.getRegionWidth(),
-                    textureComponent.region.getRegionHeight(),
-                    transformComponent.scale.x,
-                    transformComponent.scale.y,
-                    transformComponent.rotation);
+            SpriteComponent spriteComponent = spriteComponentMapper.get(entity);
+            spriteComponent.sprite.draw(batch);
         }
         this.batch.flush();
         this.worldBuffer.end();

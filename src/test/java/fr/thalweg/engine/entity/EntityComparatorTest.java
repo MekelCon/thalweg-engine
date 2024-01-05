@@ -2,7 +2,6 @@ package fr.thalweg.engine.entity;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.math.Vector3;
-import fr.thalweg.engine.component.TransformComponent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

@@ -18,10 +18,15 @@
           "default": 0
         },
         "z": {
-          "type": "number",
+          "type": "integer",
           "default": 0
         }
       },
+      "required": [
+        "x",
+        "y",
+        "z"
+      ],
       "additionalProperties": false
     },
     "scale": {
@@ -48,7 +53,7 @@
       "type": "string",
       "pattern": "^sprite/.*\\..*$"
     },
-    "triggers" :  {
+    "triggers": {
       "type": "array",
       "items": {
         "$ref": "thalweg-trigger.schema.json"
