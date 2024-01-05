@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import fr.thalweg.engine.Todo;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
@@ -78,7 +80,14 @@ public class ToEntity {
     private static Optional<MouseTriggerComponent> handleTriggers(ThalwegActorSchema source) {
         if (!source.getTriggers().isEmpty()) {
             // TODO check trigger type
+            // TODO : really build todo
+            Array<Todo> onMouseEnter = new Array<>();
+            onMouseEnter.add(new Todo("Hello " + (source.getTexture() != null ? "Norah" : "A rectangle")));
+            Array<Todo> onMouseLeave = new Array<>();
+            onMouseLeave.add(new Todo("Bye " + (source.getTexture() != null ? "Norah" : "A rectangle")));
             return Optional.of(MouseTriggerComponent.builder()
+                    .onMouseEnter(onMouseEnter)
+                    .onMouseLeave(onMouseLeave)
                     .build());
         }
         return Optional.empty();
