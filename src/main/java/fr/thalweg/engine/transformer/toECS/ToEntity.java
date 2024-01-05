@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import fr.thalweg.engine.component.SpriteComponent;
+import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.entity.ActorEntity;
 import fr.thalweg.engine.gen.ThalwegActorSchema;
@@ -19,9 +20,19 @@ public class ToEntity {
     public static ActorEntity from(Directory root, ThalwegActorSchema source) {
         ActorEntity result = new ActorEntity();
         handleTexture(root, source).ifPresent(result::add);
+        handleZIndex(source).ifPresent(result::add);
         handleTriggers(source).ifPresent(result::add);
 
         return result;
+    }
+
+    private static Optional<ZIndexComponent> handleZIndex(ThalwegActorSchema source) {
+        if (source.getTexture() != null) {
+            return Optional.of(ZIndexComponent.builder()
+                    .zIndex(ToZIndex.from(source.getPosition()))
+                    .build());
+        }
+        return Optional.empty();
     }
 
     private static Optional<SpriteComponent> handleTexture(Directory root, ThalwegActorSchema source) {
@@ -39,7 +50,6 @@ public class ToEntity {
             sprite.setScale(scale.x, scale.y);
             return Optional.of(SpriteComponent.builder()
                     .sprite(sprite)
-                    .zIndex(source.getPosition().getZ())
                     .build());
         }
         return Optional.empty();

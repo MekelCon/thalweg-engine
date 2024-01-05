@@ -9,6 +9,4 @@ import lombok.NonNull;
 public class SpriteComponent implements Component {
     @NonNull
     public Sprite sprite;
-    public int zIndex;
-
 }

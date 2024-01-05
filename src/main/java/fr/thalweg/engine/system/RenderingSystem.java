@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.SpriteComponent;
+import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.entity.EntityComparator;
 import fr.thalweg.engine.gen.World;
 
@@ -31,7 +32,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 
     public RenderingSystem(World world, SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
         super(
-                Family.all(SpriteComponent.class).get(),
+                Family.all(ZIndexComponent.class, SpriteComponent.class).get(),
                 new EntityComparator(),
                 1
         );
