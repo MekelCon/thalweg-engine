@@ -13,6 +13,7 @@ import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
 import fr.thalweg.engine.system.RenderingSystem;
+import fr.thalweg.engine.system.trigger.MouseTriggerDebugRenderingSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
 import fr.thalweg.engine.validator.ProjectStructureValidator;
@@ -48,21 +49,24 @@ public class ThalwegGame extends Game {
     @Override
     public void create() {
         if (config.isDebug()) {
-            ProjectStructureValidator.validThalwegGameStructure(this.root);
+            ProjectStructureValidator.validThalwegGameStructure(root);
         }
         initGdxConfig();
-        this.batch = new SpriteBatch();
+        batch = new SpriteBatch();
         // TODO : manage viewport type
-        this.viewport = new FitViewport(
-                this.config.getWorld().getWidth(),
-                this.config.getWorld().getHeight()
+        viewport = new FitViewport(
+                config.getWorld().getWidth(),
+                config.getWorld().getHeight()
         );
-        CameraSystem cameraSystem = new CameraSystem(this.config.getWorld());
+        CameraSystem cameraSystem = new CameraSystem(config.getWorld());
         ECSEngine.addSystem(cameraSystem);
-        ECSEngine.addSystem(new RenderingSystem(this.config.getWorld(), batch, cameraSystem.getCamera(), viewport));
+        ECSEngine.addSystem(new RenderingSystem(config.getWorld(), batch, viewport));
+        if (config.isDebug()) {
+            ECSEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
+        }
         ECSEngine.addSystem(new MouseTriggerSystem(viewport));
 
-        this.setScreen(new ThalwegScreen(this, config.getStartScreen(), batch, viewport));
+        setScreen(new ThalwegScreen(this, config.getStartScreen(), batch, cameraSystem.getCamera(), viewport));
     }
 
     private void initGdxConfig() {
@@ -75,6 +79,4 @@ public class ThalwegGame extends Game {
             super(path, type);
         }
     }
-
-
 }

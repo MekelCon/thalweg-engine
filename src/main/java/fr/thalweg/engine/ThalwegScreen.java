@@ -2,6 +2,7 @@ package fr.thalweg.engine;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.gen.ThalwegActorSchema;
@@ -17,16 +18,18 @@ public class ThalwegScreen extends ScreenAdapter {
     public final String sourceFile;
     private final ThalwegGame thalwegGame;
     private final SpriteBatch batch;
+    private final OrthographicCamera camera;
     private final Viewport viewport;
     private final ThalwegGameScreenSchema screenData;
 
-    public ThalwegScreen(ThalwegGame thalwegGame, String sourceFile, SpriteBatch batch, Viewport viewport) {
+    public ThalwegScreen(ThalwegGame thalwegGame, String sourceFile, SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
         Gdx.app.debug(LOG_TAG, "Creating new screen : " + sourceFile);
         this.thalwegGame = thalwegGame;
         this.sourceFile = sourceFile;
         this.batch = batch;
+        this.camera = camera;
         this.viewport = viewport;
-        screenData = Reader.getInstance().read(
+        this.screenData = Reader.getInstance().read(
                 Asset.of(thalwegGame.getRoot(), AssetType.screen(), sourceFile).getFileHandle(),
                 ThalwegGameScreenSchema.class);
         initActors();
@@ -34,8 +37,8 @@ public class ThalwegScreen extends ScreenAdapter {
 
     private void initActors() {
         for (ThalwegActorSchema actorSchema : screenData.getActors()) {
-            this.thalwegGame.getECSEngine().addEntity(ToEntity.from(
-                    this.thalwegGame.getRoot(),
+            thalwegGame.getECSEngine().addEntity(ToEntity.from(
+                    thalwegGame.getRoot(),
                     actorSchema
             ));
         }
@@ -43,17 +46,17 @@ public class ThalwegScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        this.viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.thalwegGame.getECSEngine().update(delta);
+        batch.setProjectionMatrix(camera.combined);
+        thalwegGame.getECSEngine().update(delta);
     }
 
     @Override
     public void resize(int width, int height) {
-        this.viewport.update(width, height);
+        viewport.update(width, height);
     }
 
     @Override
     public void dispose() {
-        this.batch.dispose();
+        batch.dispose();
     }
 }
