@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class EntityComparatorTest {
+class EntityZIndexComparatorTest {
 
-    static EntityComparator entityComparator = new EntityComparator();
+    static EntityZIndexComparator entityZIndexComparator = new EntityZIndexComparator();
     static ActorEntity e1;
     static ActorEntity e2;
     static ActorEntity e3;
@@ -43,8 +43,8 @@ class EntityComparatorTest {
 
     @Test
     public void rightOrder() {
-        assertTrue(entityComparator.compare(e1, e2) > 0);
-        assertTrue(entityComparator.compare(e2, e1) < 0);
-        assertEquals(0, entityComparator.compare(e1, e3));
+        assertTrue(entityZIndexComparator.compare(e1, e2) > 0);
+        assertTrue(entityZIndexComparator.compare(e2, e1) < 0);
+        assertEquals(0, entityZIndexComparator.compare(e1, e3));
     }
 }

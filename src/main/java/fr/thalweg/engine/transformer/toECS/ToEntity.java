@@ -25,7 +25,7 @@ public class ToEntity {
         handleTexture(root, source).ifPresent(result::add);
         handleVertices(source).ifPresent(result::add);
         handleZIndex(source).ifPresent(result::add);
-        handleTriggers(source).ifPresent(result::add);
+        handleTriggers(source, result).ifPresent(result::add);
         return result;
     }
 
@@ -77,7 +77,7 @@ public class ToEntity {
         return Optional.empty();
     }
 
-    private static Optional<MouseTriggerComponent> handleTriggers(ThalwegActorSchema source) {
+    private static Optional<MouseTriggerComponent> handleTriggers(ThalwegActorSchema source, ActorEntity holder) {
         if (!source.getTriggers().isEmpty()) {
             // TODO check trigger type
             // TODO : really build todo
@@ -86,6 +86,7 @@ public class ToEntity {
             Array<Todo> onMouseLeave = new Array<>();
             onMouseLeave.add(new Todo("Bye " + (source.getTexture() != null ? "Norah" : "A rectangle")));
             return Optional.of(MouseTriggerComponent.builder()
+                    .holder(holder)
                     .onMouseEnter(onMouseEnter)
                     .onMouseLeave(onMouseLeave)
                     .build());

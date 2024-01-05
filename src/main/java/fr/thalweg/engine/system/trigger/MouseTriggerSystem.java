@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.Todo;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
@@ -35,7 +34,6 @@ public class MouseTriggerSystem extends IteratingSystem {
         super.update(deltaTime);
         Entity nexCurrent = null;
         for (Entity entity : triggerQueue) {
-            act(deltaTime, entity);
             Vector2 mouseXYWorld = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
             if (hitAsPolygon(entity, mouseXYWorld)
                     || hitAsSprite(entity, mouseXYWorld)) {
@@ -59,17 +57,6 @@ public class MouseTriggerSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         triggerQueue.add(entity);
-    }
-
-    private void act(float deltaTime, Entity entity) {
-        MouseTriggerComponent mouseTriggerComponent = mouseTriggerComponentMapper.get(entity);
-        for (int i = 0; i < mouseTriggerComponent.toAct.size; i++) {
-            Todo todo = mouseTriggerComponent.toAct.get(i);
-            if (todo.act(deltaTime)) {
-                mouseTriggerComponent.toAct.removeIndex(i);
-                i--;
-            }
-        }
     }
 
     private boolean hitAsSprite(Entity entity, Vector2 mouseXYWorld) {

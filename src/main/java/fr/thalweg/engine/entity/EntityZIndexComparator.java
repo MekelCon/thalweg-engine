@@ -6,10 +6,10 @@ import fr.thalweg.engine.component.ZIndexComponent;
 
 import java.util.Comparator;
 
-public class EntityComparator implements Comparator<Entity> {
+public class EntityZIndexComparator implements Comparator<Entity> {
     private final ComponentMapper<ZIndexComponent> zIndexComponentMapper;
 
-    public EntityComparator() {
+    public EntityZIndexComparator() {
         this.zIndexComponentMapper = ComponentMapper.getFor(ZIndexComponent.class);
     }
 

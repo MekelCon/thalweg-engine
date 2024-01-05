@@ -1,24 +1,23 @@
 package fr.thalweg.engine.component.trigger;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.Todo;
 import lombok.Builder;
+import lombok.experimental.SuperBuilder;
 
-@Builder
-public class MouseTriggerComponent implements Component {
+@SuperBuilder
+public class MouseTriggerComponent extends TriggerComponent {
+
     @Builder.Default
     public Array<Todo> onMouseEnter = new Array<>();
     @Builder.Default
     public Array<Todo> onMouseLeave = new Array<>();
-    @Builder.Default
-    public Array<Todo> toAct = new Array<>();
 
     public void mouseLeave() {
-        toAct.addAll(onMouseLeave);
+        addTodos(onMouseLeave);
     }
 
     public void mouseEnter() {
-        toAct.addAll(onMouseEnter);
+        addTodos(onMouseEnter);
     }
 }

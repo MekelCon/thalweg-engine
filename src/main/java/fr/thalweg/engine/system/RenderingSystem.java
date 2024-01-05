@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
-import fr.thalweg.engine.entity.EntityComparator;
+import fr.thalweg.engine.entity.EntityZIndexComparator;
 import fr.thalweg.engine.gen.World;
 
 public class RenderingSystem extends SortedIteratingSystem {
@@ -31,7 +31,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     public RenderingSystem(World world, SpriteBatch batch, Viewport viewport) {
         super(
                 Family.all(ZIndexComponent.class, SpriteComponent.class).get(),
-                new EntityComparator()
+                new EntityZIndexComparator()
         );
         this.renderQueue = new Array<>();
         this.spriteComponentMapper = ComponentMapper.getFor(SpriteComponent.class);
