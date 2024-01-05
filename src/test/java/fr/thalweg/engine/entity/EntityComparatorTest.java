@@ -1,7 +1,7 @@
 package fr.thalweg.engine.entity;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.gdx.math.Vector3;
+import fr.thalweg.engine.component.ZIndexComponent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -20,19 +20,19 @@ class EntityComparatorTest {
         Engine ecsEngine = new Engine();
         e1 = new ActorEntity();
         e1.add(
-                TransformComponent.builder()
+                ZIndexComponent.builder()
                         .build()
         );
         e2 = new ActorEntity();
         e2.add(
-                TransformComponent.builder()
-                        .pos(new Vector3(0, 0, 1))
+                ZIndexComponent.builder()
+                        .zIndex(1)
                         .build()
         );
         e3 = new ActorEntity();
         e3.add(
-                TransformComponent.builder()
-                        .pos(new Vector3(0, 0, 0))
+                ZIndexComponent.builder()
+                        .zIndex(0)
                         .build()
         );
 

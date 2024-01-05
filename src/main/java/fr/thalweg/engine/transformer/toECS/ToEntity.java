@@ -24,12 +24,13 @@ public class ToEntity {
         handleVertices(source).ifPresent(result::add);
         handleZIndex(source).ifPresent(result::add);
         handleTriggers(source).ifPresent(result::add);
-
         return result;
     }
 
     private static Optional<ZIndexComponent> handleZIndex(ThalwegActorSchema source) {
-        if (source.getTexture() != null) {
+        if (source.getTexture() != null
+                || !source.getVertices().isEmpty()
+                || source.getPosition() != null) {
             return Optional.of(ZIndexComponent.builder()
                     .zIndex(ToZIndex.from(source.getPosition()))
                     .build());
@@ -38,8 +39,7 @@ public class ToEntity {
     }
 
     private static Optional<SpriteComponent> handleTexture(Directory root, ThalwegActorSchema source) {
-        if (source.getTexture() != null
-                && source.getPosition() != null) {
+        if (source.getTexture() != null) {
             TextureRegion textureRegion = new TextureRegion(new Texture(
                     root.getSubFolder(source.getTexture())));
             textureRegion.getTexture().setFilter(
