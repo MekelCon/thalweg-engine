@@ -10,12 +10,6 @@
       "enum": [
         "MOUSE"
       ]
-    },
-    "vertices": {
-      "type": "array",
-      "items": {
-        "type": "number"
-      }
     }
   },
   "required": [

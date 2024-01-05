@@ -7,15 +7,21 @@ actors:
     texture: "sprite/norah.png"
     triggers:
       - type: MOUSE
-        vertices:
-          - 50
-          - 20
-          - 70
-          - 20
-          - 70
-          - 70
-          - 50
-          - 70
+  - position:
+      x: 100
+      y: 20
+      z: 0
+    vertices:
+      - 100
+      - 20
+      - 120
+      - 20
+      - 120
+      - 70
+      - 100
+      - 70
+    triggers:
+      - type: MOUSE
   - position:
       x: 0
       y: 0

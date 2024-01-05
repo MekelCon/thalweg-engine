@@ -53,6 +53,12 @@
       "type": "string",
       "pattern": "^sprite/.*\\..*$"
     },
+    "vertices": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
     "triggers": {
       "type": "array",
       "items": {
