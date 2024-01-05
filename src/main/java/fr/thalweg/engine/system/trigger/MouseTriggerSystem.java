@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
+import fr.thalweg.engine.component.TodoComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 
 public class MouseTriggerSystem extends IteratingSystem {
@@ -43,12 +44,18 @@ public class MouseTriggerSystem extends IteratingSystem {
         if (currentTouchedEntity != null
                 && nexCurrent != currentTouchedEntity) {
             MouseTriggerComponent mouseTriggerComponent = mouseTriggerComponentMapper.get(currentTouchedEntity);
-            mouseTriggerComponent.mouseLeave();
+            currentTouchedEntity.add(TodoComponent.builder()
+                    // Use copy to avoid side effect on removal
+                    .todos(new Array<>(mouseTriggerComponent.onMouseLeave))
+                    .build());
             currentTouchedEntity = null;
         }
         if (nexCurrent != null && nexCurrent != currentTouchedEntity) {
-            MouseTriggerComponent next = mouseTriggerComponentMapper.get(nexCurrent);
-            next.mouseEnter();
+            MouseTriggerComponent nextMouseTriggerComponent = mouseTriggerComponentMapper.get(nexCurrent);
+            nexCurrent.add(TodoComponent.builder()
+                    // Use copy to avoid side effect on removal
+                    .todos(new Array<>(nextMouseTriggerComponent.onMouseEnter))
+                    .build());
             currentTouchedEntity = nexCurrent;
         }
         triggerQueue.clear();

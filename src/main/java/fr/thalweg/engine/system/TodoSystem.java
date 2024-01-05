@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import fr.thalweg.engine.Todo;
+import fr.thalweg.engine.component.trigger.todo.Todo;
 import fr.thalweg.engine.component.TodoComponent;
 
 public class TodoSystem extends IteratingSystem {
