@@ -7,11 +7,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.gen.GameConfigurationSchema;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
 import fr.thalweg.engine.system.RenderingSystem;
+import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
 import fr.thalweg.engine.validator.ProjectStructureValidator;
 import lombok.Getter;
@@ -26,7 +28,7 @@ public class ThalwegGame extends Game {
     private final GameConfigurationSchema config;
     private final PooledEngine ECSEngine;
     private SpriteBatch batch;
-    private FitViewport viewport;
+    private Viewport viewport;
 
     protected ThalwegGame(
             String root
@@ -50,6 +52,7 @@ public class ThalwegGame extends Game {
         }
         initGdxConfig();
         this.batch = new SpriteBatch();
+        // TODO : manage viewport type
         this.viewport = new FitViewport(
                 this.config.getWorld().getWidth(),
                 this.config.getWorld().getHeight()
@@ -57,6 +60,8 @@ public class ThalwegGame extends Game {
         CameraSystem cameraSystem = new CameraSystem(this.config.getWorld());
         ECSEngine.addSystem(cameraSystem);
         ECSEngine.addSystem(new RenderingSystem(this.config.getWorld(), batch, cameraSystem.getCamera(), viewport));
+        ECSEngine.addSystem(new MouseTriggerSystem(viewport));
+
         this.setScreen(new ThalwegScreen(this, config.getStartScreen(), batch, viewport));
     }
 

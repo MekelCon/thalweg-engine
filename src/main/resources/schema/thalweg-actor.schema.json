@@ -47,6 +47,12 @@
     "texture": {
       "type": "string",
       "pattern": "^sprite/.*\\..*$"
+    },
+    "triggers" :  {
+      "type": "array",
+      "items": {
+        "$ref": "thalweg-trigger.schema.json"
+      }
     }
   },
   "additionalProperties": false

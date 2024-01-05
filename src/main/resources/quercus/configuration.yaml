@@ -3,6 +3,9 @@ gdx:
   logLevel: DEBUG
 lwjgl3ApplicationConfiguration:
   title: "Quercus"
+  windowed:
+    width: 800
+    height: 800
 startScreen: "screen/1.yaml"
 world:
   width: 256

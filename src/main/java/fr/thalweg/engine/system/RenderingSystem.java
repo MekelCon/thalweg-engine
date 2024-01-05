@@ -117,7 +117,6 @@ public class RenderingSystem extends SortedIteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        Gdx.app.debug("RenderingSystem", "processEntity");
         renderQueue.add(entity);
     }
 }
