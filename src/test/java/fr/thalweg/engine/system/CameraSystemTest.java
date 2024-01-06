@@ -2,7 +2,7 @@ package fr.thalweg.engine.system;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.math.Vector3;
-import fr.thalweg.engine.gen.World;
+import fr.thalweg.engine.infra.schema.World;
 import fr.thalweg.engine.utils.BasicThalwegGame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

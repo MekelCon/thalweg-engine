@@ -2,6 +2,7 @@ package fr.thalweg.engine.infra.schema;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.Map;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class GdxConfigurationSchema {
 
     @JsonProperty("logLevel")

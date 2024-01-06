@@ -1,7 +1,7 @@
 package fr.thalweg.engine.transformer.tolibgdx;
 
-import fr.thalweg.engine.gen.Lwjgl3ApplicationConfigurationSchema;
-import fr.thalweg.engine.gen.Windowed;
+import fr.thalweg.engine.infra.schema.Lwjgl3ApplicationConfigurationSchema;
+import fr.thalweg.engine.infra.schema.Windowed;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

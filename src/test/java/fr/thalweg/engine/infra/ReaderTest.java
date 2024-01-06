@@ -3,7 +3,7 @@ package fr.thalweg.engine.infra;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import fr.thalweg.engine.gen.GameConfigurationSchema;
+import fr.thalweg.engine.infra.schema.GameConfigurationSchema;
 import fr.thalweg.engine.utils.JsonYamlThalwegGame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

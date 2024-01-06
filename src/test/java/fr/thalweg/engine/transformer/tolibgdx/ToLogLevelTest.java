@@ -1,6 +1,6 @@
 package fr.thalweg.engine.transformer.tolibgdx;
 
-import fr.thalweg.engine.gen.GdxConfigurationSchema;
+import fr.thalweg.engine.infra.schema.GdxConfigurationSchema;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

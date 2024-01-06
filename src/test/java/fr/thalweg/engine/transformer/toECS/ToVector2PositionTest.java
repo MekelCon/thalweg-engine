@@ -1,7 +1,7 @@
 package fr.thalweg.engine.transformer.toECS;
 
 import com.badlogic.gdx.math.Vector2;
-import fr.thalweg.engine.gen.Position;
+import fr.thalweg.engine.infra.schema.Position;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,10 +17,11 @@ class ToVector2PositionTest {
 
     @Test
     public void useXYOfPosition() {
-        Position pos = new Position()
-                .withX(1)
-                .withY(2)
-                .withZ(3);
+        Position pos = Position.builder()
+                .x(1)
+                .y(2)
+                .z(3)
+                .build();
         Vector2 vector2Pos = ToVector2Position.from(pos);
         assertEquals(pos.getX(), vector2Pos.x);
         assertEquals(pos.getY(), vector2Pos.y);

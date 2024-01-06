@@ -1,7 +1,7 @@
 package fr.thalweg.engine.transformer.toECS;
 
 import com.badlogic.gdx.math.Vector2;
-import fr.thalweg.engine.gen.Scale;
+import fr.thalweg.engine.infra.schema.Scale;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -18,7 +18,7 @@ class ToVector2ScaleTest {
 
     @Test
     void useInput() {
-        Scale scale = new Scale().withX(5f).withY(5f);
+        Scale scale = Scale.builder().x(5f).y(5f).build();
         Vector2 vector2 = assertDoesNotThrow(
                 () -> ToVector2Scale.from(scale));
         assertEquals(new Vector2(5f, 5f), vector2);

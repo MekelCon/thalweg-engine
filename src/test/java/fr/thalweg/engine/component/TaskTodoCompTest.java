@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class TodoComponentTest {
+class TaskTodoCompTest {
 
     @Test
     void refuseNull() {
         assertThrows(
                 NullPointerException.class,
-                () -> TodoComponent.builder().build());
+                () -> TaskTodoComp.builder().build());
     }
 }
