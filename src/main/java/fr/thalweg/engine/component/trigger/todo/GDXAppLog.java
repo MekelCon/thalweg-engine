@@ -9,7 +9,7 @@ public class GDXAppLog extends Todo {
     private String message;
 
     @Override
-    public boolean act(float deltaTime) {
+    public boolean doing(float deltaTime) {
         Gdx.app.log("TODO", message);
         return true;
     }

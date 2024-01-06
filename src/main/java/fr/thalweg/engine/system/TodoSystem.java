@@ -21,7 +21,7 @@ public class TodoSystem extends IteratingSystem {
         TodoComponent todoComponent = todoComponentMapper.get(entity);
         for (int i = 0; i < todoComponent.todos.size; i++) {
             Todo todo = todoComponent.todos.get(i);
-            if (todo.act(deltaTime)) {
+            if (todo.doing(deltaTime)) {
                 todoComponent.todos.removeIndex(i);
                 i--;
             }

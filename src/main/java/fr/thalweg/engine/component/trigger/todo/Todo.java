@@ -4,5 +4,5 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public abstract class Todo {
-    public abstract boolean act(float deltaTime);
+    public abstract boolean doing(float deltaTime);
 }
