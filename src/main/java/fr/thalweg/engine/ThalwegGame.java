@@ -13,7 +13,7 @@ import fr.thalweg.engine.infra.schema.GameConfigurationSchema;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
 import fr.thalweg.engine.system.RenderingSystem;
-import fr.thalweg.engine.system.TaskTodoSystem;
+import fr.thalweg.engine.system.task.TaskTodoSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerDebugRenderingSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;

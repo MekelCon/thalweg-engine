@@ -3,20 +3,20 @@ package fr.thalweg.engine.infra.schema.task;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum TaskTypeEnum {
+public enum TaskSchemaTypeEnum {
 
     CHANGE_CURSOR("CHANGE_CURSOR"),
     LOG("LOG");
 
     private final String value;
 
-    TaskTypeEnum(String value) {
+    TaskSchemaTypeEnum(String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static TaskTypeEnum fromValue(String value) {
-        for (TaskTypeEnum b : TaskTypeEnum.values()) {
+    public static TaskSchemaTypeEnum fromValue(String value) {
+        for (TaskSchemaTypeEnum b : TaskSchemaTypeEnum.values()) {
             if (b.value.equals(value)) {
                 return b;
             }

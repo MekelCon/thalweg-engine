@@ -14,16 +14,15 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ThalwegActorSchema {
-
     @JsonProperty
     @JsonPropertyDescription("The position in the virtual screen coordinate system")
-    private Position position;
+    public Position position;
     @JsonProperty
-    private Scale scale;
+    public Scale scale;
     @JsonProperty
-    private String texture;
+    public String texture;
     @JsonProperty
-    private List<Float> vertices = new ArrayList<>();
+    public List<Float> vertices = new ArrayList<>();
     @JsonProperty
-    private List<TriggerSchema> triggers = new ArrayList<>();
+    public List<TriggerSchema> triggers = new ArrayList<>();
 }

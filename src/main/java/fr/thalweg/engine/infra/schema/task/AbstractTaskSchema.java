@@ -20,16 +20,14 @@ import lombok.Setter;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = ChangeCursorTask.class, name = "CHANGE_CURSOR"),
-        @JsonSubTypes.Type(value = LogTask.class, name = "LOG")
+        @JsonSubTypes.Type(value = ChangeCursorTaskSchema.class, name = "CHANGE_CURSOR"),
+        @JsonSubTypes.Type(value = LogTaskSchema.class, name = "LOG")
 
 })
 @Getter
 @Setter
-public abstract class AbstractTask {
+public abstract class AbstractTaskSchema {
 
-    protected TaskTypeEnum type;
-
-    public abstract boolean work(float deltaTime);
+    protected TaskSchemaTypeEnum type;
 }
 

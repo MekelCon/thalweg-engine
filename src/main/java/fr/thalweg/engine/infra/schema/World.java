@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class World {
     @JsonProperty
-    private int height;
+    public int height;
     @JsonProperty
-    private int width;
+    public int width;
 }

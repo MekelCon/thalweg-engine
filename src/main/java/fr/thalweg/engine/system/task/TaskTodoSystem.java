@@ -1,4 +1,4 @@
-package fr.thalweg.engine.system;
+package fr.thalweg.engine.system.task;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -6,11 +6,10 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.TaskTodoComp;
-import fr.thalweg.engine.infra.schema.task.AbstractTask;
 
 public class TaskTodoSystem extends IteratingSystem {
 
-    private final Array<AbstractTask> workingQueue;
+    private final Array<Task> workingQueue;
     private final ComponentMapper<TaskTodoComp> todoComponentMapper;
 
     public TaskTodoSystem() {
@@ -23,8 +22,8 @@ public class TaskTodoSystem extends IteratingSystem {
     public void update(float deltaTime) {
         super.update(deltaTime);
         for (int i = 0; i < workingQueue.size; i++) {
-            AbstractTask todo = workingQueue.get(i);
-            if (todo.work(deltaTime)) {
+            Task task = workingQueue.get(i);
+            if (task.work(deltaTime)) {
                 workingQueue.removeIndex(i);
                 i--;
             }

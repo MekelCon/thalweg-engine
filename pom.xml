@@ -91,9 +91,10 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <packageNames>
-                        <packageName>fr.thalweg.engine.infra.schema</packageName>
-                    </packageNames>
+                    <classNames>
+                        <className>fr.thalweg.engine.infra.schema.ThalwegGameScreenSchema</className>
+                        <className>fr.thalweg.engine.infra.schema.GameConfigurationSchema</className>
+                    </classNames>
                     <schemaFilePath>src/main/resources/schemas</schemaFilePath>
                     <schemaFileName>{1}/{0}.json</schemaFileName>
                     <failIfNoClassesMatch>true</failIfNoClassesMatch>

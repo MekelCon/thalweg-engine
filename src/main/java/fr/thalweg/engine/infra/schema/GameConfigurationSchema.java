@@ -10,17 +10,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class GameConfigurationSchema {
-
     @JsonProperty
-    private boolean debug = false;
+    public boolean debug = false;
     @JsonProperty
     @JsonPropertyDescription("LibGDX configuration")
-    private GdxConfigurationSchema gdx;
+    public GdxConfigurationSchema gdx;
     @JsonProperty("lwjgl3ApplicationConfiguration")
     @JsonPropertyDescription("Lw3jgl application configuration")
-    private Lwjgl3ApplicationConfigurationSchema lwjgl3ApplicationConfiguration;
+    public Lwjgl3ApplicationConfigurationSchema lwjgl3ApplicationConfiguration;
     @JsonProperty("startScreen")
-    private String startScreen;
+    public String startScreen;
     @JsonProperty("world")
-    private World world;
+    public World world;
 }

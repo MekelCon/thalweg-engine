@@ -12,9 +12,11 @@ import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.entity.ActorEntity;
 import fr.thalweg.engine.infra.schema.ThalwegActorSchema;
-import fr.thalweg.engine.infra.schema.task.AbstractTask;
-import fr.thalweg.engine.infra.schema.task.LogTask;
+import fr.thalweg.engine.infra.schema.task.AbstractTaskSchema;
+import fr.thalweg.engine.infra.schema.task.LogTaskSchema;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.engine.system.task.LogTask;
+import fr.thalweg.engine.system.task.Task;
 
 import java.util.Optional;
 
@@ -82,14 +84,14 @@ public class ToEntity {
         if (!source.getTriggers().isEmpty()) {
             // TODO check trigger type
             // TODO : really build todo
-            Array<AbstractTask> onMouseEnter = new Array<>();
-            LogTask logTask = new LogTask();
+            Array<Task> onMouseEnter = new Array<>();
+            LogTaskSchema logTask = new LogTaskSchema();
             logTask.setMessage("Hello " + (source.getTexture() != null ? "Norah" : "A rectangle"));
-            onMouseEnter.add(logTask);
-            Array<AbstractTask> onMouseLeave = new Array<>();
-            LogTask logTask2 = new LogTask();
+            onMouseEnter.add(LogTask.builder().data(logTask).build());
+            Array<Task> onMouseLeave = new Array<>();
+            LogTaskSchema logTask2 = new LogTaskSchema();
             logTask2.setMessage("Bye " + (source.getTexture() != null ? "Norah" : "A rectangle"));
-            onMouseLeave.add(logTask2);
+            onMouseLeave.add(LogTask.builder().data(logTask2).build());
             return Optional.of(MouseTriggerComponent.builder()
                     .onMouseEnter(onMouseEnter)
                     .onMouseLeave(onMouseLeave)

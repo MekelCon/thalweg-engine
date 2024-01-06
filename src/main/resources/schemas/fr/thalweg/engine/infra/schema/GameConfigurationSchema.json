@@ -1,0 +1,63 @@
+{
+  "type" : "object",
+  "properties" : {
+    "debug" : {
+      "type" : "boolean"
+    },
+    "gdx" : {
+      "type" : "object",
+      "properties" : {
+        "logLevel" : {
+          "type" : "string",
+          "enum" : [ "DEBUG", "INFO", "ERROR", "NONE" ]
+        }
+      },
+      "additionalProperties" : false,
+      "description" : "LibGDX configuration"
+    },
+    "lwjgl3ApplicationConfiguration" : {
+      "type" : "object",
+      "properties" : {
+        "foregroundFPS" : {
+          "type" : "integer"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "useVSync" : {
+          "type" : "boolean"
+        },
+        "windowed" : {
+          "type" : "object",
+          "properties" : {
+            "height" : {
+              "type" : "integer"
+            },
+            "width" : {
+              "type" : "integer"
+            }
+          },
+          "additionalProperties" : false
+        }
+      },
+      "additionalProperties" : false,
+      "description" : "Lw3jgl application configuration"
+    },
+    "startScreen" : {
+      "type" : "string"
+    },
+    "world" : {
+      "type" : "object",
+      "properties" : {
+        "height" : {
+          "type" : "integer"
+        },
+        "width" : {
+          "type" : "integer"
+        }
+      },
+      "additionalProperties" : false
+    }
+  },
+  "additionalProperties" : false
+}

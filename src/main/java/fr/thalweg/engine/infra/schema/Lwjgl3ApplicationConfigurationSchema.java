@@ -11,11 +11,11 @@ import lombok.Setter;
 public class Lwjgl3ApplicationConfigurationSchema {
 
     @JsonProperty("title")
-    private String title;
+    public String title;
     @JsonProperty("windowed")
-    private Windowed windowed;
+    public Windowed windowed;
     @JsonProperty("useVSync")
-    private boolean useVSync = true;
+    public boolean useVSync = true;
     @JsonProperty("foregroundFPS")
-    private int foregroundFPS = 60;
+    public int foregroundFPS = 60;
 }

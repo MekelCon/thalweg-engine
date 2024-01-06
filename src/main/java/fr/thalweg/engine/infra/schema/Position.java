@@ -14,9 +14,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Position {
     @JsonProperty
-    private float x = 0.0F;
+    public float x = 0.0F;
     @JsonProperty
-    private float y = 0.0F;
+    public float y = 0.0F;
     @JsonProperty("z")
-    private int z = 0;
+    public int z = 0;
 }

@@ -14,7 +14,7 @@
 package fr.thalweg.engine.infra.schema.trigger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.thalweg.engine.infra.schema.task.AbstractTask;
+import fr.thalweg.engine.infra.schema.task.AbstractTaskSchema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,7 +29,7 @@ public class TriggerSchema {
     @JsonProperty
     private TriggerTypeEnum type;
     @JsonProperty
-    private List<AbstractTask> todos = new ArrayList<>();
+    private List<AbstractTaskSchema> todos = new ArrayList<>();
 
 
 }

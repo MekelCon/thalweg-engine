@@ -15,7 +15,7 @@ import java.util.Map;
 public class GdxConfigurationSchema {
 
     @JsonProperty("logLevel")
-    private LogLevel logLevel = LogLevel.fromValue("INFO");
+    public LogLevel logLevel = LogLevel.fromValue("INFO");
 
     public enum LogLevel {
 

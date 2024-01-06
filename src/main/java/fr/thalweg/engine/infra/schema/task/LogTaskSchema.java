@@ -1,4 +1,4 @@
-package fr.thalweg.engine.infra.schema;
+package fr.thalweg.engine.infra.schema.task;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -8,10 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Scale {
-    @JsonProperty
-    public float x = 1.0F;
-    @JsonProperty
-    public float y = 1.0F;
+public class LogTaskSchema extends AbstractTaskSchema {
+    @JsonProperty(required = true)
+    public String message;
 
 }

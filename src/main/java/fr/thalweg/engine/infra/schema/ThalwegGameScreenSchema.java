@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ThalwegGameScreenSchema {
     @JsonProperty
-    private String name;
+    public String name;
     @JsonProperty
-    private List<ThalwegActorSchema> actors = new ArrayList<ThalwegActorSchema>();
+    public List<ThalwegActorSchema> actors = new ArrayList<ThalwegActorSchema>();
 }

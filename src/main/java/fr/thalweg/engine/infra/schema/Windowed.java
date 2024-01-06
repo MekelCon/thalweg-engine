@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Windowed {
     @JsonProperty
-    private int width;
+    public int width;
     @JsonProperty
-    private int height;
+    public int height;
 }
