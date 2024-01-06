@@ -6,7 +6,14 @@ actors:
       z: 0
     texture: "sprite/norah.png"
     triggers:
-      - type: MOUSE
+      - type: MOUSE_ENTER
+        todos:
+          - type: LOG
+            message: "Hello Norah"
+      - type: MOUSE_ENTER
+        todos:
+          - type: LOG
+            message: "Bye Norah"
   - position:
       x: 100
       y: 20
@@ -21,7 +28,10 @@ actors:
       - 100
       - 70
     triggers:
-      - type: MOUSE
+      - type: MOUSE_LEAVE
+        todos:
+          - type: LOG
+            message: "Bye rectangle"
   - position:
       x: 0
       y: 0

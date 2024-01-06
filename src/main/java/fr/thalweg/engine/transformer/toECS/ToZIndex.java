@@ -1,6 +1,6 @@
 package fr.thalweg.engine.transformer.toECS;
 
-import fr.thalweg.engine.gen.Position;
+import fr.thalweg.engine.infra.schema.Position;
 
 public class ToZIndex {
     public static int from(Position position) {

@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.entity.EntityZIndexComparator;
-import fr.thalweg.engine.gen.World;
+import fr.thalweg.engine.infra.schema.World;
 
 public class RenderingSystem extends SortedIteratingSystem {
     private static final Matrix4 IDENTITY = new Matrix4();

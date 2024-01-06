@@ -1,7 +1,7 @@
 package fr.thalweg.engine.transformer.toECS;
 
 import com.badlogic.gdx.math.Vector2;
-import fr.thalweg.engine.gen.Scale;
+import fr.thalweg.engine.infra.schema.Scale;
 
 public class ToVector2Scale {
     public static Vector2 from(Scale scale) {

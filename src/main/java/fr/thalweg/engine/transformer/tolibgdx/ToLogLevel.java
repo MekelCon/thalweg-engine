@@ -1,7 +1,7 @@
 package fr.thalweg.engine.transformer.tolibgdx;
 
 import com.badlogic.gdx.Application;
-import fr.thalweg.engine.gen.GdxConfigurationSchema;
+import fr.thalweg.engine.infra.schema.GdxConfigurationSchema;
 
 public class ToLogLevel {
     public static int from(GdxConfigurationSchema.LogLevel logLevel) {

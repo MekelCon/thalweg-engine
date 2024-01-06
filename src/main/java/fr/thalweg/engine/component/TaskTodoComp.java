@@ -2,12 +2,12 @@ package fr.thalweg.engine.component;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Array;
-import fr.thalweg.engine.component.trigger.todo.Todo;
+import fr.thalweg.engine.infra.schema.task.AbstractTask;
 import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public class TodoComponent implements Component {
+public class TaskTodoComp implements Component {
     @NonNull
-    public Array<Todo> todos;
+    public Array<AbstractTask> todos;
 }

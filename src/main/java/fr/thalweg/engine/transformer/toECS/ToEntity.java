@@ -10,10 +10,10 @@ import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
-import fr.thalweg.engine.component.trigger.todo.GDXAppLog;
-import fr.thalweg.engine.component.trigger.todo.Todo;
 import fr.thalweg.engine.entity.ActorEntity;
-import fr.thalweg.engine.gen.ThalwegActorSchema;
+import fr.thalweg.engine.infra.schema.ThalwegActorSchema;
+import fr.thalweg.engine.infra.schema.task.AbstractTask;
+import fr.thalweg.engine.infra.schema.task.LogTask;
 import fr.thalweg.engine.model.Directory;
 
 import java.util.Optional;
@@ -82,14 +82,14 @@ public class ToEntity {
         if (!source.getTriggers().isEmpty()) {
             // TODO check trigger type
             // TODO : really build todo
-            Array<Todo> onMouseEnter = new Array<>();
-            onMouseEnter.add(GDXAppLog.builder()
-                    .message("Hello " + (source.getTexture() != null ? "Norah" : "A rectangle"))
-                    .build());
-            Array<Todo> onMouseLeave = new Array<>();
-            onMouseLeave.add(GDXAppLog.builder()
-                    .message("Bye " + (source.getTexture() != null ? "Norah" : "A rectangle"))
-                    .build());
+            Array<AbstractTask> onMouseEnter = new Array<>();
+            LogTask logTask = new LogTask();
+            logTask.setMessage("Hello " + (source.getTexture() != null ? "Norah" : "A rectangle"));
+            onMouseEnter.add(logTask);
+            Array<AbstractTask> onMouseLeave = new Array<>();
+            LogTask logTask2 = new LogTask();
+            logTask2.setMessage("Bye " + (source.getTexture() != null ? "Norah" : "A rectangle"));
+            onMouseLeave.add(logTask2);
             return Optional.of(MouseTriggerComponent.builder()
                     .onMouseEnter(onMouseEnter)
                     .onMouseLeave(onMouseLeave)

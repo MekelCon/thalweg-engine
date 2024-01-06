@@ -8,12 +8,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.gen.GameConfigurationSchema;
 import fr.thalweg.engine.infra.Reader;
+import fr.thalweg.engine.infra.schema.GameConfigurationSchema;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
 import fr.thalweg.engine.system.RenderingSystem;
-import fr.thalweg.engine.system.TodoSystem;
+import fr.thalweg.engine.system.TaskTodoSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerDebugRenderingSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
@@ -59,7 +59,7 @@ public class ThalwegGame extends Game {
                 config.getWorld().getWidth(),
                 config.getWorld().getHeight()
         );
-        ECSEngine.addSystem(new TodoSystem());
+        ECSEngine.addSystem(new TaskTodoSystem());
         CameraSystem cameraSystem = new CameraSystem(config.getWorld());
         ECSEngine.addSystem(cameraSystem);
         ECSEngine.addSystem(new RenderingSystem(config.getWorld(), batch, viewport));
