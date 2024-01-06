@@ -10,10 +10,9 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
-import fr.thalweg.engine.component.TodoComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 
-public class MouseTriggerSystem extends IteratingSystem {
+public class MouseTriggerSystem extends IteratingSystem implements TriggerSystem {
 
     private final Array<Entity> triggerQueue = new Array<>();
     private final Viewport viewport;
@@ -41,23 +40,9 @@ public class MouseTriggerSystem extends IteratingSystem {
                 nexCurrent = entity;
             }
         }
-        if (currentTouchedEntity != null
-                && nexCurrent != currentTouchedEntity) {
-            MouseTriggerComponent mouseTriggerComponent = mouseTriggerComponentMapper.get(currentTouchedEntity);
-            currentTouchedEntity.add(TodoComponent.builder()
-                    // Use copy to avoid side effect on removal
-                    .todos(new Array<>(mouseTriggerComponent.onMouseLeave))
-                    .build());
-            currentTouchedEntity = null;
-        }
-        if (nexCurrent != null && nexCurrent != currentTouchedEntity) {
-            MouseTriggerComponent nextMouseTriggerComponent = mouseTriggerComponentMapper.get(nexCurrent);
-            nexCurrent.add(TodoComponent.builder()
-                    // Use copy to avoid side effect on removal
-                    .todos(new Array<>(nextMouseTriggerComponent.onMouseEnter))
-                    .build());
-            currentTouchedEntity = nexCurrent;
-        }
+        this.checkOnMouseLeave(nexCurrent);
+        this.checkOnMouseEnter(nexCurrent);
+
         triggerQueue.clear();
     }
 
@@ -76,5 +61,22 @@ public class MouseTriggerSystem extends IteratingSystem {
         PolygonComponent polygonComponent = this.polygonComponentMapper.get(entity);
         return polygonComponent != null
                 && polygonComponent.polygon.contains(mouseXYWorld);
+    }
+
+    private void checkOnMouseLeave(Entity nexCurrent) {
+        if (currentTouchedEntity != null
+                && nexCurrent != currentTouchedEntity) {
+            MouseTriggerComponent mouseTriggerComponent = mouseTriggerComponentMapper.get(currentTouchedEntity);
+            addTodo(currentTouchedEntity, mouseTriggerComponent.onMouseLeave);
+            currentTouchedEntity = null;
+        }
+    }
+
+    private void checkOnMouseEnter(Entity nexCurrent) {
+        if (nexCurrent != null && nexCurrent != currentTouchedEntity) {
+            MouseTriggerComponent nextMouseTriggerComponent = mouseTriggerComponentMapper.get(nexCurrent);
+            addTodo(nexCurrent, nextMouseTriggerComponent.onMouseEnter);
+            currentTouchedEntity = nexCurrent;
+        }
     }
 }
