@@ -2,8 +2,8 @@ package fr.thalweg.engine.system;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.math.Vector3;
-import fr.thalweg.engine.infra.schema.WorldSchema;
 import fr.thalweg.engine.utils.BasicThalwegGame;
+import fr.thalweg.gen.engine.model.WorldData;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -18,19 +18,19 @@ class CameraSystemTest {
 
     @Test
     public void lookAtEntireWorld() {
-        WorldSchema worldSchema = new WorldSchema();
-        worldSchema.setWidth(10);
-        worldSchema.setHeight(10);
-        CameraSystem cameraSystem = new CameraSystem(worldSchema);
-        assertEquals(worldSchema.getWidth(), cameraSystem.getCamera().viewportWidth);
-        assertEquals(worldSchema.getHeight(), cameraSystem.getCamera().viewportHeight);
+        WorldData worldData = new WorldData()
+                .width(10)
+                .height(10);
+        CameraSystem cameraSystem = new CameraSystem(worldData);
+        assertEquals(worldData.getWidth().floatValue(), cameraSystem.getCamera().viewportWidth);
+        assertEquals(worldData.getHeight().floatValue(), cameraSystem.getCamera().viewportHeight);
     }
 
     @Test
     public void canMove() {
-        WorldSchema worldSchema = new WorldSchema();
-        worldSchema.setWidth(10);
-        worldSchema.setHeight(10);
+        WorldData worldSchema = new WorldData()
+                .width(10)
+                .height(10);
         CameraSystem cameraSystem = new CameraSystem(worldSchema);
         Vector3 beforeMove = cameraSystem.getCamera().position.cpy();
         cameraSystem.getCamera().translate(10, 0);

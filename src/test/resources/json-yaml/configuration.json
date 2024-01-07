@@ -1,7 +1,7 @@
 {
   "gdx": {
   },
-  "lwjgl3ApplicationConfiguration": {
+  "lwjgl3ApplicationConfig": {
     "title": "Quercus"
   },
   "startScreen": "screen/hello.yaml",

@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import fr.thalweg.engine.utils.JsonYamlThalwegGame;
+import fr.thalweg.gen.engine.model.ThalwegGameConfigurationData;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ReaderTest {
 
@@ -19,17 +19,17 @@ class ReaderTest {
 
     @Test
     public void canReadYamlConfiguration() {
-        GameConfigurationSchema configYaml = Reader.getInstance().read(
+        ThalwegGameConfigurationData configYaml = Reader.getInstance().read(
                 Gdx.files.classpath("json-yaml/configuration.yaml"),
-                GameConfigurationSchema.class);
+                ThalwegGameConfigurationData.class);
         assertNotNull(configYaml);
     }
 
     @Test
     public void canReadJsonConfiguration() {
-        GameConfigurationSchema configYaml = Reader.getInstance().read(
+        ThalwegGameConfigurationData configYaml = Reader.getInstance().read(
                 Gdx.files.classpath("json-yaml/configuration.json"),
-                GameConfigurationSchema.class);
+                ThalwegGameConfigurationData.class);
         assertNotNull(configYaml);
     }
 
@@ -39,7 +39,7 @@ class ReaderTest {
                 IllegalArgumentException.class,
                 () -> Reader.getInstance().read(
                         Gdx.files.classpath("json-yaml/configuration.unknown"),
-                        GameConfigurationSchema.class));
+                        ThalwegGameConfigurationData.class));
     }
 
     @Test
@@ -48,19 +48,19 @@ class ReaderTest {
                 GdxRuntimeException.class,
                 () -> Reader.getInstance().read(
                         Gdx.files.classpath("json-yaml/not-exist.json"),
-                        GameConfigurationSchema.class));
+                        ThalwegGameConfigurationData.class));
     }
 
     @Test
     public void readJsonEquivalentToReadYaml() {
-        GameConfigurationSchema configYaml = Reader.getInstance().read(
+        ThalwegGameConfigurationData configYaml = Reader.getInstance().read(
                 Gdx.files.classpath("json-yaml/configuration.yaml"),
-                GameConfigurationSchema.class);
-        GameConfigurationSchema configJson = Reader.getInstance().read(
+                ThalwegGameConfigurationData.class);
+        ThalwegGameConfigurationData configJson = Reader.getInstance().read(
                 Gdx.files.classpath("json-yaml/configuration.json"),
-                GameConfigurationSchema.class);
+                ThalwegGameConfigurationData.class);
         assertEquals(configYaml, configJson);
-        configYaml.getLwjgl3ApplicationConfiguration().setTitle("changed");
+        configYaml.getLwjgl3ApplicationConfig().setTitle("changed");
         assertNotEquals(configYaml, configJson);
     }
 

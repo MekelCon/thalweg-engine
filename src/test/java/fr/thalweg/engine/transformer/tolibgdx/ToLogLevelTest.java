@@ -1,6 +1,6 @@
 package fr.thalweg.engine.transformer.tolibgdx;
 
-import fr.thalweg.engine.infra.schema.GdxConfigurationSchema;
+import fr.thalweg.gen.engine.model.LogLevelEnumData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -17,8 +17,7 @@ class ToLogLevelTest {
 
     @Test
     void allValuesConverted() {
-        for (GdxConfigurationSchema.LogLevel logLevel : GdxConfigurationSchema.LogLevel.values())
+        for (LogLevelEnumData logLevel : LogLevelEnumData.values())
             assertDoesNotThrow(() -> ToLogLevel.from(logLevel));
     }
-
 }

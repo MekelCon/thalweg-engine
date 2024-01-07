@@ -35,7 +35,7 @@ public class ToEntity {
 
     private static Optional<ZIndexComponent> handleZIndex(ThalwegActorData source) {
         if (source.getTexture() != null
-                || !source.getVertices().isEmpty()
+                || (source.getVertices() != null && !source.getVertices().isEmpty())
                 || source.getPosition() != null) {
             return Optional.of(ZIndexComponent.builder()
                     .zIndex(ToZIndex.from(source.getPosition()))

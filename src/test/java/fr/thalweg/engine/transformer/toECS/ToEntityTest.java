@@ -4,10 +4,7 @@ import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.entity.ActorEntity;
-import fr.thalweg.engine.infra.schema.PositionSchema;
-import fr.thalweg.engine.infra.schema.ScaleSchema;
-import fr.thalweg.engine.infra.schema.trigger.TriggerSchema;
-import fr.thalweg.engine.infra.schema.trigger.TriggerTypeEnum;
+import fr.thalweg.gen.engine.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -27,17 +24,14 @@ class ToEntityTest {
     void fromVertices() {
         ActorEntity e = ToEntity.from(
                 null,
-                ThalwegActorSchema.builder()
+                new ThalwegActorData()
                         .vertices(List.of(1f, 1f, 1f, 2f, 2f, 2f))
-                        .positionSchema(PositionSchema.builder()
+                        .position(new PositionData()
                                 .x(1f)
-                                .y(1f)
-                                .build())
-                        .scaleSchema(ScaleSchema.builder()
+                                .y(1f))
+                        .scale(new ScaleData()
                                 .x(2.5f)
-                                .y(0)
-                                .build())
-                        .build());
+                                .y(0f)));
         assertEquals(1f, e.getComponent(PolygonComponent.class).polygon.getX());
         assertEquals(1f, e.getComponent(PolygonComponent.class).polygon.getY());
         assertEquals(2.5f, e.getComponent(PolygonComponent.class).polygon.getScaleX());
@@ -46,16 +40,13 @@ class ToEntityTest {
     }
 
     @Test
-    void withTrigger() {
+    void withEmptyTrigger() {
         ActorEntity e = ToEntity.from(
                 null,
-                ThalwegActorSchema.builder()
-                        .triggers(List.of(TriggerSchema.builder()
-                                .type(TriggerTypeEnum.MOUSE_ENTER)
-                                .build()
-                        ))
-                        .build());
-        assertNotNull(e.getComponent(MouseTriggerComponent.class));
+                new ThalwegActorData()
+                        .triggers(List.of(new TriggerData()
+                                .type(TriggerTypeEnumData.MOUSEENTER))));
+        assertNull(e.getComponent(MouseTriggerComponent.class));
     }
 
     @Test
@@ -63,12 +54,10 @@ class ToEntityTest {
         ActorEntity e = assertDoesNotThrow(
                 () -> ToEntity.from(
                         null,
-                        ThalwegActorSchema.builder()
-                                .positionSchema(PositionSchema.builder()
+                        new ThalwegActorData()
+                                .position(new PositionData()
                                         .x(1f)
-                                        .y(1f)
-                                        .build())
-                                .build()));
+                                        .y(1f))));
         assertNotNull(e.getComponent(ZIndexComponent.class));
     }
 }
