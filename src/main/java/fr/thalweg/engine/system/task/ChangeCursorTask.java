@@ -1,12 +1,12 @@
 package fr.thalweg.engine.system.task;
 
 import com.badlogic.gdx.Gdx;
-import fr.thalweg.engine.infra.schema.task.ChangeCursorTaskSchema;
+import com.thalweg.gen.engine.model.ChangeCursorTaskData;
 import lombok.Builder;
 
 @Builder
 public class ChangeCursorTask implements Task {
-    private ChangeCursorTaskSchema data;
+    private ChangeCursorTaskData data;
 
     @Override
     public boolean work(float deltaTime) {

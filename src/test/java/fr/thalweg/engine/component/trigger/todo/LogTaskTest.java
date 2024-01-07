@@ -1,7 +1,6 @@
 package fr.thalweg.engine.component.trigger.todo;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import fr.thalweg.engine.infra.schema.task.LogTaskSchema;
 import fr.thalweg.engine.system.task.LogTask;
 import fr.thalweg.engine.utils.BasicThalwegGame;
 import org.junit.jupiter.api.BeforeAll;

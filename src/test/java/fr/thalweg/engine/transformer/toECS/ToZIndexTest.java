@@ -1,6 +1,6 @@
 package fr.thalweg.engine.transformer.toECS;
 
-import fr.thalweg.engine.infra.schema.Position;
+import fr.thalweg.engine.infra.schema.PositionSchema;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +14,7 @@ class ToZIndexTest {
 
     @Test
     public void useZOfPosition() {
-        Position pos = Position.builder()
+        PositionSchema pos = PositionSchema.builder()
                 .x(1)
                 .y(2)
                 .z(3)

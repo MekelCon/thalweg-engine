@@ -1,7 +1,6 @@
 package fr.thalweg.engine.transformer.tolibgdx;
 
-import fr.thalweg.engine.infra.schema.Lwjgl3ApplicationConfigurationSchema;
-import fr.thalweg.engine.infra.schema.Windowed;
+import fr.thalweg.engine.infra.schema.WindowedSchema;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -18,10 +17,10 @@ class ToLwjgl3ApplicationConfigurationTest {
 
     private static Lwjgl3ApplicationConfigurationSchema createDefaultWindowed() {
         Lwjgl3ApplicationConfigurationSchema result = createDefault();
-        Windowed windowed = new Windowed();
-        windowed.setHeight(123456);
-        windowed.setWidth(54321);
-        result.setWindowed(windowed);
+        WindowedSchema windowedSchema = new WindowedSchema();
+        windowedSchema.setHeight(123456);
+        windowedSchema.setWidth(54321);
+        result.setWindowedSchema(windowedSchema);
         return result;
     }
 

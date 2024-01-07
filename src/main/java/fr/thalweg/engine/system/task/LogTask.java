@@ -1,13 +1,13 @@
 package fr.thalweg.engine.system.task;
 
 import com.badlogic.gdx.Gdx;
-import fr.thalweg.engine.infra.schema.task.LogTaskSchema;
+import com.thalweg.gen.engine.model.LogTaskData;
 import lombok.Builder;
 
 @Builder
 public class LogTask implements Task {
 
-    private LogTaskSchema data;
+    private LogTaskData data;
 
     @Override
     public boolean work(float deltaTime) {

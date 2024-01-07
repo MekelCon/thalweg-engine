@@ -7,7 +7,6 @@ import lombok.NonNull;
 
 @Builder
 public class PolygonComponent implements Component {
-
     @NonNull
     public Polygon polygon;
 }

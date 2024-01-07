@@ -1,11 +1,12 @@
 package fr.thalweg.engine.transformer.toECS;
 
-import fr.thalweg.engine.infra.schema.Position;
+
+import com.thalweg.gen.engine.model.PositionData;
 
 public class ToZIndex {
-    public static int from(Position position) {
-        if (position != null) {
-            return position.getZ();
+    public static int from(PositionData positionData) {
+        if (positionData != null) {
+            return positionData.getZ();
         }
         return 0;
     }

@@ -11,7 +11,7 @@ public class Quercus {
 
         new Lwjgl3Application(
                 thalwegGame,
-                ToLwjgl3ApplicationConfiguration.from(thalwegGame.getConfig().getLwjgl3ApplicationConfiguration()));
+                ToLwjgl3ApplicationConfiguration.from(thalwegGame.getConfig().getLwjgl3ApplicationConfig()));
     }
 
 }

@@ -2,11 +2,11 @@ package fr.thalweg.engine.transformer.tolibgdx;
 
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import fr.thalweg.engine.infra.schema.Lwjgl3ApplicationConfigurationSchema;
+import com.thalweg.gen.engine.model.Lwjgl3ApplicationConfigData;
 
 public class ToLwjgl3ApplicationConfiguration {
 
-    public static Lwjgl3ApplicationConfiguration from(Lwjgl3ApplicationConfigurationSchema source) {
+    public static Lwjgl3ApplicationConfiguration from(Lwjgl3ApplicationConfigData source) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle(source.getTitle());
         config.useVsync(source.isUseVSync());

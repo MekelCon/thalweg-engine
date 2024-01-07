@@ -14,10 +14,10 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.thalweg.gen.engine.model.WorldData;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.entity.EntityZIndexComparator;
-import fr.thalweg.engine.infra.schema.World;
 
 public class RenderingSystem extends SortedIteratingSystem {
     private static final Matrix4 IDENTITY = new Matrix4();
@@ -28,7 +28,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     private final Viewport viewport;
 
 
-    public RenderingSystem(World world, SpriteBatch batch, Viewport viewport) {
+    public RenderingSystem(WorldData world, SpriteBatch batch, Viewport viewport) {
         super(
                 Family.all(ZIndexComponent.class, SpriteComponent.class).get(),
                 new EntityZIndexComparator()

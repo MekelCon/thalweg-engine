@@ -1,7 +1,7 @@
 debug: true
 gdx:
   logLevel: DEBUG
-lwjgl3ApplicationConfiguration:
+lwjgl3ApplicationConfig:
   title: "Quercus"
   windowed:
     width: 800

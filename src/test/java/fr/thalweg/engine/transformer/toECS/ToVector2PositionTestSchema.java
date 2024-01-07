@@ -1,12 +1,12 @@
 package fr.thalweg.engine.transformer.toECS;
 
 import com.badlogic.gdx.math.Vector2;
-import fr.thalweg.engine.infra.schema.Position;
+import fr.thalweg.engine.infra.schema.PositionSchema;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ToVector2PositionTest {
+class ToVector2PositionTestSchema {
 
     @Test
     public void defaultIsZeroZero() {
@@ -17,7 +17,7 @@ class ToVector2PositionTest {
 
     @Test
     public void useXYOfPosition() {
-        Position pos = Position.builder()
+        PositionSchema pos = PositionSchema.builder()
                 .x(1)
                 .y(2)
                 .z(3)

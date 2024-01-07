@@ -12,7 +12,7 @@
       "items" : {
         "type" : "object",
         "properties" : {
-          "position" : {
+          "positionSchema" : {
             "type" : "object",
             "properties" : {
               "x" : {
@@ -28,7 +28,7 @@
             "additionalProperties" : false,
             "description" : "The position in the virtual screen coordinate system"
           },
-          "scale" : {
+          "scaleSchema" : {
             "type" : "object",
             "properties" : {
               "x" : {

@@ -4,9 +4,8 @@ import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.entity.ActorEntity;
-import fr.thalweg.engine.infra.schema.Position;
-import fr.thalweg.engine.infra.schema.Scale;
-import fr.thalweg.engine.infra.schema.ThalwegActorSchema;
+import fr.thalweg.engine.infra.schema.PositionSchema;
+import fr.thalweg.engine.infra.schema.ScaleSchema;
 import fr.thalweg.engine.infra.schema.trigger.TriggerSchema;
 import fr.thalweg.engine.infra.schema.trigger.TriggerTypeEnum;
 import org.junit.jupiter.api.Test;
@@ -30,11 +29,11 @@ class ToEntityTest {
                 null,
                 ThalwegActorSchema.builder()
                         .vertices(List.of(1f, 1f, 1f, 2f, 2f, 2f))
-                        .position(Position.builder()
+                        .positionSchema(PositionSchema.builder()
                                 .x(1f)
                                 .y(1f)
                                 .build())
-                        .scale(Scale.builder()
+                        .scaleSchema(ScaleSchema.builder()
                                 .x(2.5f)
                                 .y(0)
                                 .build())
@@ -65,7 +64,7 @@ class ToEntityTest {
                 () -> ToEntity.from(
                         null,
                         ThalwegActorSchema.builder()
-                                .position(Position.builder()
+                                .positionSchema(PositionSchema.builder()
                                         .x(1f)
                                         .y(1f)
                                         .build())

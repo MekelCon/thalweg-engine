@@ -8,8 +8,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.thalweg.gen.engine.model.ThalwegGameConfigurationData;
 import fr.thalweg.engine.infra.Reader;
-import fr.thalweg.engine.infra.schema.GameConfigurationSchema;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
 import fr.thalweg.engine.system.RenderingSystem;
@@ -27,7 +27,7 @@ public class ThalwegGame extends Game {
 
     private static ThalwegGame INSTANCE;
     private final Directory root;
-    private final GameConfigurationSchema config;
+    private final ThalwegGameConfigurationData config;
     private final PooledEngine ECSEngine;
     private SpriteBatch batch;
     private Viewport viewport;
@@ -38,7 +38,7 @@ public class ThalwegGame extends Game {
         this.root = Directory.of(root);
         this.config = Reader.getInstance().read(
                 new PublicFileHandle(root + "/configuration.yaml", Files.FileType.Internal),
-                GameConfigurationSchema.class);
+                ThalwegGameConfigurationData.class);
         this.ECSEngine = new PooledEngine();
     }
 

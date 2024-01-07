@@ -6,14 +6,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.thalweg.gen.engine.model.LogTaskData;
+import com.thalweg.gen.engine.model.ThalwegActorData;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.entity.ActorEntity;
-import fr.thalweg.engine.infra.schema.ThalwegActorSchema;
-import fr.thalweg.engine.infra.schema.task.AbstractTaskSchema;
-import fr.thalweg.engine.infra.schema.task.LogTaskSchema;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.task.LogTask;
 import fr.thalweg.engine.system.task.Task;
@@ -23,7 +22,7 @@ import java.util.Optional;
 public class ToEntity {
 
 
-    public static ActorEntity from(Directory root, ThalwegActorSchema source) {
+    public static ActorEntity from(Directory root, ThalwegActorData source) {
         ActorEntity result = new ActorEntity();
         handleTexture(root, source).ifPresent(result::add);
         handleVertices(source).ifPresent(result::add);
@@ -32,7 +31,7 @@ public class ToEntity {
         return result;
     }
 
-    private static Optional<ZIndexComponent> handleZIndex(ThalwegActorSchema source) {
+    private static Optional<ZIndexComponent> handleZIndex(ThalwegActorData source) {
         if (source.getTexture() != null
                 || !source.getVertices().isEmpty()
                 || source.getPosition() != null) {
@@ -43,7 +42,7 @@ public class ToEntity {
         return Optional.empty();
     }
 
-    private static Optional<SpriteComponent> handleTexture(Directory root, ThalwegActorSchema source) {
+    private static Optional<SpriteComponent> handleTexture(Directory root, ThalwegActorData source) {
         if (source.getTexture() != null) {
             TextureRegion textureRegion = new TextureRegion(new Texture(
                     root.getSubFolder(source.getTexture())));
@@ -62,8 +61,9 @@ public class ToEntity {
         return Optional.empty();
     }
 
-    private static Optional<PolygonComponent> handleVertices(ThalwegActorSchema source) {
-        if (!source.getVertices().isEmpty()) {
+    private static Optional<PolygonComponent> handleVertices(ThalwegActorData source) {
+        if (source.getVertices() != null
+                && !source.getVertices().isEmpty()) {
             float[] vertices = new float[source.getVertices().size()];
             for (int i = 0; i < vertices.length; i++) {
                 vertices[i] = source.getVertices().get(i);
@@ -80,16 +80,17 @@ public class ToEntity {
         return Optional.empty();
     }
 
-    private static Optional<MouseTriggerComponent> handleTriggers(ThalwegActorSchema source) {
-        if (!source.getTriggers().isEmpty()) {
+    private static Optional<MouseTriggerComponent> handleTriggers(ThalwegActorData source) {
+        if (source.getTriggers() != null
+                && !source.getTriggers().isEmpty()) {
             // TODO check trigger type
             // TODO : really build todo
             Array<Task> onMouseEnter = new Array<>();
-            LogTaskSchema logTask = new LogTaskSchema();
+            LogTaskData logTask = new LogTaskData();
             logTask.setMessage("Hello " + (source.getTexture() != null ? "Norah" : "A rectangle"));
             onMouseEnter.add(LogTask.builder().data(logTask).build());
             Array<Task> onMouseLeave = new Array<>();
-            LogTaskSchema logTask2 = new LogTaskSchema();
+            LogTaskData logTask2 = new LogTaskData();
             logTask2.setMessage("Bye " + (source.getTexture() != null ? "Norah" : "A rectangle"));
             onMouseLeave.add(LogTask.builder().data(logTask2).build());
             return Optional.of(MouseTriggerComponent.builder()

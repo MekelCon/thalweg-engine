@@ -2,7 +2,7 @@ package fr.thalweg.engine.system;
 
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import fr.thalweg.engine.infra.schema.World;
+import com.thalweg.gen.engine.model.WorldData;
 import lombok.Getter;
 
 @Getter
@@ -10,7 +10,7 @@ public class CameraSystem extends EntitySystem {
 
     private final OrthographicCamera camera;
 
-    public CameraSystem(World world) {
+    public CameraSystem(WorldData world) {
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(
                 true,

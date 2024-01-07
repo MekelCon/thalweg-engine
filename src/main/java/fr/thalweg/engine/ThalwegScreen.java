@@ -5,8 +5,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.infra.schema.ThalwegActorSchema;
-import fr.thalweg.engine.infra.schema.ThalwegGameScreenSchema;
+import com.thalweg.gen.engine.model.ThalwegActorData;
+import com.thalweg.gen.engine.model.ThalwegScreenData;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Asset;
 import fr.thalweg.engine.model.AssetType;
@@ -20,7 +20,7 @@ public class ThalwegScreen extends ScreenAdapter {
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     private final Viewport viewport;
-    private final ThalwegGameScreenSchema screenData;
+    private final ThalwegScreenData data;
 
     public ThalwegScreen(ThalwegGame thalwegGame, String sourceFile, SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
         Gdx.app.debug(LOG_TAG, "Creating new screen : " + sourceFile);
@@ -29,17 +29,17 @@ public class ThalwegScreen extends ScreenAdapter {
         this.batch = batch;
         this.camera = camera;
         this.viewport = viewport;
-        this.screenData = Reader.getInstance().read(
+        this.data = Reader.getInstance().read(
                 Asset.of(thalwegGame.getRoot(), AssetType.screen(), sourceFile).getFileHandle(),
-                ThalwegGameScreenSchema.class);
+                ThalwegScreenData.class);
         initActors();
     }
 
     private void initActors() {
-        for (ThalwegActorSchema actorSchema : screenData.getActors()) {
+        for (ThalwegActorData actorData : data.getActors()) {
             thalwegGame.getECSEngine().addEntity(ToEntity.from(
                     thalwegGame.getRoot(),
-                    actorSchema
+                    actorData
             ));
         }
     }
