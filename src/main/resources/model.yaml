@@ -146,8 +146,8 @@ components:
     TriggerTypeEnum:
       type: string
       enum:
-        - MOUSE_ENTER
-        - MOUSE_LEAVE
+        - MOUSEENTER
+        - MOUSELEAVE
     Task:
       type: object
       properties:

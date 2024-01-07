@@ -6,17 +6,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import fr.thalweg.gen.engine.model.LogTaskData;
-import fr.thalweg.gen.engine.model.ThalwegActorData;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
+import fr.thalweg.engine.component.trigger.TriggerComponent;
 import fr.thalweg.engine.entity.ActorEntity;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.engine.system.task.ChangeCursorTask;
 import fr.thalweg.engine.system.task.LogTask;
 import fr.thalweg.engine.system.task.Task;
+import fr.thalweg.gen.engine.model.*;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ToEntity {
@@ -27,7 +29,7 @@ public class ToEntity {
         handleTexture(root, source).ifPresent(result::add);
         handleVertices(source).ifPresent(result::add);
         handleZIndex(source).ifPresent(result::add);
-        handleTriggers(source).ifPresent(result::add);
+        handleTriggers(source).ifPresent(triggerComponents -> triggerComponents.forEach(result::add));
         return result;
     }
 
@@ -80,24 +82,60 @@ public class ToEntity {
         return Optional.empty();
     }
 
-    private static Optional<MouseTriggerComponent> handleTriggers(ThalwegActorData source) {
+    private static Optional<Array<TriggerComponent>> handleTriggers(ThalwegActorData source) {
         if (source.getTriggers() != null
                 && !source.getTriggers().isEmpty()) {
-            // TODO check trigger type
-            // TODO : really build todo
-            Array<Task> onMouseEnter = new Array<>();
-            LogTaskData logTask = new LogTaskData();
-            logTask.setMessage("Hello " + (source.getTexture() != null ? "Norah" : "A rectangle"));
-            onMouseEnter.add(LogTask.builder().data(logTask).build());
-            Array<Task> onMouseLeave = new Array<>();
-            LogTaskData logTask2 = new LogTaskData();
-            logTask2.setMessage("Bye " + (source.getTexture() != null ? "Norah" : "A rectangle"));
-            onMouseLeave.add(LogTask.builder().data(logTask2).build());
-            return Optional.of(MouseTriggerComponent.builder()
-                    .onMouseEnter(onMouseEnter)
-                    .onMouseLeave(onMouseLeave)
-                    .build());
+            Array<TriggerComponent> triggerComponents = new Array<>(source.getTriggers().size());
+            handleMouseTrigger(source.getTriggers()).ifPresent(triggerComponents::add);
+            return Optional.of(triggerComponents);
         }
         return Optional.empty();
+    }
+
+    private static Optional<MouseTriggerComponent> handleMouseTrigger(List<TriggerData> triggers) {
+        Optional<Array<Task>> onMouseEnter = triggers.stream()
+                .filter(triggerData -> TriggerTypeEnumData.MOUSEENTER.equals(triggerData.getType())
+                        && triggerData.getTodos() != null
+                        && !triggerData.getTodos().isEmpty())
+                .findFirst()
+                .map(triggerData -> handleTodos(triggerData.getTodos()));
+        Optional<Array<Task>> onMouseLeave = triggers.stream()
+                .filter(triggerData -> TriggerTypeEnumData.MOUSELEAVE.equals(triggerData.getType())
+                        && triggerData.getTodos() != null
+                        && !triggerData.getTodos().isEmpty())
+                .findFirst()
+                .map(triggerData -> handleTodos(triggerData.getTodos()));
+        if (onMouseEnter.isPresent()
+                || onMouseLeave.isPresent()) {
+            MouseTriggerComponent result = MouseTriggerComponent.builder()
+                    .build();
+            onMouseEnter.ifPresent(taskArray -> result.onMouseEnter = taskArray);
+            onMouseLeave.ifPresent(taskArray -> result.onMouseLeave = taskArray);
+            return Optional.of(result);
+        }
+        return Optional.empty();
+    }
+
+    private static Array<Task> handleTodos(List<TaskData> todos) {
+        Array<Task> result = new Array<>(todos.size());
+        for (TaskData taskData : todos) {
+            result.add(handleTaskData(taskData));
+        }
+        return result;
+    }
+
+    private static Task handleTaskData(TaskData data) {
+        return switch (data.getType()) {
+            case LOG -> createLogTask((LogTaskData) data);
+            case CHANGE_CURSOR -> createChangeCursorTask((ChangeCursorTaskData) data);
+        };
+    }
+
+    private static LogTask createLogTask(LogTaskData data) {
+        return LogTask.builder().data(data).build();
+    }
+
+    private static ChangeCursorTask createChangeCursorTask(ChangeCursorTaskData data) {
+        return ChangeCursorTask.builder().data(data).build();
     }
 }

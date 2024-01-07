@@ -1,4 +1,4 @@
-package fr.thalweg.engine.system.task;
+package fr.thalweg.engine.system;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.TaskTodoComp;
+import fr.thalweg.engine.system.task.Task;
 
 public class TaskTodoSystem extends IteratingSystem {
 
