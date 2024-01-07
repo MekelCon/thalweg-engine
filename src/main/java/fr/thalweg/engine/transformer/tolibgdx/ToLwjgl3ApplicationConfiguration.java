@@ -2,7 +2,7 @@ package fr.thalweg.engine.transformer.tolibgdx;
 
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.thalweg.gen.engine.model.Lwjgl3ApplicationConfigData;
+import fr.thalweg.gen.engine.model.Lwjgl3ApplicationConfigData;
 
 public class ToLwjgl3ApplicationConfiguration {
 

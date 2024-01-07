@@ -1,7 +1,7 @@
 package fr.thalweg.engine.transformer.tolibgdx;
 
 import com.badlogic.gdx.Application;
-import com.thalweg.gen.engine.model.LogLevelEnumData;
+import fr.thalweg.gen.engine.model.LogLevelEnumData;
 
 public class ToLogLevel {
     public static int from(LogLevelEnumData logLevel) {

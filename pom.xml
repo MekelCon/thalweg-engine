@@ -96,7 +96,7 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/model.yaml</inputSpec>
                             <generatorName>java</generatorName>
-                            <modelPackage>com.thalweg.gen.engine.model</modelPackage>
+                            <modelPackage>fr.thalweg.gen.engine.model</modelPackage>
                             <generateApis>false</generateApis>
                             <generateModelTests>false</generateModelTests>
                             <generateModelDocumentation>false</generateModelDocumentation>
@@ -128,8 +128,8 @@
                 </executions>
                 <configuration>
                     <classNames>
-                        <className>fr.thalweg.engine.infra.schema.ThalwegGameScreenSchema</className>
-                        <className>fr.thalweg.engine.infra.schema.GameConfigurationSchema</className>
+                        <className>fr.thalweg.gen.engine.model.ThalwegScreenData</className>
+                        <className>fr.thalweg.gen.engine.model.ThalwegGameConfigurationData</className>
                     </classNames>
                     <schemaFilePath>src/main/resources/schemas</schemaFilePath>
                     <schemaFileName>{1}/{0}.json</schemaFileName>

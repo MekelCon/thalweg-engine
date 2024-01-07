@@ -1,7 +1,7 @@
 package fr.thalweg.engine.system.task;
 
 import com.badlogic.gdx.Gdx;
-import com.thalweg.gen.engine.model.ChangeCursorTaskData;
+import fr.thalweg.gen.engine.model.ChangeCursorTaskData;
 import lombok.Builder;
 
 @Builder
