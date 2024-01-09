@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public class TaskTodoComp implements Component {
+public class TodoComponent implements Component {
     @NonNull
     public Array<Task> todos;
 }

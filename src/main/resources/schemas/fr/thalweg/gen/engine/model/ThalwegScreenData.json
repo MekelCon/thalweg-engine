@@ -1,0 +1,103 @@
+{
+  "type" : "object",
+  "properties" : {
+    "actors" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "position" : {
+            "type" : "object",
+            "properties" : {
+              "x" : {
+                "type" : "number"
+              },
+              "y" : {
+                "type" : "number"
+              },
+              "z" : {
+                "type" : "integer"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "scale" : {
+            "type" : "object",
+            "properties" : {
+              "x" : {
+                "type" : "number"
+              },
+              "y" : {
+                "type" : "number"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "texture" : {
+            "type" : "string"
+          },
+          "triggers" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "todos" : {
+                  "type" : "array",
+                  "items" : {
+                    "anyOf" : [ {
+                      "type" : "object",
+                      "properties" : {
+                        "cursor" : {
+                          "type" : "string"
+                        },
+                        "xHotspot" : {
+                          "type" : "integer"
+                        },
+                        "yHotspot" : {
+                          "type" : "integer"
+                        },
+                        "type" : {
+                          "const" : "CHANGE_CURSOR"
+                        }
+                      },
+                      "additionalProperties" : false,
+                      "required" : [ "type" ]
+                    }, {
+                      "type" : "object",
+                      "properties" : {
+                        "message" : {
+                          "type" : "string"
+                        },
+                        "type" : {
+                          "const" : "LOG"
+                        }
+                      },
+                      "additionalProperties" : false,
+                      "required" : [ "type" ]
+                    } ]
+                  }
+                },
+                "type" : {
+                  "type" : "string",
+                  "enum" : [ "MOUSEENTER", "MOUSELEAVE" ]
+                }
+              },
+              "additionalProperties" : false
+            }
+          },
+          "vertices" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          }
+        },
+        "additionalProperties" : false
+      }
+    },
+    "name" : {
+      "type" : "string"
+    }
+  },
+  "additionalProperties" : false
+}

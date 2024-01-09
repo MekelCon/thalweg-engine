@@ -13,7 +13,7 @@ import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
 import fr.thalweg.engine.system.RenderingSystem;
-import fr.thalweg.engine.system.TaskTodoSystem;
+import fr.thalweg.engine.system.TaskSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerDebugRenderingSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
@@ -59,7 +59,7 @@ public class ThalwegGame extends Game {
                 config.getWorld().getWidth(),
                 config.getWorld().getHeight()
         );
-        ECSEngine.addSystem(new TaskTodoSystem());
+        ECSEngine.addSystem(new TaskSystem());
         CameraSystem cameraSystem = new CameraSystem(config.getWorld());
         ECSEngine.addSystem(cameraSystem);
         ECSEngine.addSystem(new RenderingSystem(config.getWorld(), batch, viewport));

@@ -5,18 +5,18 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.utils.Array;
-import fr.thalweg.engine.component.TaskTodoComp;
+import fr.thalweg.engine.component.TodoComponent;
 import fr.thalweg.engine.system.task.Task;
 
-public class TaskTodoSystem extends IteratingSystem {
+public class TaskSystem extends IteratingSystem {
 
     private final Array<Task> workingQueue;
-    private final ComponentMapper<TaskTodoComp> todoComponentMapper;
+    private final ComponentMapper<TodoComponent> todoComponentMapper;
 
-    public TaskTodoSystem() {
-        super(Family.all(TaskTodoComp.class).get());
+    public TaskSystem() {
+        super(Family.all(TodoComponent.class).get());
         this.workingQueue = new Array<>();
-        this.todoComponentMapper = ComponentMapper.getFor(TaskTodoComp.class);
+        this.todoComponentMapper = ComponentMapper.getFor(TodoComponent.class);
     }
 
     @Override
@@ -33,8 +33,8 @@ public class TaskTodoSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        TaskTodoComp taskTodoComp = todoComponentMapper.get(entity);
-        workingQueue.addAll(taskTodoComp.todos);
-        entity.remove(TaskTodoComp.class);
+        TodoComponent todoComponent = todoComponentMapper.get(entity);
+        workingQueue.addAll(todoComponent.todos);
+        entity.remove(TodoComponent.class);
     }
 }
