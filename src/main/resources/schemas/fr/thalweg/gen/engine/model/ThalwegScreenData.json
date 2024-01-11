@@ -47,24 +47,6 @@
                     "anyOf" : [ {
                       "type" : "object",
                       "properties" : {
-                        "cursor" : {
-                          "type" : "string"
-                        },
-                        "xHotspot" : {
-                          "type" : "integer"
-                        },
-                        "yHotspot" : {
-                          "type" : "integer"
-                        },
-                        "type" : {
-                          "const" : "CHANGE_CURSOR"
-                        }
-                      },
-                      "additionalProperties" : false,
-                      "required" : [ "type" ]
-                    }, {
-                      "type" : "object",
-                      "properties" : {
                         "message" : {
                           "type" : "string"
                         },

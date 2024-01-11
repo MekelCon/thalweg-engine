@@ -1,6 +1,6 @@
 package fr.thalweg.engine;
 
-import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -38,7 +38,7 @@ public class ThalwegScreen extends ScreenAdapter {
         initActors(thalwegGame.getECSEngine());
     }
 
-    private void initActors(Engine ecsEngine) {
+    private void initActors(PooledEngine ecsEngine) {
         for (ThalwegActorData actorData : data.getActors()) {
             thalwegGame.getECSEngine().addEntity(ToEntity.from(
                     ecsEngine,

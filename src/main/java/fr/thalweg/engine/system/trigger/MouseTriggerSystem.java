@@ -12,7 +12,7 @@ import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 
-public class MouseTriggerSystem extends IteratingSystem implements TriggerSystem {
+public class MouseTriggerSystem extends IteratingSystem {
 
     private final Array<Entity> triggerQueue = new Array<>();
     private final Viewport viewport;
@@ -67,7 +67,7 @@ public class MouseTriggerSystem extends IteratingSystem implements TriggerSystem
         if (currentTouchedEntity != null
                 && nexCurrent != currentTouchedEntity) {
             MouseTriggerComponent mouseTriggerComponent = mouseTriggerComponentMapper.get(currentTouchedEntity);
-            addTodo(currentTouchedEntity, mouseTriggerComponent.onMouseLeave);
+            mouseTriggerComponent.onMouseLeave.forEach(currentTouchedEntity::add);
             currentTouchedEntity = null;
         }
     }
@@ -75,7 +75,7 @@ public class MouseTriggerSystem extends IteratingSystem implements TriggerSystem
     private void checkOnMouseEnter(Entity nexCurrent) {
         if (nexCurrent != null && nexCurrent != currentTouchedEntity) {
             MouseTriggerComponent nextMouseTriggerComponent = mouseTriggerComponentMapper.get(nexCurrent);
-            addTodo(nexCurrent, nextMouseTriggerComponent.onMouseEnter);
+            nextMouseTriggerComponent.onMouseEnter.forEach(nexCurrent::add);
             currentTouchedEntity = nexCurrent;
         }
     }

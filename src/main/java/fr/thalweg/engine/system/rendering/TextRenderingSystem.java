@@ -3,7 +3,6 @@ package fr.thalweg.engine.system.rendering;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -12,29 +11,24 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.component.TextComponent;
+import fr.thalweg.engine.component.task.SetMouseLabelTaskComponent;
 
 public class TextRenderingSystem extends IteratingSystem {
-
-    private final PooledEngine ecsEngine;
-
     private final Stage textStage;
-    private final ComponentMapper<TextComponent> textComponentMapper;
+    private final ComponentMapper<SetMouseLabelTaskComponent> sm;
     private final Label mouseLabel;
 
-    public TextRenderingSystem(PooledEngine ecsEngine, Viewport viewport) {
-        super(Family.all(TextComponent.class).get());
-        this.ecsEngine = ecsEngine;
+    public TextRenderingSystem(Viewport viewport) {
+        super(Family.all(SetMouseLabelTaskComponent.class).get());
 
         Label.LabelStyle label1Style = new Label.LabelStyle();
-        BitmapFont myFont = new BitmapFont();
-        label1Style.font = myFont;
+        label1Style.font = new BitmapFont();
         label1Style.fontColor = Color.LIGHT_GRAY;
 
         this.mouseLabel = new Label("", label1Style);
         this.textStage = new Stage(viewport);
         textStage.addActor(mouseLabel);
-        this.textComponentMapper = ComponentMapper.getFor(TextComponent.class);
+        this.sm = ComponentMapper.getFor(SetMouseLabelTaskComponent.class);
     }
 
     @Override
@@ -49,10 +43,8 @@ public class TextRenderingSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        TextComponent textComponent = textComponentMapper.get(entity);
-        if (textComponent.onMouse) {
-            mouseLabel.setText(textComponent.text);
-        }
-        ecsEngine.removeEntity(entity);
+        SetMouseLabelTaskComponent setMouseLabelTaskComponent = sm.get(entity);
+        mouseLabel.setText(setMouseLabelTaskComponent.data.getLabel());
+        entity.remove(SetMouseLabelTaskComponent.class);
     }
 }
