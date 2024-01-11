@@ -8,12 +8,12 @@ actors:
     triggers:
       - type: MOUSEENTER
         todos:
-          - type: LOG
-            message: "Hello Norah"
+          - type: SET_MOUSE_LABEL
+            label: "Norah"
       - type: MOUSELEAVE
         todos:
-          - type: LOG
-            message: "Bye Norah"
+          - type: SET_MOUSE_LABEL
+            label: ""
   - position:
       x: 100
       y: 20

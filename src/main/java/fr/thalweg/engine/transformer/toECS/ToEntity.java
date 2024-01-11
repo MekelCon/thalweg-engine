@@ -1,5 +1,7 @@
 package fr.thalweg.engine.transformer.toECS;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,10 +13,10 @@ import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.component.trigger.TriggerComponent;
-import fr.thalweg.engine.entity.ActorEntity;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.task.ChangeCursorTask;
 import fr.thalweg.engine.system.task.LogTask;
+import fr.thalweg.engine.system.task.SetMouseLabelTask;
 import fr.thalweg.engine.system.task.Task;
 import fr.thalweg.gen.engine.model.*;
 
@@ -24,12 +26,12 @@ import java.util.Optional;
 public class ToEntity {
 
 
-    public static ActorEntity from(Directory root, ThalwegActorData source) {
-        ActorEntity result = new ActorEntity();
+    public static Entity from(Engine ecsEngine, Directory root, ThalwegActorData source) {
+        Entity result = ecsEngine.createEntity();
         handleTexture(root, source).ifPresent(result::add);
         handleVertices(source).ifPresent(result::add);
         handleZIndex(source).ifPresent(result::add);
-        handleTriggers(source).ifPresent(triggerComponents -> triggerComponents.forEach(result::add));
+        handleTriggers(ecsEngine, source).ifPresent(triggerComponents -> triggerComponents.forEach(result::add));
         return result;
     }
 
@@ -82,29 +84,29 @@ public class ToEntity {
         return Optional.empty();
     }
 
-    private static Optional<Array<TriggerComponent>> handleTriggers(ThalwegActorData source) {
+    private static Optional<Array<TriggerComponent>> handleTriggers(Engine ecsEngine, ThalwegActorData source) {
         if (source.getTriggers() != null
                 && !source.getTriggers().isEmpty()) {
             Array<TriggerComponent> triggerComponents = new Array<>(source.getTriggers().size());
-            handleMouseTrigger(source.getTriggers()).ifPresent(triggerComponents::add);
+            handleMouseTrigger(ecsEngine, source.getTriggers()).ifPresent(triggerComponents::add);
             return Optional.of(triggerComponents);
         }
         return Optional.empty();
     }
 
-    private static Optional<MouseTriggerComponent> handleMouseTrigger(List<TriggerData> triggers) {
+    private static Optional<MouseTriggerComponent> handleMouseTrigger(Engine ecsEngine, List<TriggerData> triggers) {
         Optional<Array<Task>> onMouseEnter = triggers.stream()
                 .filter(triggerData -> TriggerTypeEnumData.MOUSEENTER.equals(triggerData.getType())
                         && triggerData.getTodos() != null
                         && !triggerData.getTodos().isEmpty())
                 .findFirst()
-                .map(triggerData -> handleTodos(triggerData.getTodos()));
+                .map(triggerData -> handleTodos(ecsEngine, triggerData.getTodos()));
         Optional<Array<Task>> onMouseLeave = triggers.stream()
                 .filter(triggerData -> TriggerTypeEnumData.MOUSELEAVE.equals(triggerData.getType())
                         && triggerData.getTodos() != null
                         && !triggerData.getTodos().isEmpty())
                 .findFirst()
-                .map(triggerData -> handleTodos(triggerData.getTodos()));
+                .map(triggerData -> handleTodos(ecsEngine, triggerData.getTodos()));
         if (onMouseEnter.isPresent()
                 || onMouseLeave.isPresent()) {
             MouseTriggerComponent result = MouseTriggerComponent.builder()
@@ -116,18 +118,19 @@ public class ToEntity {
         return Optional.empty();
     }
 
-    private static Array<Task> handleTodos(List<TaskData> todos) {
+    private static Array<Task> handleTodos(Engine ecsEngine, List<TaskData> todos) {
         Array<Task> result = new Array<>(todos.size());
         for (TaskData taskData : todos) {
-            result.add(handleTaskData(taskData));
+            result.add(handleTaskData(ecsEngine, taskData));
         }
         return result;
     }
 
-    private static Task handleTaskData(TaskData data) {
+    private static Task handleTaskData(Engine ecsEngine, TaskData data) {
         return switch (data.getType()) {
             case LOG -> createLogTask((LogTaskData) data);
             case CHANGE_CURSOR -> createChangeCursorTask((ChangeCursorTaskData) data);
+            case SET_MOUSE_LABEL -> createSetMouseLabel(ecsEngine, (SetMouseLabelTaskData) data);
         };
     }
 
@@ -137,5 +140,11 @@ public class ToEntity {
 
     private static ChangeCursorTask createChangeCursorTask(ChangeCursorTaskData data) {
         return ChangeCursorTask.builder().data(data).build();
+    }
+
+    private static Task createSetMouseLabel(Engine ecsEngine, SetMouseLabelTaskData data) {
+        return SetMouseLabelTask.builder()
+                .ecsEngine(ecsEngine)
+                .data(data).build();
     }
 }

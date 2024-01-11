@@ -1,4 +1,4 @@
-package fr.thalweg.engine.system;
+package fr.thalweg.engine.system.rendering;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -14,10 +14,10 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.gen.engine.model.WorldData;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.entity.EntityZIndexComparator;
+import fr.thalweg.gen.engine.model.WorldData;
 
 public class RenderingSystem extends SortedIteratingSystem {
     private static final Matrix4 IDENTITY = new Matrix4();

@@ -1,6 +1,7 @@
 package fr.thalweg.engine.entity;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import fr.thalweg.engine.component.ZIndexComponent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class EntityZIndexComparatorTest {
 
     static EntityZIndexComparator entityZIndexComparator = new EntityZIndexComparator();
-    static ActorEntity e1;
-    static ActorEntity e2;
-    static ActorEntity e3;
+    static Entity e1;
+    static Entity e2;
+    static Entity e3;
 
     @BeforeAll
     public static void initECS() {

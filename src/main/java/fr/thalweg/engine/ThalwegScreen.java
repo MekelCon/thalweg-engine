@@ -1,16 +1,17 @@
 package fr.thalweg.engine;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.gen.engine.model.ThalwegActorData;
-import fr.thalweg.gen.engine.model.ThalwegScreenData;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Asset;
 import fr.thalweg.engine.model.AssetType;
 import fr.thalweg.engine.transformer.toECS.ToEntity;
+import fr.thalweg.gen.engine.model.ThalwegActorData;
+import fr.thalweg.gen.engine.model.ThalwegScreenData;
 
 public class ThalwegScreen extends ScreenAdapter {
 
@@ -20,24 +21,27 @@ public class ThalwegScreen extends ScreenAdapter {
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     private final Viewport viewport;
+    private final Viewport textViewport;
     private final ThalwegScreenData data;
 
-    public ThalwegScreen(ThalwegGame thalwegGame, String sourceFile, SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
+    public ThalwegScreen(ThalwegGame thalwegGame, String sourceFile, SpriteBatch batch, OrthographicCamera camera, Viewport viewport, Viewport textViewport) {
         Gdx.app.debug(LOG_TAG, "Creating new screen : " + sourceFile);
         this.thalwegGame = thalwegGame;
         this.sourceFile = sourceFile;
         this.batch = batch;
         this.camera = camera;
         this.viewport = viewport;
+        this.textViewport = textViewport;
         this.data = Reader.getInstance().read(
                 Asset.of(thalwegGame.getRoot(), AssetType.screen(), sourceFile).getFileHandle(),
                 ThalwegScreenData.class);
-        initActors();
+        initActors(thalwegGame.getECSEngine());
     }
 
-    private void initActors() {
+    private void initActors(Engine ecsEngine) {
         for (ThalwegActorData actorData : data.getActors()) {
             thalwegGame.getECSEngine().addEntity(ToEntity.from(
+                    ecsEngine,
                     thalwegGame.getRoot(),
                     actorData
             ));
@@ -53,6 +57,7 @@ public class ThalwegScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+        textViewport.update(width, height, true);
     }
 
     @Override

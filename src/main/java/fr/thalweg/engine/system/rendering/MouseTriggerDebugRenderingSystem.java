@@ -1,4 +1,4 @@
-package fr.thalweg.engine.system.trigger;
+package fr.thalweg.engine.system.rendering;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;

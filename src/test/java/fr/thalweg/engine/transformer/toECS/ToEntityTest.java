@@ -1,9 +1,9 @@
 package fr.thalweg.engine.transformer.toECS;
 
+import com.badlogic.ashley.core.Entity;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
-import fr.thalweg.engine.entity.ActorEntity;
 import fr.thalweg.gen.engine.model.*;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ class ToEntityTest {
 
     @Test
     void fromVertices() {
-        ActorEntity e = ToEntity.from(
+        Entity e = ToEntity.from(
                 null,
                 new ThalwegActorData()
                         .vertices(List.of(1f, 1f, 1f, 2f, 2f, 2f))
@@ -41,7 +41,7 @@ class ToEntityTest {
 
     @Test
     void withEmptyTrigger() {
-        ActorEntity e = ToEntity.from(
+        Entity e = ToEntity.from(
                 null,
                 new ThalwegActorData()
                         .triggers(List.of(new TriggerData()
@@ -51,7 +51,7 @@ class ToEntityTest {
 
     @Test
     void havingPositionMeanHavingZIndex() {
-        ActorEntity e = assertDoesNotThrow(
+        Entity e = assertDoesNotThrow(
                 () -> ToEntity.from(
                         null,
                         new ThalwegActorData()

@@ -160,10 +160,12 @@ components:
         mapping:
           LOG: '#/components/schemas/LogTask'
           CHANGE_CURSOR: '#/components/schemas/ChangeCursorTask'
+          SET_MOUSE_LABEL: '#/components/schemas/SetMouseLabelTask'
     TaskTypeEnum:
       enum:
         - LOG
         - CHANGE_CURSOR
+        - SET_MOUSE_LABEL
     ChangeCursorTask:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -193,3 +195,13 @@ components:
       required:
         - type
         - message
+    SetMouseLabelTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            label:
+              type: string
+              description: The to display near the mouse
+      required:
+        - type
+        - label

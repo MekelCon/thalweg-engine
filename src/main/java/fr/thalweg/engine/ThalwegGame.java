@@ -7,17 +7,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.gen.engine.model.ThalwegGameConfigurationData;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
-import fr.thalweg.engine.system.RenderingSystem;
 import fr.thalweg.engine.system.TaskSystem;
-import fr.thalweg.engine.system.trigger.MouseTriggerDebugRenderingSystem;
+import fr.thalweg.engine.system.rendering.MouseTriggerDebugRenderingSystem;
+import fr.thalweg.engine.system.rendering.RenderingSystem;
+import fr.thalweg.engine.system.rendering.TextRenderingSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
 import fr.thalweg.engine.validator.ProjectStructureValidator;
+import fr.thalweg.gen.engine.model.ThalwegGameConfigurationData;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
@@ -31,6 +33,7 @@ public class ThalwegGame extends Game {
     private final PooledEngine ECSEngine;
     private SpriteBatch batch;
     private Viewport viewport;
+    private Viewport textViewport;
 
     protected ThalwegGame(
             String root
@@ -59,6 +62,7 @@ public class ThalwegGame extends Game {
                 config.getWorld().getWidth(),
                 config.getWorld().getHeight()
         );
+        textViewport = new ScreenViewport();
         ECSEngine.addSystem(new TaskSystem());
         CameraSystem cameraSystem = new CameraSystem(config.getWorld());
         ECSEngine.addSystem(cameraSystem);
@@ -66,9 +70,10 @@ public class ThalwegGame extends Game {
         if (config.isDebug()) {
             ECSEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
         }
+        ECSEngine.addSystem(new TextRenderingSystem(ECSEngine, textViewport));
         ECSEngine.addSystem(new MouseTriggerSystem(viewport));
 
-        setScreen(new ThalwegScreen(this, config.getStartScreen(), batch, cameraSystem.getCamera(), viewport));
+        setScreen(new ThalwegScreen(this, config.getStartScreen(), batch, cameraSystem.getCamera(), viewport, textViewport));
     }
 
     private void initGdxConfig() {

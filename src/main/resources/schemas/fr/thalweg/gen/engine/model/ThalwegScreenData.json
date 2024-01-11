@@ -74,6 +74,18 @@
                       },
                       "additionalProperties" : false,
                       "required" : [ "type" ]
+                    }, {
+                      "type" : "object",
+                      "properties" : {
+                        "label" : {
+                          "type" : "string"
+                        },
+                        "type" : {
+                          "const" : "SET_MOUSE_LABEL"
+                        }
+                      },
+                      "additionalProperties" : false,
+                      "required" : [ "type" ]
                     } ]
                   }
                 },
