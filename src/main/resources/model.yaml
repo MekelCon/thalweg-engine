@@ -146,6 +146,7 @@ components:
     TriggerTypeEnum:
       type: string
       enum:
+        - AUTO
         - MOUSEENTER
         - MOUSELEAVE
     Task:

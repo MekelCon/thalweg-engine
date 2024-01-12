@@ -73,7 +73,7 @@
                 },
                 "type" : {
                   "type" : "string",
-                  "enum" : [ "MOUSEENTER", "MOUSELEAVE" ]
+                  "enum" : [ "AUTO", "MOUSEENTER", "MOUSELEAVE" ]
                 }
               },
               "additionalProperties" : false

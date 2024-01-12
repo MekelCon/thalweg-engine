@@ -1,5 +1,10 @@
 name: "1"
 actors:
+  - triggers:
+      - type: AUTO
+        todos:
+          - type: LOG
+            message: "At start"
   - position:
       x: 50
       y: 20
@@ -14,6 +19,10 @@ actors:
         todos:
           - type: SET_MOUSE_LABEL
             label: ""
+      - type: AUTO
+        todos:
+          - type: LOG
+            message: "Auto Norah"
   - position:
       x: 100
       y: 20
@@ -34,7 +43,6 @@ actors:
             message: "Bye rectangle"
           - type: LOG
             message: "ByeBye"
-
   - position:
       x: 0
       y: 0

@@ -14,6 +14,7 @@ import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.task.LogTaskComponent;
 import fr.thalweg.engine.component.task.SetMouseLabelTaskComponent;
+import fr.thalweg.engine.component.trigger.AutoTriggerComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.gen.engine.model.*;
@@ -85,35 +86,40 @@ public class ToEntity {
     private static Optional<Array<Component>> handleTriggers(ThalwegActorData source) {
         if (source.getTriggers() != null
                 && !source.getTriggers().isEmpty()) {
-            Array<Component> triggerComponents = new Array<>(source.getTriggers().size());
-            handleMouseTrigger(source.getTriggers()).ifPresent(triggerComponents::add);
+            Array<Component> triggerComponents = handleMouseTrigger(source.getTriggers());
             return Optional.of(triggerComponents);
         }
         return Optional.empty();
     }
 
-    private static Optional<MouseTriggerComponent> handleMouseTrigger(List<TriggerData> triggers) {
-        Optional<Array<Component>> onMouseEnter = triggers.stream()
-                .filter(triggerData -> TriggerTypeEnumData.MOUSEENTER.equals(triggerData.getType())
-                        && triggerData.getTodos() != null
-                        && !triggerData.getTodos().isEmpty())
-                .findFirst()
-                .map(triggerData -> handleTask(triggerData.getTodos()));
-        Optional<Array<Component>> onMouseLeave = triggers.stream()
-                .filter(triggerData -> TriggerTypeEnumData.MOUSELEAVE.equals(triggerData.getType())
-                        && triggerData.getTodos() != null
-                        && !triggerData.getTodos().isEmpty())
-                .findFirst()
-                .map(triggerData -> handleTask(triggerData.getTodos()));
-        if (onMouseEnter.isPresent()
-                || onMouseLeave.isPresent()) {
-            MouseTriggerComponent result = MouseTriggerComponent.builder()
-                    .build();
-            onMouseEnter.ifPresent(taskArray -> result.onMouseEnter = taskArray);
-            onMouseLeave.ifPresent(taskArray -> result.onMouseLeave = taskArray);
-            return Optional.of(result);
+    private static Array<Component> handleMouseTrigger(List<TriggerData> triggers) {
+        Array<Component> result = new Array<>();
+        Array<Component> onMouseEnter = new Array<>();
+        Array<Component> onMouseLeave = new Array<>();
+        for (TriggerData triggerData : triggers) {
+            switch (triggerData.getType()) {
+                case AUTO -> {
+                    result.add(AutoTriggerComponent.builder()
+                            .todos(handleTask(triggerData.getTodos()))
+                            .build());
+                }
+                case MOUSEENTER -> {
+                    onMouseEnter = handleTask(triggerData.getTodos());
+                }
+                case MOUSELEAVE -> {
+                    onMouseLeave = handleTask(triggerData.getTodos());
+                }
+            }
         }
-        return Optional.empty();
+        if (onMouseEnter != null
+                || onMouseLeave != null) {
+            MouseTriggerComponent mouseTriggerComponent = MouseTriggerComponent.builder()
+                    .build();
+            mouseTriggerComponent.onMouseEnter = onMouseEnter;
+            mouseTriggerComponent.onMouseLeave = onMouseLeave;
+            result.add(mouseTriggerComponent);
+        }
+        return result;
     }
 
     private static Array<Component> handleTask(List<TaskData> todos) {
