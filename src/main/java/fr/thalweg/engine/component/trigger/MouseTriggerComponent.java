@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-public class MouseTriggerComponent implements TriggerComponent {
+public class MouseTriggerComponent implements Component {
     @Builder.Default
     public Array<Component> onMouseEnter = new Array<>();
     @Builder.Default
