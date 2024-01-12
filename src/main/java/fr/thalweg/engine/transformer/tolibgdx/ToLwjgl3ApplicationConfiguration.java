@@ -7,7 +7,7 @@ import fr.thalweg.gen.engine.model.Lwjgl3ApplicationConfigData;
 public class ToLwjgl3ApplicationConfiguration {
 
     public static Lwjgl3ApplicationConfiguration from(Lwjgl3ApplicationConfigData source) {
-        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        var config = new Lwjgl3ApplicationConfiguration();
         config.setTitle(source.getTitle());
         config.useVsync(source.isUseVSync());
         config.setForegroundFPS(source.getForegroundFPS());

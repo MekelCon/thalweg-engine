@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
@@ -26,7 +25,7 @@ public class ToEntity {
 
 
     public static Entity from(PooledEngine ecsEngine, Directory root, ThalwegActorData source) {
-        Entity result = ecsEngine.createEntity();
+        var result = ecsEngine.createEntity();
         handleTexture(root, source).ifPresent(result::add);
         handleVertices(source).ifPresent(result::add);
         handleZIndex(source).ifPresent(result::add);
@@ -47,14 +46,14 @@ public class ToEntity {
 
     private static Optional<SpriteComponent> handleTexture(Directory root, ThalwegActorData source) {
         if (source.getTexture() != null) {
-            TextureRegion textureRegion = new TextureRegion(new Texture(
+            var textureRegion = new TextureRegion(new Texture(
                     root.getSubFolder(source.getTexture())));
             textureRegion.getTexture().setFilter(
                     Texture.TextureFilter.Nearest,
                     Texture.TextureFilter.Nearest);
-            Sprite sprite = new Sprite(textureRegion);
-            Vector2 position = ToVector2Position.from(source.getPosition());
-            Vector2 scale = ToVector2Scale.from(source.getScale());
+            var sprite = new Sprite(textureRegion);
+            var position = ToVector2Position.from(source.getPosition());
+            var scale = ToVector2Scale.from(source.getScale());
             sprite.setPosition(position.x, position.y);
             sprite.setScale(scale.x, scale.y);
             return Optional.of(SpriteComponent.builder()
@@ -67,13 +66,13 @@ public class ToEntity {
     private static Optional<PolygonComponent> handleVertices(ThalwegActorData source) {
         if (source.getVertices() != null
                 && !source.getVertices().isEmpty()) {
-            float[] vertices = new float[source.getVertices().size()];
+            var vertices = new float[source.getVertices().size()];
             for (int i = 0; i < vertices.length; i++) {
                 vertices[i] = source.getVertices().get(i);
             }
-            Polygon polygon = new Polygon(vertices);
-            Vector2 position = ToVector2Position.from(source.getPosition());
-            Vector2 scale = ToVector2Scale.from(source.getScale());
+            var polygon = new Polygon(vertices);
+            var position = ToVector2Position.from(source.getPosition());
+            var scale = ToVector2Scale.from(source.getScale());
             polygon.setPosition(position.x, position.y);
             polygon.setScale(scale.x, scale.y);
             return Optional.of(PolygonComponent.builder()
@@ -93,27 +92,21 @@ public class ToEntity {
     }
 
     private static Array<Component> handleMouseTrigger(List<TriggerData> triggers) {
-        Array<Component> result = new Array<>();
-        Array<Component> onMouseEnter = new Array<>();
-        Array<Component> onMouseLeave = new Array<>();
+        var result = new Array<Component>();
+        var onMouseEnter = new Array<Component>();
+        var onMouseLeave = new Array<Component>();
         for (TriggerData triggerData : triggers) {
             switch (triggerData.getType()) {
-                case AUTO -> {
-                    result.add(AutoTriggerComponent.builder()
-                            .todos(handleTask(triggerData.getTodos()))
-                            .build());
-                }
-                case MOUSEENTER -> {
-                    onMouseEnter = handleTask(triggerData.getTodos());
-                }
-                case MOUSELEAVE -> {
-                    onMouseLeave = handleTask(triggerData.getTodos());
-                }
+                case AUTO -> result.add(AutoTriggerComponent.builder()
+                        .todos(handleTask(triggerData.getTodos()))
+                        .build());
+                case MOUSEENTER -> onMouseEnter = handleTask(triggerData.getTodos());
+                case MOUSELEAVE -> onMouseLeave = handleTask(triggerData.getTodos());
             }
         }
-        if (onMouseEnter != null
-                || onMouseLeave != null) {
-            MouseTriggerComponent mouseTriggerComponent = MouseTriggerComponent.builder()
+        if (!onMouseEnter.isEmpty()
+                || !onMouseLeave.isEmpty()) {
+            var mouseTriggerComponent = MouseTriggerComponent.builder()
                     .build();
             mouseTriggerComponent.onMouseEnter = onMouseEnter;
             mouseTriggerComponent.onMouseLeave = onMouseLeave;
@@ -123,7 +116,7 @@ public class ToEntity {
     }
 
     private static Array<Component> handleTask(List<TaskData> todos) {
-        Array<Component> result = new Array<>(todos.size());
+        var result = new Array<Component>(todos.size());
         for (TaskData taskData : todos) {
             result.add(handleTask(taskData));
         }

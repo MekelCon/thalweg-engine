@@ -16,17 +16,17 @@ public class MouseTriggerSystem extends IteratingSystem {
 
     private final Array<Entity> triggerQueue = new Array<>();
     private final Viewport viewport;
-    private final ComponentMapper<MouseTriggerComponent> mouseTriggerComponentMapper;
-    private final ComponentMapper<SpriteComponent> spriteComponentMapper;
-    private final ComponentMapper<PolygonComponent> polygonComponentMapper;
+    private final ComponentMapper<MouseTriggerComponent> mm;
+    private final ComponentMapper<SpriteComponent> sm;
+    private final ComponentMapper<PolygonComponent> pm;
     private Entity currentTouchedEntity;
 
     public MouseTriggerSystem(Viewport viewport) {
         super(Family.all(MouseTriggerComponent.class).get());
         this.viewport = viewport;
-        this.mouseTriggerComponentMapper = ComponentMapper.getFor(MouseTriggerComponent.class);
-        this.spriteComponentMapper = ComponentMapper.getFor(SpriteComponent.class);
-        this.polygonComponentMapper = ComponentMapper.getFor(PolygonComponent.class);
+        this.mm = ComponentMapper.getFor(MouseTriggerComponent.class);
+        this.sm = ComponentMapper.getFor(SpriteComponent.class);
+        this.pm = ComponentMapper.getFor(PolygonComponent.class);
     }
 
     @Override
@@ -52,13 +52,13 @@ public class MouseTriggerSystem extends IteratingSystem {
     }
 
     private boolean hitAsSprite(Entity entity, Vector2 mouseXYWorld) {
-        SpriteComponent spriteComponent = spriteComponentMapper.get(entity);
+        var spriteComponent = sm.get(entity);
         return spriteComponent != null
                 && spriteComponent.sprite.getBoundingRectangle().contains(mouseXYWorld);
     }
 
     private boolean hitAsPolygon(Entity entity, Vector2 mouseXYWorld) {
-        PolygonComponent polygonComponent = this.polygonComponentMapper.get(entity);
+        var polygonComponent = this.pm.get(entity);
         return polygonComponent != null
                 && polygonComponent.polygon.contains(mouseXYWorld);
     }
@@ -66,7 +66,7 @@ public class MouseTriggerSystem extends IteratingSystem {
     private void checkOnMouseLeave(Entity nexCurrent) {
         if (currentTouchedEntity != null
                 && nexCurrent != currentTouchedEntity) {
-            MouseTriggerComponent mouseTriggerComponent = mouseTriggerComponentMapper.get(currentTouchedEntity);
+            var mouseTriggerComponent = mm.get(currentTouchedEntity);
             mouseTriggerComponent.onMouseLeave.forEach(currentTouchedEntity::add);
             currentTouchedEntity = null;
         }
@@ -74,7 +74,7 @@ public class MouseTriggerSystem extends IteratingSystem {
 
     private void checkOnMouseEnter(Entity nexCurrent) {
         if (nexCurrent != null && nexCurrent != currentTouchedEntity) {
-            MouseTriggerComponent nextMouseTriggerComponent = mouseTriggerComponentMapper.get(nexCurrent);
+            var nextMouseTriggerComponent = mm.get(nexCurrent);
             nextMouseTriggerComponent.onMouseEnter.forEach(nexCurrent::add);
             currentTouchedEntity = nexCurrent;
         }

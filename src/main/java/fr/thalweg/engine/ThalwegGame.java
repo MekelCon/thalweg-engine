@@ -65,7 +65,7 @@ public class ThalwegGame extends Game {
         );
         textViewport = new ScreenViewport();
 
-        CameraSystem cameraSystem = new CameraSystem(config.getWorld());
+        var cameraSystem = new CameraSystem(config.getWorld());
         ECSEngine.addSystem(cameraSystem);
         ECSEngine.addSystem(new RenderingSystem(config.getWorld(), batch, viewport));
         if (config.isDebug()) {

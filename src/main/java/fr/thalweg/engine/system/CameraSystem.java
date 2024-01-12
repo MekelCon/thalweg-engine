@@ -22,6 +22,6 @@ public class CameraSystem extends EntitySystem {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        this.camera.update();
+        camera.update();
     }
 }

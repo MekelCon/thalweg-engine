@@ -18,7 +18,7 @@ public class LogTaskSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        LogTaskComponent lc = lm.get(entity);
+        var lc = lm.get(entity);
         Gdx.app.log("LogTask", lc.data.getMessage());
         entity.remove(LogTaskComponent.class);
     }

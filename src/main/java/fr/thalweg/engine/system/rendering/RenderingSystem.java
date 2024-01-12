@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -22,7 +21,7 @@ import fr.thalweg.gen.engine.model.WorldData;
 public class RenderingSystem extends SortedIteratingSystem {
     private static final Matrix4 IDENTITY = new Matrix4();
     private final Array<Entity> renderQueue;
-    private final ComponentMapper<SpriteComponent> spriteComponentMapper;
+    private final ComponentMapper<SpriteComponent> sm;
     private final SpriteBatch batch;
     private final FrameBuffer worldBuffer;
     private final Viewport viewport;
@@ -34,7 +33,7 @@ public class RenderingSystem extends SortedIteratingSystem {
                 new EntityZIndexComparator()
         );
         this.renderQueue = new Array<>();
-        this.spriteComponentMapper = ComponentMapper.getFor(SpriteComponent.class);
+        this.sm = ComponentMapper.getFor(SpriteComponent.class);
         this.worldBuffer = new FrameBuffer(
                 Pixmap.Format.RGBA8888,
                 world.getWidth(),
@@ -63,7 +62,7 @@ public class RenderingSystem extends SortedIteratingSystem {
         worldBuffer.begin();
         batch.begin();
         for (Entity entity : renderQueue) {
-            SpriteComponent spriteComponent = spriteComponentMapper.get(entity);
+            var spriteComponent = sm.get(entity);
             spriteComponent.sprite.draw(batch);
         }
         batch.flush();
@@ -72,8 +71,8 @@ public class RenderingSystem extends SortedIteratingSystem {
 
     private void displayWorldBuffer() {
         // Save current batch state
-        Matrix4 originalMatrix = batch.getProjectionMatrix();
-        ShaderProgram originalShader = batch.getShader();
+        var originalMatrix = batch.getProjectionMatrix();
+        var originalShader = batch.getShader();
         int originalBlendSrcFunc = batch.getBlendSrcFunc();
         int originalBlendDstFunc = batch.getBlendDstFunc();
 

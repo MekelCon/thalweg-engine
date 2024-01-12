@@ -15,16 +15,16 @@ import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 public class MouseTriggerDebugRenderingSystem extends IteratingSystem {
     private final Array<Entity> renderQueue;
     private final ShapeRenderer shape;
-    private final ComponentMapper<SpriteComponent> spriteComponentMapper;
-    private final ComponentMapper<PolygonComponent> polygonComponentMapper;
+    private final ComponentMapper<SpriteComponent> sm;
+    private final ComponentMapper<PolygonComponent> pm;
     private final Viewport viewport;
 
     public MouseTriggerDebugRenderingSystem(Viewport viewport) {
         super(Family.all(MouseTriggerComponent.class).get());
         this.shape = new ShapeRenderer();
         this.renderQueue = new Array<>();
-        this.spriteComponentMapper = ComponentMapper.getFor(SpriteComponent.class);
-        this.polygonComponentMapper = ComponentMapper.getFor(PolygonComponent.class);
+        this.sm = ComponentMapper.getFor(SpriteComponent.class);
+        this.pm = ComponentMapper.getFor(PolygonComponent.class);
         this.viewport = viewport;
     }
 
@@ -42,7 +42,7 @@ public class MouseTriggerDebugRenderingSystem extends IteratingSystem {
     }
 
     private void drawSpriteBounds(Entity entity) {
-        SpriteComponent spriteComponent = spriteComponentMapper.get(entity);
+        var spriteComponent = sm.get(entity);
         if (spriteComponent != null) {
             Rectangle rectangle = spriteComponent.sprite.getBoundingRectangle();
             shape.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
@@ -50,7 +50,7 @@ public class MouseTriggerDebugRenderingSystem extends IteratingSystem {
     }
 
     private void drawPolygonBounds(Entity entity) {
-        PolygonComponent polygonComponent = polygonComponentMapper.get(entity);
+        var polygonComponent = pm.get(entity);
         if (polygonComponent != null) {
             int verticesLength = polygonComponent.polygon.getTransformedVertices().length;
             shape.line(

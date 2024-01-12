@@ -13,7 +13,6 @@ public class Directory {
         Directory.assertValid(value);
         // Remove trailing / if exist
         value = value.endsWith("/") ? value.substring(0, value.length() - 1) : value;
-
         return new Directory(value);
     }
 

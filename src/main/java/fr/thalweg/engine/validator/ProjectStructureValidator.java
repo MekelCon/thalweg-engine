@@ -15,7 +15,7 @@ public class ProjectStructureValidator {
     }
 
     private static void checkAssets(Directory root) {
-        for (AssetType assetType : AssetType.allType()) {
+        for (var assetType : AssetType.allType()) {
             if (!Gdx.files.internal(assetType.getGameFolder(root)).exists()) {
                 throwDedicatedException("The directory doest not exist : "
                         + assetType.getGameFolder(root));

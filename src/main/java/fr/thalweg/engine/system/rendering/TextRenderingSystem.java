@@ -21,7 +21,7 @@ public class TextRenderingSystem extends IteratingSystem {
     public TextRenderingSystem(Viewport viewport) {
         super(Family.all(SetMouseLabelTaskComponent.class).get());
 
-        Label.LabelStyle label1Style = new Label.LabelStyle();
+        var label1Style = new Label.LabelStyle();
         label1Style.font = new BitmapFont();
         label1Style.fontColor = Color.LIGHT_GRAY;
 
@@ -43,7 +43,7 @@ public class TextRenderingSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        SetMouseLabelTaskComponent setMouseLabelTaskComponent = sm.get(entity);
+        var setMouseLabelTaskComponent = sm.get(entity);
         mouseLabel.setText(setMouseLabelTaskComponent.data.getLabel());
         entity.remove(SetMouseLabelTaskComponent.class);
     }
