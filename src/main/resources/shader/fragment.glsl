@@ -2,6 +2,7 @@
 precision mediump float;
 #endif
 
+uniform float u_transitionPercent;
 uniform sampler2D u_texture;
 uniform sampler2D u_mask;
 
@@ -12,10 +13,9 @@ void main()
 {
     vec4 texColor = texture2D(u_texture, v_texCoord0);
     vec4 mask = texture2D(u_mask, v_texCoord0);
-    if(mask.r == 1) {
-        texColor.a = 1;
+    if(mask.r < u_transitionPercent) {
+        gl_FragColor = vec4(texColor.r, texColor.g, texColor.b, 1);
     } else {
-        texColor.a = 0;
+        gl_FragColor = vec4(texColor.r, texColor.g, texColor.b, 0);
     }
-    gl_FragColor = v_color * texColor;
 }
