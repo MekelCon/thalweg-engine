@@ -139,7 +139,7 @@ public class ToEntity {
         for (TaskData taskData : data.getTodos()) {
             taskArray.add(handleTask(taskData));
         }
-        return ParallelTask.builder().data(taskArray).build();
+        return ParallelTask.builder().data(new Array<>(taskArray)).build();
     }
 
     private static SequenceTask createSequenceTask(TaskArrayData data) {

@@ -1,6 +1,7 @@
 package fr.thalweg.engine.system.task;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import lombok.Builder;
 
@@ -8,14 +9,19 @@ import lombok.Builder;
 public class SequenceTask implements Task {
 
     public Array<Task> data;
+    public int currentIndex;
 
     @Override
     public boolean work(Entity entity, float deltaTime) {
-        for (Task task : data) {
-            if (task.work(entity, deltaTime)) {
-                data.removeIndex(0);
-            }
+        if (data.get(currentIndex).work(entity, deltaTime)) {
+            currentIndex++;
         }
-        return data.size == 0;
+        return currentIndex >= data.size;
+    }
+
+    @Override
+    public void added() {
+        Gdx.app.log("TMP", "ADDED !");
+        currentIndex = 0;
     }
 }

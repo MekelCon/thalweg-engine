@@ -1,66 +1,61 @@
 {
-  "type": "object",
-  "properties": {
-    "debug": {
-      "type": "boolean"
+  "type" : "object",
+  "properties" : {
+    "debug" : {
+      "type" : "boolean"
     },
-    "gdx": {
-      "type": "object",
-      "properties": {
-        "logLevel": {
-          "type": "string",
-          "enum": [
-            "DEBUG",
-            "INFO",
-            "ERROR",
-            "NONE"
-          ]
+    "gdx" : {
+      "type" : "object",
+      "properties" : {
+        "logLevel" : {
+          "type" : "string",
+          "enum" : [ "DEBUG", "INFO", "ERROR", "NONE" ]
         }
       },
-      "additionalProperties": false
+      "additionalProperties" : false
     },
-    "lwjgl3ApplicationConfig": {
-      "type": "object",
-      "properties": {
-        "foregroundFPS": {
-          "type": "integer"
+    "lwjgl3ApplicationConfig" : {
+      "type" : "object",
+      "properties" : {
+        "foregroundFPS" : {
+          "type" : "integer"
         },
-        "title": {
-          "type": "string"
+        "title" : {
+          "type" : "string"
         },
-        "useVSync": {
-          "type": "boolean"
+        "useVSync" : {
+          "type" : "boolean"
         },
-        "windowed": {
-          "type": "object",
-          "properties": {
-            "height": {
-              "type": "integer"
+        "windowed" : {
+          "type" : "object",
+          "properties" : {
+            "height" : {
+              "type" : "integer"
             },
-            "width": {
-              "type": "integer"
+            "width" : {
+              "type" : "integer"
             }
           },
-          "additionalProperties": false
+          "additionalProperties" : false
         }
       },
-      "additionalProperties": false
+      "additionalProperties" : false
     },
-    "startScreen": {
-      "type": "string"
+    "startScreen" : {
+      "type" : "string"
     },
-    "world": {
-      "type": "object",
-      "properties": {
-        "height": {
-          "type": "integer"
+    "world" : {
+      "type" : "object",
+      "properties" : {
+        "height" : {
+          "type" : "integer"
         },
-        "width": {
-          "type": "integer"
+        "width" : {
+          "type" : "integer"
         }
       },
-      "additionalProperties": false
+      "additionalProperties" : false
     }
   },
-  "additionalProperties": false
+  "additionalProperties" : false
 }

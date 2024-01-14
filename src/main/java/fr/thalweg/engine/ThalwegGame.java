@@ -1,5 +1,6 @@
 package fr.thalweg.engine;
 
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Game;
@@ -9,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import fr.thalweg.engine.component.task.TaskComponent;
+import fr.thalweg.engine.entity.TaskAddedListener;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
@@ -77,6 +80,11 @@ public class ThalwegGame extends Game {
         ECSEngine.addSystem(new AutoTriggerSystem());
 
         ECSEngine.addSystem(new TaskSystem());
+
+        ECSEngine.addEntityListener(
+                Family.all(TaskComponent.class).get(),
+                new TaskAddedListener()
+        );
 
         setScreen(new ThalwegScreen(this, config.getStartScreen(), batch, cameraSystem.getCamera(), viewport, textViewport));
     }

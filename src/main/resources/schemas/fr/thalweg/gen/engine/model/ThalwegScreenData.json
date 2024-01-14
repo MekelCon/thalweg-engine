@@ -1,162 +1,139 @@
 {
-  "definitions": {
-    "LogTaskData": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
+  "definitions" : {
+    "LogTaskData" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string"
         },
-        "type": {
-          "const": "LOG"
+        "type" : {
+          "const" : "LOG"
         }
       },
-      "additionalProperties": false,
-      "required": [
-        "type"
-      ]
+      "additionalProperties" : false,
+      "required" : [ "type" ]
     },
-    "SetMouseLabelTaskData": {
-      "type": "object",
-      "properties": {
-        "label": {
-          "type": "string"
+    "SetMouseLabelTaskData" : {
+      "type" : "object",
+      "properties" : {
+        "label" : {
+          "type" : "string"
         },
-        "type": {
-          "const": "SET_MOUSE_LABEL"
+        "type" : {
+          "const" : "SET_MOUSE_LABEL"
         }
       },
-      "additionalProperties": false,
-      "required": [
-        "type"
-      ]
+      "additionalProperties" : false,
+      "required" : [ "type" ]
     },
-    "TaskArrayData-1": {
-      "type": "object",
-      "properties": {
-        "todos": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/LogTaskData"
-              },
-              {
-                "$ref": "#/definitions/TaskArrayData-2"
-              },
-              {
-                "$ref": "#/definitions/TaskArrayData-2"
-              },
-              {
-                "$ref": "#/definitions/SetMouseLabelTaskData"
-              }
-            ]
+    "TaskArrayData-1" : {
+      "type" : "object",
+      "properties" : {
+        "todos" : {
+          "type" : "array",
+          "items" : {
+            "anyOf" : [ {
+              "$ref" : "#/definitions/LogTaskData"
+            }, {
+              "$ref" : "#/definitions/TaskArrayData-2"
+            }, {
+              "$ref" : "#/definitions/TaskArrayData-2"
+            }, {
+              "$ref" : "#/definitions/SetMouseLabelTaskData"
+            } ]
           }
         }
       },
-      "additionalProperties": false
+      "additionalProperties" : false
     },
-    "TaskArrayData-2": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/TaskArrayData-1"
+    "TaskArrayData-2" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/TaskArrayData-1"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "const" : "PARALLEL"
+          }
         },
-        {
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "PARALLEL"
-            }
-          },
-          "required": [
-            "type"
-          ]
-        }
-      ]
+        "required" : [ "type" ]
+      } ]
     }
   },
-  "type": "object",
-  "properties": {
-    "actors": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "position": {
-            "type": "object",
-            "properties": {
-              "x": {
-                "type": "number"
+  "type" : "object",
+  "properties" : {
+    "actors" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "position" : {
+            "type" : "object",
+            "properties" : {
+              "x" : {
+                "type" : "number"
               },
-              "y": {
-                "type": "number"
+              "y" : {
+                "type" : "number"
               },
-              "z": {
-                "type": "integer"
+              "z" : {
+                "type" : "integer"
               }
             },
-            "additionalProperties": false
+            "additionalProperties" : false
           },
-          "scale": {
-            "type": "object",
-            "properties": {
-              "x": {
-                "type": "number"
+          "scale" : {
+            "type" : "object",
+            "properties" : {
+              "x" : {
+                "type" : "number"
               },
-              "y": {
-                "type": "number"
+              "y" : {
+                "type" : "number"
               }
             },
-            "additionalProperties": false
+            "additionalProperties" : false
           },
-          "texture": {
-            "type": "string"
+          "texture" : {
+            "type" : "string"
           },
-          "triggers": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "todo": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/LogTaskData"
-                    },
-                    {
-                      "$ref": "#/definitions/TaskArrayData-2"
-                    },
-                    {
-                      "$ref": "#/definitions/TaskArrayData-2"
-                    },
-                    {
-                      "$ref": "#/definitions/SetMouseLabelTaskData"
-                    }
-                  ]
+          "triggers" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "todo" : {
+                  "anyOf" : [ {
+                    "$ref" : "#/definitions/LogTaskData"
+                  }, {
+                    "$ref" : "#/definitions/TaskArrayData-2"
+                  }, {
+                    "$ref" : "#/definitions/TaskArrayData-2"
+                  }, {
+                    "$ref" : "#/definitions/SetMouseLabelTaskData"
+                  } ]
                 },
-                "type": {
-                  "type": "string",
-                  "enum": [
-                    "AUTO",
-                    "MOUSEENTER",
-                    "MOUSELEAVE"
-                  ]
+                "type" : {
+                  "type" : "string",
+                  "enum" : [ "AUTO", "MOUSEENTER", "MOUSELEAVE" ]
                 }
               },
-              "additionalProperties": false
+              "additionalProperties" : false
             }
           },
-          "vertices": {
-            "type": "array",
-            "items": {
-              "type": "number"
+          "vertices" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
             }
           }
         },
-        "additionalProperties": false
+        "additionalProperties" : false
       }
     },
-    "name": {
-      "type": "string"
+    "name" : {
+      "type" : "string"
     }
   },
-  "additionalProperties": false
+  "additionalProperties" : false
 }
