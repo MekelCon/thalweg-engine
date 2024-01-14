@@ -12,7 +12,7 @@ void main()
 {
     vec4 texColor = texture2D(u_texture, v_texCoord0);
     vec4 mask = texture2D(u_mask, v_texCoord0);
-    if((mask.r + mask.g + mask.b) == 3) {
+    if(mask.r == 1) {
         texColor.a = 1;
     } else {
         texColor.a = 0;
