@@ -67,7 +67,9 @@ public class MouseTriggerSystem extends IteratingSystem {
         if (currentTouchedEntity != null
                 && nexCurrent != currentTouchedEntity) {
             var mouseTriggerComponent = mm.get(currentTouchedEntity);
-            mouseTriggerComponent.onMouseLeave.forEach(currentTouchedEntity::add);
+            if (mouseTriggerComponent.onMouseLeave != null) {
+                currentTouchedEntity.add(mouseTriggerComponent.onMouseLeave);
+            }
             currentTouchedEntity = null;
         }
     }
@@ -75,7 +77,9 @@ public class MouseTriggerSystem extends IteratingSystem {
     private void checkOnMouseEnter(Entity nexCurrent) {
         if (nexCurrent != null && nexCurrent != currentTouchedEntity) {
             var nextMouseTriggerComponent = mm.get(nexCurrent);
-            nextMouseTriggerComponent.onMouseEnter.forEach(nexCurrent::add);
+            if (nextMouseTriggerComponent.onMouseEnter != null) {
+                nexCurrent.add(nextMouseTriggerComponent.onMouseEnter);
+            }
             currentTouchedEntity = nexCurrent;
         }
     }

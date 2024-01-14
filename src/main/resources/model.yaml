@@ -139,10 +139,8 @@ components:
       properties:
         type:
           $ref: '#/components/schemas/TriggerTypeEnum'
-        todos:
-          title: array
-          items:
-            $ref: '#/components/schemas/Task'
+        todo:
+          $ref: '#/components/schemas/Task'
     TriggerTypeEnum:
       type: string
       enum:
@@ -160,11 +158,26 @@ components:
         propertyName: type
         mapping:
           LOG: '#/components/schemas/LogTask'
+          PARALLEL: '#/components/schemas/TaskArray'
+          SEQUENCE: '#/components/schemas/TaskArray'
           SET_MOUSE_LABEL: '#/components/schemas/SetMouseLabelTask'
     TaskTypeEnum:
       enum:
         - LOG
+        - PARALLEL
+        - SEQUENCE
         - SET_MOUSE_LABEL
+    TaskArray:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            todos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Task'
+      required:
+        - type
+        - todos
     ChangeCursorTask:
       allOf:
         - $ref: '#/components/schemas/Task'

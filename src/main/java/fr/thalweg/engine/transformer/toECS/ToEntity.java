@@ -11,11 +11,11 @@ import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
-import fr.thalweg.engine.component.task.LogTaskComponent;
-import fr.thalweg.engine.component.task.SetMouseLabelTaskComponent;
+import fr.thalweg.engine.component.task.TaskComponent;
 import fr.thalweg.engine.component.trigger.AutoTriggerComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.engine.system.task.*;
 import fr.thalweg.gen.engine.model.*;
 
 import java.util.List;
@@ -93,19 +93,25 @@ public class ToEntity {
 
     private static Array<Component> handleMouseTrigger(List<TriggerData> triggers) {
         var result = new Array<Component>();
-        var onMouseEnter = new Array<Component>();
-        var onMouseLeave = new Array<Component>();
+        TaskComponent onMouseEnter = null;
+        TaskComponent onMouseLeave = null;
         for (TriggerData triggerData : triggers) {
             switch (triggerData.getType()) {
                 case AUTO -> result.add(AutoTriggerComponent.builder()
-                        .todos(handleTask(triggerData.getTodos()))
+                        .todo(TaskComponent.builder()
+                                .task(handleTask(triggerData.getTodo()))
+                                .build())
                         .build());
-                case MOUSEENTER -> onMouseEnter = handleTask(triggerData.getTodos());
-                case MOUSELEAVE -> onMouseLeave = handleTask(triggerData.getTodos());
+                case MOUSEENTER -> onMouseEnter = TaskComponent.builder()
+                        .task(handleTask(triggerData.getTodo()))
+                        .build();
+                case MOUSELEAVE -> onMouseLeave = TaskComponent.builder()
+                        .task(handleTask(triggerData.getTodo()))
+                        .build();
             }
         }
-        if (!onMouseEnter.isEmpty()
-                || !onMouseLeave.isEmpty()) {
+        if (onMouseEnter != null
+                || onMouseLeave != null) {
             var mouseTriggerComponent = MouseTriggerComponent.builder()
                     .build();
             mouseTriggerComponent.onMouseEnter = onMouseEnter;
@@ -115,27 +121,36 @@ public class ToEntity {
         return result;
     }
 
-    private static Array<Component> handleTask(List<TaskData> todos) {
-        var result = new Array<Component>(todos.size());
-        for (TaskData taskData : todos) {
-            result.add(handleTask(taskData));
-        }
-        return result;
-    }
-
-    private static Component handleTask(TaskData data) {
+    private static Task handleTask(TaskData data) {
         return switch (data.getType()) {
             case LOG -> createLogTask((LogTaskData) data);
-            case SET_MOUSE_LABEL -> createSetMouseLabel((SetMouseLabelTaskData) data);
+            case PARALLEL -> createParallelTask((TaskArrayData) data);
+            case SEQUENCE -> createSequenceTask((TaskArrayData) data);
+            case SET_MOUSE_LABEL -> createSetMouseLabelTask((SetMouseLabelTaskData) data);
         };
     }
 
-    private static LogTaskComponent createLogTask(LogTaskData data) {
-        return LogTaskComponent.builder().data(data).build();
+    private static LogTask createLogTask(LogTaskData data) {
+        return LogTask.builder().data(data).build();
     }
 
-    private static SetMouseLabelTaskComponent createSetMouseLabel(SetMouseLabelTaskData data) {
-        return SetMouseLabelTaskComponent.builder()
-                .data(data).build();
+    private static ParallelTask createParallelTask(TaskArrayData data) {
+        Array<Task> taskArray = new Array<>(data.getTodos().size());
+        for (TaskData taskData : data.getTodos()) {
+            taskArray.add(handleTask(taskData));
+        }
+        return ParallelTask.builder().data(taskArray).build();
+    }
+
+    private static SequenceTask createSequenceTask(TaskArrayData data) {
+        Array<Task> taskArray = new Array<>(data.getTodos().size());
+        for (TaskData taskData : data.getTodos()) {
+            taskArray.add(handleTask(taskData));
+        }
+        return SequenceTask.builder().data(taskArray).build();
+    }
+
+    private static SetMouseLabelTask createSetMouseLabelTask(SetMouseLabelTaskData data) {
+        return SetMouseLabelTask.builder().data(data).build();
     }
 }

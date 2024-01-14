@@ -17,7 +17,7 @@ public class AutoTriggerSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         var autoTriggerComponent = am.get(entity);
-        autoTriggerComponent.todos.forEach(entity::add);
+        entity.add(autoTriggerComponent.todo);
         entity.remove(AutoTriggerComponent.class);
     }
 

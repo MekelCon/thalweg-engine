@@ -11,15 +11,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.component.task.SetMouseLabelTaskComponent;
+import fr.thalweg.engine.component.SetMouseLabelComponent;
+
 
 public class TextRenderingSystem extends IteratingSystem {
     private final Stage textStage;
-    private final ComponentMapper<SetMouseLabelTaskComponent> sm;
+
+    private final ComponentMapper<SetMouseLabelComponent> sm;
+
     private final Label mouseLabel;
 
     public TextRenderingSystem(Viewport viewport) {
-        super(Family.all(SetMouseLabelTaskComponent.class).get());
+        super(Family.all(SetMouseLabelComponent.class).get());
 
         var label1Style = new Label.LabelStyle();
         label1Style.font = new BitmapFont();
@@ -28,7 +31,7 @@ public class TextRenderingSystem extends IteratingSystem {
         this.mouseLabel = new Label("", label1Style);
         this.textStage = new Stage(viewport);
         textStage.addActor(mouseLabel);
-        this.sm = ComponentMapper.getFor(SetMouseLabelTaskComponent.class);
+        this.sm = ComponentMapper.getFor(SetMouseLabelComponent.class);
     }
 
     @Override
@@ -44,7 +47,7 @@ public class TextRenderingSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         var setMouseLabelTaskComponent = sm.get(entity);
-        mouseLabel.setText(setMouseLabelTaskComponent.data.getLabel());
-        entity.remove(SetMouseLabelTaskComponent.class);
+        mouseLabel.setText(setMouseLabelTaskComponent.caller.data.getLabel());
+        entity.remove(SetMouseLabelComponent.class);
     }
 }

@@ -1,15 +1,13 @@
 package fr.thalweg.engine.component.trigger.todo;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import fr.thalweg.engine.system.task.LogTaskSystem;
+import fr.thalweg.engine.system.task.TaskSystem;
 import fr.thalweg.engine.utils.BasicThalwegGame;
 import fr.thalweg.gen.engine.model.LogTaskData;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-class LogTaskSystemTest {
+class TaskSystemTest {
 
     @BeforeAll
     public static void beforeAll() {
@@ -18,11 +16,11 @@ class LogTaskSystemTest {
 
     @Test
     public void working() {
-        LogTaskSystem logTaskSystem = LogTaskSystem.builder()
+        TaskSystem taskSystem = TaskSystem.builder()
                 .data(new LogTaskData()
                         .message("Hello"))
                 .build();
-        assertTrue(logTaskSystem.work(0));
+        assertTrue(taskSystem.work(0));
     }
 
 }

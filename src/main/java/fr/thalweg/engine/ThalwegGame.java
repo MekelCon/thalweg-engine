@@ -15,7 +15,7 @@ import fr.thalweg.engine.system.CameraSystem;
 import fr.thalweg.engine.system.rendering.MouseTriggerDebugRenderingSystem;
 import fr.thalweg.engine.system.rendering.RenderingSystem;
 import fr.thalweg.engine.system.rendering.TextRenderingSystem;
-import fr.thalweg.engine.system.task.LogTaskSystem;
+import fr.thalweg.engine.system.task.TaskSystem;
 import fr.thalweg.engine.system.trigger.AutoTriggerSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
@@ -76,7 +76,7 @@ public class ThalwegGame extends Game {
         ECSEngine.addSystem(new MouseTriggerSystem(viewport));
         ECSEngine.addSystem(new AutoTriggerSystem());
 
-        ECSEngine.addSystem(new LogTaskSystem());
+        ECSEngine.addSystem(new TaskSystem());
 
         setScreen(new ThalwegScreen(this, config.getStartScreen(), batch, cameraSystem.getCamera(), viewport, textViewport));
     }

@@ -1,97 +1,162 @@
 {
-  "type" : "object",
-  "properties" : {
-    "actors" : {
-      "type" : "array",
-      "items" : {
-        "type" : "object",
-        "properties" : {
-          "position" : {
-            "type" : "object",
-            "properties" : {
-              "x" : {
-                "type" : "number"
+  "definitions": {
+    "LogTaskData": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "type": {
+          "const": "LOG"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ]
+    },
+    "SetMouseLabelTaskData": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "type": {
+          "const": "SET_MOUSE_LABEL"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ]
+    },
+    "TaskArrayData-1": {
+      "type": "object",
+      "properties": {
+        "todos": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/LogTaskData"
               },
-              "y" : {
-                "type" : "number"
+              {
+                "$ref": "#/definitions/TaskArrayData-2"
               },
-              "z" : {
-                "type" : "integer"
+              {
+                "$ref": "#/definitions/TaskArrayData-2"
+              },
+              {
+                "$ref": "#/definitions/SetMouseLabelTaskData"
               }
-            },
-            "additionalProperties" : false
-          },
-          "scale" : {
-            "type" : "object",
-            "properties" : {
-              "x" : {
-                "type" : "number"
-              },
-              "y" : {
-                "type" : "number"
-              }
-            },
-            "additionalProperties" : false
-          },
-          "texture" : {
-            "type" : "string"
-          },
-          "triggers" : {
-            "type" : "array",
-            "items" : {
-              "type" : "object",
-              "properties" : {
-                "todos" : {
-                  "type" : "array",
-                  "items" : {
-                    "anyOf" : [ {
-                      "type" : "object",
-                      "properties" : {
-                        "message" : {
-                          "type" : "string"
-                        },
-                        "type" : {
-                          "const" : "LOG"
-                        }
-                      },
-                      "additionalProperties" : false,
-                      "required" : [ "type" ]
-                    }, {
-                      "type" : "object",
-                      "properties" : {
-                        "label" : {
-                          "type" : "string"
-                        },
-                        "type" : {
-                          "const" : "SET_MOUSE_LABEL"
-                        }
-                      },
-                      "additionalProperties" : false,
-                      "required" : [ "type" ]
-                    } ]
-                  }
-                },
-                "type" : {
-                  "type" : "string",
-                  "enum" : [ "AUTO", "MOUSEENTER", "MOUSELEAVE" ]
-                }
-              },
-              "additionalProperties" : false
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "TaskArrayData-2": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/TaskArrayData-1"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "PARALLEL"
             }
           },
-          "vertices" : {
-            "type" : "array",
-            "items" : {
-              "type" : "number"
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "actors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          },
+          "scale": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false
+          },
+          "texture": {
+            "type": "string"
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "todo": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/LogTaskData"
+                    },
+                    {
+                      "$ref": "#/definitions/TaskArrayData-2"
+                    },
+                    {
+                      "$ref": "#/definitions/TaskArrayData-2"
+                    },
+                    {
+                      "$ref": "#/definitions/SetMouseLabelTaskData"
+                    }
+                  ]
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "AUTO",
+                    "MOUSEENTER",
+                    "MOUSELEAVE"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "vertices": {
+            "type": "array",
+            "items": {
+              "type": "number"
             }
           }
         },
-        "additionalProperties" : false
+        "additionalProperties": false
       }
     },
-    "name" : {
-      "type" : "string"
+    "name": {
+      "type": "string"
     }
   },
-  "additionalProperties" : false
+  "additionalProperties": false
 }

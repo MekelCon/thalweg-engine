@@ -2,9 +2,9 @@ name: "1"
 actors:
   - triggers:
       - type: AUTO
-        todos:
-          - type: LOG
-            message: "At start"
+        todo:
+          type: LOG
+          message: "At start"
   - position:
       x: 50
       y: 20
@@ -12,17 +12,17 @@ actors:
     texture: "sprite/norah.png"
     triggers:
       - type: MOUSEENTER
-        todos:
-          - type: SET_MOUSE_LABEL
-            label: "Norah"
+        todo:
+          type: SET_MOUSE_LABEL
+          label: "Norah"
       - type: MOUSELEAVE
-        todos:
-          - type: SET_MOUSE_LABEL
-            label: ""
+        todo:
+          type: SET_MOUSE_LABEL
+          label: ""
       - type: AUTO
-        todos:
-          - type: LOG
-            message: "Auto Norah"
+        todo:
+          type: LOG
+          message: "Auto Norah"
   - position:
       x: 100
       y: 20
@@ -38,11 +38,13 @@ actors:
       - 70
     triggers:
       - type: MOUSELEAVE
-        todos:
-          - type: LOG
-            message: "Bye rectangle"
-          - type: LOG
-            message: "ByeBye"
+        todo:
+          type: SEQUENCE
+          todos:
+            - type: LOG
+              message: "Bye rectangle"
+            - type: LOG
+              message: "ByeBye"
   - position:
       x: 0
       y: 0
