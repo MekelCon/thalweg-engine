@@ -3,8 +3,9 @@ actors:
   - triggers:
       - type: AUTO
         todo:
-          type: LOG
-          message: "At start"
+          type: PLAY_TRANSITION
+          duration: 10
+          transition: "transition/center_to_border.png"
   - position:
       x: 50
       y: 20

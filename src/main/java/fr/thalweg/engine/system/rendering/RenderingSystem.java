@@ -4,21 +4,20 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
+import fr.thalweg.engine.component.task.TaskComponent;
 import fr.thalweg.engine.entity.EntityZIndexComparator;
+import fr.thalweg.engine.system.task.PlayTransitionTask;
 import fr.thalweg.gen.engine.model.WorldData;
 
 public class RenderingSystem extends SortedIteratingSystem {
@@ -28,12 +27,10 @@ public class RenderingSystem extends SortedIteratingSystem {
     private final SpriteBatch batch;
     private final FrameBuffer worldBuffer;
     private final Viewport viewport;
-    private final ShaderProgram transitionShader;
-    private float sumDeltaTime;
-    private float transitionPercent;
+    private final Entity transitionEntity;
+    private final ComponentMapper<TaskComponent> tm;
 
-
-    public RenderingSystem(WorldData world, SpriteBatch batch, Viewport viewport) {
+    public RenderingSystem(WorldData world, SpriteBatch batch, Viewport viewport, Entity transitionEntity) {
         super(
                 Family.all(ZIndexComponent.class, SpriteComponent.class).get(),
                 new EntityZIndexComparator()
@@ -48,24 +45,10 @@ public class RenderingSystem extends SortedIteratingSystem {
         this.worldBuffer.getColorBufferTexture().setFilter(
                 Texture.TextureFilter.Nearest,
                 Texture.TextureFilter.Nearest);
-
         this.batch = batch;
         this.viewport = viewport;
-
-
-        var vertexShader = Gdx.files.internal("shader/vertex.glsl").readString();
-        var fragmentShader = Gdx.files.internal("shader/fragment.glsl").readString();
-        transitionShader = new ShaderProgram(vertexShader, fragmentShader);
-        if (!transitionShader.isCompiled()) {
-            Gdx.app.error("Shader", transitionShader.getLog());
-            Gdx.app.exit();
-        }
-        transitionShader.bind();
-        transitionShader.setUniformi("u_texture", 0);
-        transitionShader.setUniformi("u_mask", 1);
-        new Texture(
-                Gdx.files.internal("quercus/transition/screen_transition_2.png")).bind(1);
-        Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
+        this.transitionEntity = transitionEntity;
+        this.tm = ComponentMapper.getFor(TaskComponent.class);
     }
 
     @Override
@@ -73,7 +56,6 @@ public class RenderingSystem extends SortedIteratingSystem {
         super.update(deltaTime);
         ScreenUtils.clear(Color.BLACK);
         drawWorldBuffer();
-        calcTransitionPercent(deltaTime);
         renderWorldBuffer();
         renderQueue.clear();
     }
@@ -91,16 +73,12 @@ public class RenderingSystem extends SortedIteratingSystem {
         worldBuffer.end();
     }
 
-    private void calcTransitionPercent(float deltaTime) {
-        if (transitionPercent < 1) {
-            sumDeltaTime += deltaTime;
-            transitionPercent = sumDeltaTime / 0.5f;
-            batch.setShader(transitionShader);
-            transitionShader.setUniformf("u_transitionPercent", transitionPercent);
-        }
-    }
-
     private void renderWorldBuffer() {
+        var taskComponent = tm.get(transitionEntity);
+        // A transition is on going
+        if (taskComponent != null) {
+            batch.setShader(((PlayTransitionTask) taskComponent.task).transitionShader);
+        }
         viewport.apply(true);
         batch.setProjectionMatrix(IDENTITY);
         batch.draw(worldBuffer.getColorBufferTexture(), -1, -1, 2, 2);

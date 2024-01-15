@@ -7,6 +7,4 @@ import lombok.Builder;
 @Builder
 public class TaskComponent implements Component {
     public Task task;
-
-
 }

@@ -13,6 +13,26 @@
       "additionalProperties" : false,
       "required" : [ "type" ]
     },
+    "PlayTransitionTaskData" : {
+      "type" : "object",
+      "properties" : {
+        "duration" : {
+          "type" : "integer"
+        },
+        "interpolation" : {
+          "type" : "string",
+          "enum" : [ "LINEAR", "POW" ]
+        },
+        "transition" : {
+          "type" : "string"
+        },
+        "type" : {
+          "const" : "PLAY_TRANSITION"
+        }
+      },
+      "additionalProperties" : false,
+      "required" : [ "type" ]
+    },
     "SetMouseLabelTaskData" : {
       "type" : "object",
       "properties" : {
@@ -36,6 +56,8 @@
               "$ref" : "#/definitions/LogTaskData"
             }, {
               "$ref" : "#/definitions/TaskArrayData-2"
+            }, {
+              "$ref" : "#/definitions/PlayTransitionTaskData"
             }, {
               "$ref" : "#/definitions/TaskArrayData-2"
             }, {
@@ -107,6 +129,8 @@
                     "$ref" : "#/definitions/LogTaskData"
                   }, {
                     "$ref" : "#/definitions/TaskArrayData-2"
+                  }, {
+                    "$ref" : "#/definitions/PlayTransitionTaskData"
                   }, {
                     "$ref" : "#/definitions/TaskArrayData-2"
                   }, {

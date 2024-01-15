@@ -19,4 +19,11 @@ public class ParallelTask implements Task {
         }
         return ended;
     }
+
+    @Override
+    public void added() {
+        for (Task t : data) {
+            t.added();
+        }
+    }
 }

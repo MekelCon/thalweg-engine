@@ -1,7 +1,6 @@
 package fr.thalweg.engine.system.task;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import lombok.Builder;
 
@@ -21,7 +20,9 @@ public class SequenceTask implements Task {
 
     @Override
     public void added() {
-        Gdx.app.log("TMP", "ADDED !");
+        for (Task t : data) {
+            t.added();
+        }
         currentIndex = 0;
     }
 }

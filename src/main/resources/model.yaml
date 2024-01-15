@@ -159,12 +159,14 @@ components:
         mapping:
           LOG: '#/components/schemas/LogTask'
           PARALLEL: '#/components/schemas/TaskArray'
+          PLAY_TRANSITION: '#/components/schemas/PlayTransitionTask'
           SEQUENCE: '#/components/schemas/TaskArray'
           SET_MOUSE_LABEL: '#/components/schemas/SetMouseLabelTask'
     TaskTypeEnum:
       enum:
         - LOG
         - PARALLEL
+        - PLAY_TRANSITION
         - SEQUENCE
         - SET_MOUSE_LABEL
     TaskArray:
@@ -197,6 +199,11 @@ components:
       required:
         - type
         - cursor
+    Interpolation:
+      type: string
+      enum:
+        - LINEAR
+        - POW
     LogTask:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -207,6 +214,14 @@ components:
       required:
         - type
         - message
+    PlayTransitionTask:
+      allOf:
+        - $ref: '#/components/schemas/TemporalTask'
+        - properties:
+            transition:
+              type: string
+              pattern: ^transition/.*\.(png)$
+              description: Name of the transition
     SetMouseLabelTask:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -217,3 +232,13 @@ components:
       required:
         - type
         - label
+    TemporalTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            duration:
+              type: integer
+              format: int32
+              description: The to display near the mouse
+            interpolation:
+              $ref: '#/components/schemas/Interpolation'
