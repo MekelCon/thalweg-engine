@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import fr.thalweg.engine.component.flag.TransitionEntityFlag;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.gen.engine.model.PlayTransitionTaskData;
 import lombok.Builder;
@@ -16,7 +17,7 @@ public class PlayTransitionTask extends TemporalTask {
     public PlayTransitionTaskData data;
 
     @Builder
-    public PlayTransitionTask(PlayTransitionTaskData data, Directory root, Entity transitionEntity) {
+    public PlayTransitionTask(PlayTransitionTaskData data, Directory root) {
         super(data);
         this.transitionShader = createTransitionShader();
         this.data = data;
@@ -26,6 +27,7 @@ public class PlayTransitionTask extends TemporalTask {
     @Override
     protected void begin(Entity entity) {
         super.begin(entity);
+        entity.add(TransitionEntityFlag.builder().build());
         new Texture(Gdx.files.internal(root.getSubFolder(data.getTransition())))
                 .bind(1);
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);

@@ -6,6 +6,5 @@ import lombok.Builder;
 
 @Builder
 public class SetMouseLabelComponent implements Component {
-
     public SetMouseLabelTask caller;
 }

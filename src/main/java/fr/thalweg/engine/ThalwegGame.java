@@ -1,7 +1,6 @@
 package fr.thalweg.engine;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Game;
@@ -12,15 +11,14 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.flag.TransitionEntityFlag;
-import fr.thalweg.engine.component.task.TaskComponent;
 import fr.thalweg.engine.entity.TaskAddedListener;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
+import fr.thalweg.engine.system.TaskSystem;
 import fr.thalweg.engine.system.rendering.MouseTriggerDebugRenderingSystem;
 import fr.thalweg.engine.system.rendering.RenderingSystem;
 import fr.thalweg.engine.system.rendering.TextRenderingSystem;
-import fr.thalweg.engine.system.task.TaskSystem;
 import fr.thalweg.engine.system.trigger.AutoTriggerSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
@@ -74,7 +72,7 @@ public class ThalwegGame extends Game {
         ECSEngine.addSystem(cameraSystem);
         Entity transitionEntity = ECSEngine.createEntity().add(TransitionEntityFlag.builder().build());
         ECSEngine.addEntity(transitionEntity);
-        ECSEngine.addSystem(new RenderingSystem(config.getWorld(), batch, viewport, transitionEntity));
+        ECSEngine.addSystem(new RenderingSystem(config.getWorld(), batch, viewport));
         if (config.isDebug()) {
             ECSEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
         }
@@ -86,7 +84,7 @@ public class ThalwegGame extends Game {
         ECSEngine.addSystem(new TaskSystem());
 
         ECSEngine.addEntityListener(
-                Family.all(TaskComponent.class).get(),
+                TaskAddedListener.LISTENING,
                 new TaskAddedListener()
         );
 

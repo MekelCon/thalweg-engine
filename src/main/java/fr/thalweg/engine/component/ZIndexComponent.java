@@ -5,6 +5,5 @@ import lombok.Builder;
 
 @Builder
 public class ZIndexComponent implements Component {
-
     public int zIndex;
 }

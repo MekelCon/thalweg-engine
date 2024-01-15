@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
-import fr.thalweg.engine.component.task.TaskComponent;
+import fr.thalweg.engine.component.TaskComponent;
 import fr.thalweg.engine.component.trigger.AutoTriggerComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.model.Directory;

@@ -17,7 +17,7 @@
       "type" : "object",
       "properties" : {
         "duration" : {
-          "type" : "integer"
+          "type" : "number"
         },
         "interpolation" : {
           "type" : "string",

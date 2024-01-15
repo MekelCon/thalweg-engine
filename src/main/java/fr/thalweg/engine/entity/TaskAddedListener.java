@@ -3,10 +3,12 @@ package fr.thalweg.engine.entity;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import fr.thalweg.engine.component.task.TaskComponent;
+import com.badlogic.ashley.core.Family;
+import fr.thalweg.engine.component.TaskComponent;
 
 public class TaskAddedListener implements EntityListener {
 
+    public static Family LISTENING = Family.all(TaskComponent.class).get();
     private final ComponentMapper<TaskComponent> tm;
 
     public TaskAddedListener() {

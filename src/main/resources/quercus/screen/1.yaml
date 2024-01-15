@@ -4,7 +4,7 @@ actors:
       - type: AUTO
         todo:
           type: PLAY_TRANSITION
-          duration: 10
+          duration: 0.5
           transition: "transition/center_to_border.png"
   - position:
       x: 50

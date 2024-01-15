@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,8 +15,9 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.SpriteComponent;
+import fr.thalweg.engine.component.TaskComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
-import fr.thalweg.engine.component.task.TaskComponent;
+import fr.thalweg.engine.component.flag.TransitionEntityFlag;
 import fr.thalweg.engine.entity.EntityZIndexComparator;
 import fr.thalweg.engine.system.task.PlayTransitionTask;
 import fr.thalweg.gen.engine.model.WorldData;
@@ -27,27 +29,16 @@ public class RenderingSystem extends SortedIteratingSystem {
     private final SpriteBatch batch;
     private final FrameBuffer worldBuffer;
     private final Viewport viewport;
-    private final Entity transitionEntity;
     private final ComponentMapper<TaskComponent> tm;
 
-    public RenderingSystem(WorldData world, SpriteBatch batch, Viewport viewport, Entity transitionEntity) {
-        super(
-                Family.all(ZIndexComponent.class, SpriteComponent.class).get(),
-                new EntityZIndexComparator()
-        );
+    public RenderingSystem(WorldData world, SpriteBatch batch, Viewport viewport) {
+        super(Family.all(ZIndexComponent.class, SpriteComponent.class).get(), new EntityZIndexComparator());
         this.renderQueue = new Array<>();
         this.sm = ComponentMapper.getFor(SpriteComponent.class);
-        this.worldBuffer = new FrameBuffer(
-                Pixmap.Format.RGBA8888,
-                world.getWidth(),
-                world.getHeight(),
-                false);
-        this.worldBuffer.getColorBufferTexture().setFilter(
-                Texture.TextureFilter.Nearest,
-                Texture.TextureFilter.Nearest);
+        this.worldBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, world.getWidth(), world.getHeight(), false);
+        this.worldBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         this.batch = batch;
         this.viewport = viewport;
-        this.transitionEntity = transitionEntity;
         this.tm = ComponentMapper.getFor(TaskComponent.class);
     }
 
@@ -74,9 +65,11 @@ public class RenderingSystem extends SortedIteratingSystem {
     }
 
     private void renderWorldBuffer() {
-        var taskComponent = tm.get(transitionEntity);
+        ImmutableArray<Entity> transitionEntities = this.getEngine().getEntitiesFor(
+                Family.all(TransitionEntityFlag.class, TaskComponent.class).get());
         // A transition is on going
-        if (taskComponent != null) {
+        for (Entity e : transitionEntities) {
+            var taskComponent = tm.get(e);
             batch.setShader(((PlayTransitionTask) taskComponent.task).transitionShader);
         }
         viewport.apply(true);

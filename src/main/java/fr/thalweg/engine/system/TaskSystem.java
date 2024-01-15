@@ -1,10 +1,10 @@
-package fr.thalweg.engine.system.task;
+package fr.thalweg.engine.system;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import fr.thalweg.engine.component.task.TaskComponent;
+import fr.thalweg.engine.component.TaskComponent;
 
 public class TaskSystem extends IteratingSystem {
 

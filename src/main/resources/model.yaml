@@ -237,8 +237,8 @@ components:
         - $ref: '#/components/schemas/Task'
         - properties:
             duration:
-              type: integer
-              format: int32
+              type: number
+              format: float
               description: The to display near the mouse
             interpolation:
               $ref: '#/components/schemas/Interpolation'
