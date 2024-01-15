@@ -4,5 +4,5 @@ import com.badlogic.ashley.core.Component;
 import lombok.Builder;
 
 @Builder
-public class TransitionEntityFlag implements Component {
+public class WorkingFlag implements Component {
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
+import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 
 public class MouseTriggerSystem extends IteratingSystem {
@@ -68,7 +69,9 @@ public class MouseTriggerSystem extends IteratingSystem {
                 && nexCurrent != currentTouchedEntity) {
             var mouseTriggerComponent = mm.get(currentTouchedEntity);
             if (mouseTriggerComponent.onMouseLeave != null) {
-                currentTouchedEntity.add(mouseTriggerComponent.onMouseLeave);
+                getEngine().addEntity(getEngine().createEntity()
+                        .add(mouseTriggerComponent.onMouseLeave)
+                        .add(WorkingFlag.builder().build()));
             }
             currentTouchedEntity = null;
         }
@@ -76,9 +79,11 @@ public class MouseTriggerSystem extends IteratingSystem {
 
     private void checkOnMouseEnter(Entity nexCurrent) {
         if (nexCurrent != null && nexCurrent != currentTouchedEntity) {
-            var nextMouseTriggerComponent = mm.get(nexCurrent);
-            if (nextMouseTriggerComponent.onMouseEnter != null) {
-                nexCurrent.add(nextMouseTriggerComponent.onMouseEnter);
+            var mouseTriggerComponent = mm.get(nexCurrent);
+            if (mouseTriggerComponent.onMouseEnter != null) {
+                getEngine().addEntity(getEngine().createEntity()
+                        .add(mouseTriggerComponent.onMouseEnter)
+                        .add(WorkingFlag.builder().build()));
             }
             currentTouchedEntity = nexCurrent;
         }

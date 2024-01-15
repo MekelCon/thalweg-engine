@@ -1,12 +1,10 @@
 package fr.thalweg.engine.system.task;
 
-import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
 
-public interface Task {
-
-    boolean work(Entity entity, float deltaTime);
-
-    default void added() {
-        // Nothing to do, just here to avoid forced override
+public abstract class Task extends IteratingSystem {
+    public Task(Family family) {
+        super(family);
     }
 }

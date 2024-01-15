@@ -1,7 +1,6 @@
 package fr.thalweg.engine;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -10,15 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.component.flag.TransitionEntityFlag;
-import fr.thalweg.engine.entity.TaskAddedListener;
+import fr.thalweg.engine.entity.WorkingFlagListener;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
-import fr.thalweg.engine.system.TaskSystem;
 import fr.thalweg.engine.system.rendering.MouseTriggerDebugRenderingSystem;
 import fr.thalweg.engine.system.rendering.RenderingSystem;
 import fr.thalweg.engine.system.rendering.TextRenderingSystem;
+import fr.thalweg.engine.system.task.*;
 import fr.thalweg.engine.system.trigger.AutoTriggerSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
@@ -34,7 +32,7 @@ public class ThalwegGame extends Game {
     private static ThalwegGame INSTANCE;
     private final Directory root;
     private final ThalwegGameConfigurationData config;
-    private final PooledEngine ECSEngine;
+    private final Engine ECSEngine;
     private SpriteBatch batch;
     private Viewport viewport;
     private Viewport textViewport;
@@ -46,7 +44,7 @@ public class ThalwegGame extends Game {
         this.config = Reader.getInstance().read(
                 new PublicFileHandle(root + "/configuration.yaml", Files.FileType.Internal),
                 ThalwegGameConfigurationData.class);
-        this.ECSEngine = new PooledEngine();
+        this.ECSEngine = new Engine();
     }
 
     public static ThalwegGame build(String rootDirectory) {
@@ -70,8 +68,6 @@ public class ThalwegGame extends Game {
 
         var cameraSystem = new CameraSystem(config.getWorld());
         ECSEngine.addSystem(cameraSystem);
-        Entity transitionEntity = ECSEngine.createEntity().add(TransitionEntityFlag.builder().build());
-        ECSEngine.addEntity(transitionEntity);
         ECSEngine.addSystem(new RenderingSystem(config.getWorld(), batch, viewport));
         if (config.isDebug()) {
             ECSEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
@@ -80,12 +76,16 @@ public class ThalwegGame extends Game {
 
         ECSEngine.addSystem(new MouseTriggerSystem(viewport));
         ECSEngine.addSystem(new AutoTriggerSystem());
-
-        ECSEngine.addSystem(new TaskSystem());
+        // Tsk System
+        ECSEngine.addSystem(new LogTask());
+        ECSEngine.addSystem(new PlayTransitionTask());
+        ECSEngine.addSystem(new SetMouseLabelTask());
+        ECSEngine.addSystem(new ParallelTask());
+        ECSEngine.addSystem(new SequenceTask());
 
         ECSEngine.addEntityListener(
-                TaskAddedListener.LISTENING,
-                new TaskAddedListener()
+                WorkingFlagListener.LISTENING,
+                new WorkingFlagListener()
         );
 
         setScreen(new ThalwegScreen(
@@ -94,8 +94,7 @@ public class ThalwegGame extends Game {
                 batch,
                 cameraSystem.getCamera(),
                 viewport,
-                textViewport,
-                transitionEntity));
+                textViewport));
     }
 
     private void initGdxConfig() {

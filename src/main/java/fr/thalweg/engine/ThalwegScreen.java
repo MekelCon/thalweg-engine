@@ -1,7 +1,6 @@
 package fr.thalweg.engine;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,7 +24,7 @@ public class ThalwegScreen extends ScreenAdapter {
     private final Viewport textViewport;
     private final ThalwegScreenData data;
 
-    public ThalwegScreen(ThalwegGame thalwegGame, String sourceFile, SpriteBatch batch, OrthographicCamera camera, Viewport viewport, Viewport textViewport, Entity transitionEntity) {
+    public ThalwegScreen(ThalwegGame thalwegGame, String sourceFile, SpriteBatch batch, OrthographicCamera camera, Viewport viewport, Viewport textViewport) {
         Gdx.app.debug(LOG_TAG, "Creating new screen : " + sourceFile);
         this.thalwegGame = thalwegGame;
         this.sourceFile = sourceFile;
@@ -36,14 +35,13 @@ public class ThalwegScreen extends ScreenAdapter {
         this.data = Reader.getInstance().read(
                 Asset.of(thalwegGame.getRoot(), AssetType.screen(), sourceFile).getFileHandle(),
                 ThalwegScreenData.class);
-        initActors(thalwegGame.getECSEngine(), transitionEntity);
+        initActors(thalwegGame.getECSEngine());
     }
 
-    private void initActors(PooledEngine ecsEngine, Entity transitionEntity) {
+    private void initActors(Engine ecsEngine) {
         for (ThalwegActorData actorData : data.getActors()) {
             thalwegGame.getECSEngine().addEntity(ToEntity.from(
                     ecsEngine,
-                    transitionEntity,
                     thalwegGame.getRoot(),
                     actorData
             ));
@@ -54,6 +52,7 @@ public class ThalwegScreen extends ScreenAdapter {
     public void render(float delta) {
         batch.setProjectionMatrix(camera.combined);
         thalwegGame.getECSEngine().update(delta);
+        Gdx.app.log("DEBUG", "Entity count : " + thalwegGame.getECSEngine().getEntities().size());
     }
 
     @Override

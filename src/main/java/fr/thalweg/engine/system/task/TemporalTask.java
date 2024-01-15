@@ -1,37 +1,43 @@
 package fr.thalweg.engine.system.task;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.utils.Null;
-import fr.thalweg.gen.engine.model.TemporalTaskData;
-import lombok.experimental.SuperBuilder;
+import com.badlogic.ashley.core.Family;
+import fr.thalweg.engine.component.task.TemporalTaskComponent;
 
-@SuperBuilder
-public abstract class TemporalTask implements Task {
+public abstract class TemporalTask extends Task {
+    private final ComponentMapper<TemporalTaskComponent> cm;
 
-    private float duration, time;
-    private @Null Interpolation interpolation;
-    private boolean reverse, began, complete;
-
-    public TemporalTask(TemporalTaskData data) {
-        this.duration = data.getDuration();
-        // TODO interpolation
+    public TemporalTask(Family family) {
+        super(family);
+        this.cm = ComponentMapper.getFor(TemporalTaskComponent.class);
     }
 
     @Override
-    public boolean work(Entity entity, float deltaTime) {
-        if (!began) {
-            begin(entity);
-            began = true;
+    protected void processEntity(Entity entity, float deltaTime) {
+        var temporalTaskComponent = cm.get(entity);
+        if (temporalTaskComponent == null) {
+            temporalTaskComponent = TemporalTaskComponent.builder()
+                    .build();
+            entity.add(temporalTaskComponent);
         }
-        time += deltaTime;
-        complete = time >= duration;
-        float percent = complete ? 1 : time / duration;
-        if (interpolation != null) percent = interpolation.apply(percent);
-        update(entity, reverse ? 1 - percent : percent);
-        if (complete) end(entity);
-        return complete;
+        if (!temporalTaskComponent.began) {
+            begin(entity);
+            temporalTaskComponent.began = true;
+        }
+        temporalTaskComponent.time += deltaTime;
+        temporalTaskComponent.complete = temporalTaskComponent.time >= getDuration(entity);
+        float percent = temporalTaskComponent.complete ? 1 : temporalTaskComponent.time / getDuration(entity);
+        if (temporalTaskComponent.interpolation != null) percent = temporalTaskComponent.interpolation.apply(percent);
+        update(entity, temporalTaskComponent.reverse ? 1 - percent : percent);
+        if (temporalTaskComponent.complete) {
+            end(entity);
+            entity.removeAll();
+            getEngine().removeEntity(entity);
+        }
     }
+
+    protected abstract float getDuration(Entity entity);
 
     protected void begin(Entity entity) {
     }
@@ -40,11 +46,4 @@ public abstract class TemporalTask implements Task {
     }
 
     abstract protected void update(Entity entity, float percent);
-
-    @Override
-    public void added() {
-        time = 0;
-        began = false;
-        complete = false;
-    }
 }

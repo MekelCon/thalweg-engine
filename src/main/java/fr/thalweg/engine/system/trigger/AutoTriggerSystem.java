@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.trigger.AutoTriggerComponent;
 
 public class AutoTriggerSystem extends IteratingSystem {
@@ -17,8 +18,12 @@ public class AutoTriggerSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         var autoTriggerComponent = am.get(entity);
-        entity.add(autoTriggerComponent.todo);
+        getEngine().addEntity(getEngine().createEntity()
+                .add(autoTriggerComponent.todo)
+                .add(WorkingFlag.builder().build()));
         entity.remove(AutoTriggerComponent.class);
+        if (entity.getComponents().size() == 0) {
+            getEngine().removeEntity(entity);
+        }
     }
-
 }

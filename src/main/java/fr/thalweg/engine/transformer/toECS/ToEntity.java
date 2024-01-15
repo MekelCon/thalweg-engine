@@ -1,8 +1,8 @@
 package fr.thalweg.engine.transformer.toECS;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,11 +11,10 @@ import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
-import fr.thalweg.engine.component.TaskComponent;
+import fr.thalweg.engine.component.task.*;
 import fr.thalweg.engine.component.trigger.AutoTriggerComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.model.Directory;
-import fr.thalweg.engine.system.task.*;
 import fr.thalweg.gen.engine.model.*;
 
 import java.util.List;
@@ -24,12 +23,12 @@ import java.util.Optional;
 public class ToEntity {
 
 
-    public static Entity from(PooledEngine ecsEngine, Entity transitionEntity, Directory root, ThalwegActorData source) {
+    public static Entity from(Engine ecsEngine, Directory root, ThalwegActorData source) {
         var result = ecsEngine.createEntity();
         handleTexture(root, source).ifPresent(result::add);
         handleVertices(source).ifPresent(result::add);
         handleZIndex(source).ifPresent(result::add);
-        handleTriggers(transitionEntity, root, source).ifPresent(triggerComponents -> triggerComponents.forEach(result::add));
+        handleTriggers(root, source).ifPresent(triggerComponents -> triggerComponents.forEach(result::add));
         return result;
     }
 
@@ -82,32 +81,25 @@ public class ToEntity {
         return Optional.empty();
     }
 
-    private static Optional<Array<Component>> handleTriggers(Entity transitionEntity, Directory root, ThalwegActorData source) {
+    private static Optional<Array<Component>> handleTriggers(Directory root, ThalwegActorData source) {
         if (source.getTriggers() != null
                 && !source.getTriggers().isEmpty()) {
-            Array<Component> triggerComponents = handleMouseTrigger(transitionEntity, root, source.getTriggers());
+            Array<Component> triggerComponents = handleMouseTrigger(root, source.getTriggers());
             return Optional.of(triggerComponents);
         }
         return Optional.empty();
     }
 
-    private static Array<Component> handleMouseTrigger(Entity transitionEntity, Directory root, List<TriggerData> triggers) {
+    private static Array<Component> handleMouseTrigger(Directory root, List<TriggerData> triggers) {
         var result = new Array<Component>();
-        TaskComponent onMouseEnter = null;
-        TaskComponent onMouseLeave = null;
+        Component onMouseEnter = null;
+        Component onMouseLeave = null;
         for (TriggerData triggerData : triggers) {
             switch (triggerData.getType()) {
                 case AUTO -> result.add(AutoTriggerComponent.builder()
-                        .todo(TaskComponent.builder()
-                                .task(handleTask(transitionEntity, root, triggerData.getTodo()))
-                                .build())
-                        .build());
-                case MOUSEENTER -> onMouseEnter = TaskComponent.builder()
-                        .task(handleTask(transitionEntity, root, triggerData.getTodo()))
-                        .build();
-                case MOUSELEAVE -> onMouseLeave = TaskComponent.builder()
-                        .task(handleTask(transitionEntity, root, triggerData.getTodo()))
-                        .build();
+                        .todo(handleTask(root, triggerData.getTodo())).build());
+                case MOUSEENTER -> onMouseEnter = handleTask(root, triggerData.getTodo());
+                case MOUSELEAVE -> onMouseLeave = handleTask(root, triggerData.getTodo());
             }
         }
         if (onMouseEnter != null
@@ -121,46 +113,44 @@ public class ToEntity {
         return result;
     }
 
-    private static Task handleTask(Entity transitionEntity, Directory root, TaskData data) {
+    private static Component handleTask(Directory root, TaskData data) {
         return switch (data.getType()) {
             case LOG -> createLogTask((LogTaskData) data);
-            case PARALLEL -> createParallelTask(transitionEntity, root, (TaskArrayData) data);
-            case PLAY_TRANSITION -> createPlayTransitionTask(transitionEntity, root, (PlayTransitionTaskData) data);
-            case SEQUENCE -> createSequenceTask(transitionEntity, root, (TaskArrayData) data);
+            case PARALLEL -> createParallelTask(root, (TaskArrayData) data);
+            case PLAY_TRANSITION -> createPlayTransitionTask(root, (PlayTransitionTaskData) data);
+            case SEQUENCE -> createSequenceTask(root, (TaskArrayData) data);
             case SET_MOUSE_LABEL -> createSetMouseLabelTask((SetMouseLabelTaskData) data);
         };
     }
 
-    private static LogTask createLogTask(LogTaskData data) {
-        return LogTask.builder().data(data).build();
+    private static LogTaskComponent createLogTask(LogTaskData data) {
+        return LogTaskComponent.builder().data(data).build();
     }
 
-    private static ParallelTask createParallelTask(Entity transitionEntity, Directory root, TaskArrayData data) {
-        Array<Task> taskArray = new Array<>(data.getTodos().size());
+    private static ParallelTaskComponent createParallelTask(Directory root, TaskArrayData data) {
+        Array<Component> taskArray = new Array<>(data.getTodos().size());
         for (TaskData taskData : data.getTodos()) {
-            taskArray.add(handleTask(transitionEntity, root, taskData));
+            taskArray.add(handleTask(root, taskData));
         }
-        return ParallelTask.builder().data(new Array<>(taskArray)).build();
+        return ParallelTaskComponent.builder().components(taskArray).build();
     }
 
-    private static PlayTransitionTask createPlayTransitionTask(Entity transitionEntity, Directory root, PlayTransitionTaskData data) {
-        PlayTransitionTask result = PlayTransitionTask.builder()
+    private static PlayTransitionTaskComponent createPlayTransitionTask(Directory root, PlayTransitionTaskData data) {
+        return PlayTransitionTaskComponent.builder()
                 .root(root)
                 .data(data)
                 .build();
-        transitionEntity.add(TaskComponent.builder().task(result).build());
-        return result;
     }
 
-    private static SequenceTask createSequenceTask(Entity transitionEntity, Directory root, TaskArrayData data) {
-        Array<Task> taskArray = new Array<>(data.getTodos().size());
+    private static SequenceTaskComponent createSequenceTask(Directory root, TaskArrayData data) {
+        Array<Component> components = new Array<>(data.getTodos().size());
         for (TaskData taskData : data.getTodos()) {
-            taskArray.add(handleTask(transitionEntity, root, taskData));
+            components.add(handleTask(root, taskData));
         }
-        return SequenceTask.builder().data(taskArray).build();
+        return SequenceTaskComponent.builder().components(components).build();
     }
 
-    private static SetMouseLabelTask createSetMouseLabelTask(SetMouseLabelTaskData data) {
-        return SetMouseLabelTask.builder().data(data).build();
+    private static SetMouseLabelTaskComponent createSetMouseLabelTask(SetMouseLabelTaskData data) {
+        return SetMouseLabelTaskComponent.builder().data(data).build();
     }
 }

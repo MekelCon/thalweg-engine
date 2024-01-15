@@ -1,18 +1,29 @@
 package fr.thalweg.engine.system.task;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import fr.thalweg.engine.component.SetMouseLabelComponent;
-import fr.thalweg.gen.engine.model.SetMouseLabelTaskData;
-import lombok.Builder;
+import com.badlogic.ashley.core.Family;
+import fr.thalweg.engine.component.RenderMouseLabelComponent;
+import fr.thalweg.engine.component.flag.WorkingFlag;
+import fr.thalweg.engine.component.task.SetMouseLabelTaskComponent;
 
-@Builder
-public class SetMouseLabelTask implements Task {
+public class SetMouseLabelTask extends OneShotTask {
 
-    public SetMouseLabelTaskData data;
+    private static final Class<SetMouseLabelTaskComponent> COMPONENT = SetMouseLabelTaskComponent.class;
+    private static final Family FAMILY = Family.all(COMPONENT, WorkingFlag.class).get();
+    private final ComponentMapper<SetMouseLabelTaskComponent> cm;
+
+    public SetMouseLabelTask() {
+        super(FAMILY);
+        this.cm = ComponentMapper.getFor(COMPONENT);
+    }
 
     @Override
-    public boolean work(Entity entity, float deltaTime) {
-        entity.add(SetMouseLabelComponent.builder().caller(this).build());
-        return true;
+    protected void work(Entity entity) {
+        var setMouseLabelTaskComponent = cm.get(entity);
+        getEngine().addEntity(getEngine().createEntity()
+                .add(RenderMouseLabelComponent.builder()
+                        .label(setMouseLabelTaskComponent.data.getLabel())
+                        .build()));
     }
 }

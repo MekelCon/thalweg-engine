@@ -20,7 +20,7 @@ public class MouseTriggerDebugRenderingSystem extends IteratingSystem {
     private final Viewport viewport;
 
     public MouseTriggerDebugRenderingSystem(Viewport viewport) {
-        super(Family.all(MouseTriggerComponent.class).get());
+        super(Family.all(MouseTriggerComponent.class).get(), 1);
         this.shape = new ShapeRenderer();
         this.renderQueue = new Array<>();
         this.sm = ComponentMapper.getFor(SpriteComponent.class);
