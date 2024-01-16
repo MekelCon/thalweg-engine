@@ -2,13 +2,7 @@ configs:
   - name: default
     size: 28
     source: font/Perfect DOS VGA 437 Win.ttf
-    borderColor:
-      r: 0
-      g: 0
-      b: 0
-      a: 1
-    borderSize: 3
-  # Will be removed just here for test purpose
+  # This font will be removed just here for test purpose
   - name: square
     size: 28
     source: font/FORCED SQUARE.ttf

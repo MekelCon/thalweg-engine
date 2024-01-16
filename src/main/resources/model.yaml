@@ -66,13 +66,6 @@ components:
           type: integer
           format: int32
           default: 12
-        borderSize:
-          type: integer
-          format: int32
-          description: in pixel
-          default: 0
-        borderColor:
-          $ref: '#/components/schemas/Color'
       required:
         - name
         - source

@@ -50,6 +50,13 @@
             <version>${dependency.gdx.version}</version>
             <classifier>natives-desktop</classifier>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.tommyettinger/textratypist -->
+        <dependency>
+            <groupId>com.github.tommyettinger</groupId>
+            <artifactId>textratypist</artifactId>
+            <version>0.10.0</version>
+        </dependency>
+
 
 
         <dependency>

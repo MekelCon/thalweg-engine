@@ -5,11 +5,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.textra.TypingLabel;
 import fr.thalweg.engine.component.RenderMouseLabelComponent;
 import fr.thalweg.engine.infra.FontManager;
 import fr.thalweg.engine.model.Directory;
@@ -22,16 +21,14 @@ public class TextRenderingSystem extends IteratingSystem {
 
     private final ComponentMapper<RenderMouseLabelComponent> rm;
 
-    private final Label mouseLabel;
+    private final TypingLabel mouseLabel;
 
     public TextRenderingSystem(Directory root, Viewport viewport) {
         // Render text after rendering world
         super(Family.all(RenderMouseLabelComponent.class).get(), 2);
         this.fontManager = new FontManager(root);
-        var label1Style = new Label.LabelStyle();
-        label1Style.font = fontManager.getFont(FontManager.DEFAULT);
-        label1Style.fontColor = Color.LIGHT_GRAY;
-        this.mouseLabel = new Label("", label1Style);
+        this.mouseLabel = new TypingLabel("", fontManager.getFont(FontManager.DEFAULT));
+        this.mouseLabel.setDefaultToken("{FAST}[BLACKEN][#CCCCCC]");
         this.textStage = new Stage(viewport);
         this.textStage.addActor(mouseLabel);
         this.rm = ComponentMapper.getFor(RenderMouseLabelComponent.class);
@@ -50,12 +47,10 @@ public class TextRenderingSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         var setMouseLabelTaskComponent = rm.get(entity);
-        mouseLabel.setText(setMouseLabelTaskComponent.label);
         if (setMouseLabelTaskComponent.fontName != null) {
-            Label.LabelStyle currentStyle = mouseLabel.getStyle();
-            currentStyle.font = fontManager.getFont(setMouseLabelTaskComponent.fontName);
-            mouseLabel.setStyle(currentStyle);
+            mouseLabel.setFont(fontManager.getFont(setMouseLabelTaskComponent.fontName));
         }
+        mouseLabel.restart(setMouseLabelTaskComponent.label);
         entity.removeAll();
         getEngine().removeEntity(entity);
     }
