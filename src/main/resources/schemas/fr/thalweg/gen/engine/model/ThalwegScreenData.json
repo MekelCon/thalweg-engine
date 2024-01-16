@@ -1,0 +1,163 @@
+{
+  "definitions" : {
+    "LogTaskData" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string"
+        },
+        "type" : {
+          "const" : "LOG"
+        }
+      },
+      "additionalProperties" : false,
+      "required" : [ "type" ]
+    },
+    "PlayTransitionTaskData" : {
+      "type" : "object",
+      "properties" : {
+        "duration" : {
+          "type" : "number"
+        },
+        "interpolation" : {
+          "type" : "string",
+          "enum" : [ "LINEAR", "POW" ]
+        },
+        "transition" : {
+          "type" : "string"
+        },
+        "type" : {
+          "const" : "PLAY_TRANSITION"
+        }
+      },
+      "additionalProperties" : false,
+      "required" : [ "type" ]
+    },
+    "SetMouseLabelTaskData" : {
+      "type" : "object",
+      "properties" : {
+        "label" : {
+          "type" : "string"
+        },
+        "type" : {
+          "const" : "SET_MOUSE_LABEL"
+        }
+      },
+      "additionalProperties" : false,
+      "required" : [ "type" ]
+    },
+    "TaskArrayData-1" : {
+      "type" : "object",
+      "properties" : {
+        "todos" : {
+          "type" : "array",
+          "items" : {
+            "anyOf" : [ {
+              "$ref" : "#/definitions/LogTaskData"
+            }, {
+              "$ref" : "#/definitions/TaskArrayData-2"
+            }, {
+              "$ref" : "#/definitions/PlayTransitionTaskData"
+            }, {
+              "$ref" : "#/definitions/TaskArrayData-2"
+            }, {
+              "$ref" : "#/definitions/SetMouseLabelTaskData"
+            } ]
+          }
+        }
+      },
+      "additionalProperties" : false
+    },
+    "TaskArrayData-2" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/TaskArrayData-1"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "const" : "PARALLEL"
+          }
+        },
+        "required" : [ "type" ]
+      } ]
+    }
+  },
+  "type" : "object",
+  "properties" : {
+    "actors" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "position" : {
+            "type" : "object",
+            "properties" : {
+              "x" : {
+                "type" : "number"
+              },
+              "y" : {
+                "type" : "number"
+              },
+              "z" : {
+                "type" : "integer"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "scale" : {
+            "type" : "object",
+            "properties" : {
+              "x" : {
+                "type" : "number"
+              },
+              "y" : {
+                "type" : "number"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "texture" : {
+            "type" : "string"
+          },
+          "triggers" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "todo" : {
+                  "anyOf" : [ {
+                    "$ref" : "#/definitions/LogTaskData"
+                  }, {
+                    "$ref" : "#/definitions/TaskArrayData-2"
+                  }, {
+                    "$ref" : "#/definitions/PlayTransitionTaskData"
+                  }, {
+                    "$ref" : "#/definitions/TaskArrayData-2"
+                  }, {
+                    "$ref" : "#/definitions/SetMouseLabelTaskData"
+                  } ]
+                },
+                "type" : {
+                  "type" : "string",
+                  "enum" : [ "AUTO", "MOUSEENTER", "MOUSELEAVE" ]
+                }
+              },
+              "additionalProperties" : false
+            }
+          },
+          "vertices" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          }
+        },
+        "additionalProperties" : false
+      }
+    },
+    "name" : {
+      "type" : "string"
+    }
+  },
+  "additionalProperties" : false
+}

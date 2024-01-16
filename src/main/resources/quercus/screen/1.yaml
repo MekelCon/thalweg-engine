@@ -1,0 +1,66 @@
+name: "1"
+actors:
+  - triggers:
+      - type: AUTO
+        todo:
+          type: PLAY_TRANSITION
+          duration: 0.4
+          transition: "transition/center_to_border.png"
+  - position:
+      x: 50
+      y: 20
+      z: 0
+    texture: "sprite/norah.png"
+    triggers:
+      - type: MOUSEENTER
+        todo:
+          type: SEQUENCE
+          todos:
+            - type: LOG
+              message: "Enter Norah 1"
+            - type: SET_MOUSE_LABEL
+              label: "Norah"
+            - type: LOG
+              message: "Enter Norah 2"
+            - type: LOG
+              message: "Enter Norah 3"
+      - type: MOUSELEAVE
+        todo:
+          type: SET_MOUSE_LABEL
+          label: ""
+      - type: AUTO
+        todo:
+          type: SEQUENCE
+          todos:
+            - type: LOG
+              message: "Auto Norah"
+            - type: LOG
+              message: "Auto Norah 2"
+  - position:
+      x: 100
+      y: 20
+      z: 0
+    vertices:
+      - 100
+      - 20
+      - 120
+      - 20
+      - 120
+      - 70
+      - 100
+      - 70
+    triggers:
+      - type: MOUSELEAVE
+        todo:
+          type: PARALLEL
+          todos:
+            - type: LOG
+              message: "Bye rectangle"
+            - type: LOG
+              message: "ByeBye"
+  - position:
+      x: 0
+      y: 0
+      z: 1
+    texture: "sprite/sequence1.png"
+

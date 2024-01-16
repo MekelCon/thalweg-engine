@@ -1,0 +1,12 @@
+{
+  "gdx": {
+  },
+  "lwjgl3ApplicationConfig": {
+    "title": "Quercus"
+  },
+  "startScreen": "screen/hello.yaml",
+  "world": {
+    "width": 1000,
+    "height": 1000
+  }
+}

@@ -1,0 +1,244 @@
+openapi: 3.0.0
+info:
+  title: Not used API
+  description: Just here to generate model of the thalweg engine
+  version: 2024.01.01
+paths:
+  /fake:
+    get:
+      summary: Fake path to be valid against openapi 3.0.0
+      responses:
+        '200':
+          description: fake response to be valid against openapi 3.0.0
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThalwegGameConfiguration'
+components:
+  schemas:
+    ThalwegGameConfiguration:
+      type: object
+      properties:
+        debug:
+          type: boolean
+          default: false
+        gdx:
+          $ref: '#/components/schemas/GdxConfiguration'
+        lwjgl3ApplicationConfig:
+          $ref: '#/components/schemas/Lwjgl3ApplicationConfig'
+        startScreen:
+          type: string
+          pattern: ^screen/.*\.(json|yaml)$
+        world:
+          $ref: '#/components/schemas/World'
+      required:
+        - debug
+        - startScreen
+        - world
+    GdxConfiguration:
+      type: object
+      properties:
+        logLevel:
+          $ref: '#/components/schemas/LogLevelEnum'
+    LogLevelEnum:
+      type: string
+      enum:
+        - DEBUG
+        - INFO
+        - ERROR
+        - NONE
+    Lwjgl3ApplicationConfig:
+      type: object
+      properties:
+        title:
+          type: string
+          default: My Thalweg Game
+        windowed:
+          $ref: '#/components/schemas/WidthAndHeight'
+        useVSync:
+          type: boolean
+          default: true
+        foregroundFPS:
+          type: integer
+          default: 60
+    World:
+      allOf:
+        - $ref: '#/components/schemas/WidthAndHeight'
+    WidthAndHeight:
+      type: object
+      properties:
+        width:
+          type: integer
+          minimum: 0
+          default: 0
+        height:
+          type: integer
+          minimum: 0
+          default: 0
+      required:
+        - width
+        - height
+    ThalwegScreen:
+      type: object
+      properties:
+        name:
+          type: string
+        actors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThalwegActor'
+      required:
+        - name
+        - actors
+    ThalwegActor:
+      type: object
+      properties:
+        position:
+          $ref: '#/components/schemas/Position'
+        scale:
+          $ref: '#/components/schemas/Scale'
+        texture:
+          type: string
+        vertices:
+          type: array
+          items:
+            type: number
+            format: float
+        triggers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trigger'
+    Position:
+      type: object
+      description: A position, with coordinate in world system
+      properties:
+        x:
+          type: number
+          default: 0
+          format: float
+        y:
+          type: number
+          default: 0
+          format: float
+        z:
+          type: integer
+          default: 0
+    Scale:
+      type: object
+      properties:
+        x:
+          type: number
+          default: 1
+          format: float
+        y:
+          type: number
+          default: 1
+          format: float
+    Trigger:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/TriggerTypeEnum'
+        todo:
+          $ref: '#/components/schemas/Task'
+    TriggerTypeEnum:
+      type: string
+      enum:
+        - AUTO
+        - MOUSEENTER
+        - MOUSELEAVE
+    Task:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/TaskTypeEnum'
+      required:
+        - type
+      discriminator:
+        propertyName: type
+        mapping:
+          LOG: '#/components/schemas/LogTask'
+          PARALLEL: '#/components/schemas/TaskArray'
+          PLAY_TRANSITION: '#/components/schemas/PlayTransitionTask'
+          SEQUENCE: '#/components/schemas/TaskArray'
+          SET_MOUSE_LABEL: '#/components/schemas/SetMouseLabelTask'
+    TaskTypeEnum:
+      enum:
+        - LOG
+        - PARALLEL
+        - PLAY_TRANSITION
+        - SEQUENCE
+        - SET_MOUSE_LABEL
+    TaskArray:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            todos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Task'
+      required:
+        - type
+        - todos
+    ChangeCursorTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            cursor:
+              type: string
+            xHotspot:
+              type: integer
+              format: int32
+              default: 0
+              description: Position on the X-Axis of the active pixel
+            yHotspot:
+              type: integer
+              format: int32
+              default: 0
+              description: Position on the Y-Axis of the active pixel
+      required:
+        - type
+        - cursor
+    Interpolation:
+      type: string
+      enum:
+        - LINEAR
+        - POW
+    LogTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            message:
+              type: string
+              description: The message to log
+      required:
+        - type
+        - message
+    PlayTransitionTask:
+      allOf:
+        - $ref: '#/components/schemas/TemporalTask'
+        - properties:
+            transition:
+              type: string
+              pattern: ^transition/.*\.(png)$
+              description: Name of the transition
+    SetMouseLabelTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            label:
+              type: string
+              description: The to display near the mouse
+      required:
+        - type
+        - label
+    TemporalTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            duration:
+              type: number
+              format: float
+              description: The to display near the mouse
+            interpolation:
+              $ref: '#/components/schemas/Interpolation'
