@@ -29,12 +29,11 @@ public class TextRenderingSystem extends IteratingSystem {
         super(Family.all(RenderMouseLabelComponent.class).get(), 2);
         this.fontManager = new FontManager(root);
         var label1Style = new Label.LabelStyle();
-        label1Style.font = fontManager.getFont("default");
+        label1Style.font = fontManager.getFont(FontManager.DEFAULT);
         label1Style.fontColor = Color.LIGHT_GRAY;
-
         this.mouseLabel = new Label("", label1Style);
         this.textStage = new Stage(viewport);
-        textStage.addActor(mouseLabel);
+        this.textStage.addActor(mouseLabel);
         this.rm = ComponentMapper.getFor(RenderMouseLabelComponent.class);
     }
 

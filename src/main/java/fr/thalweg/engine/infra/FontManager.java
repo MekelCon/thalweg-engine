@@ -10,6 +10,8 @@ import fr.thalweg.gen.engine.model.FontConfigsData;
 
 public class FontManager {
 
+    public static final String DEFAULT = "default";
+
     private final Directory root;
 
     ObjectMap<String, BitmapFont> fontsByName;
@@ -31,10 +33,20 @@ public class FontManager {
                 result.put(fontConfigData.getName(), generator.generateFont(parameter));
                 generator.dispose();
             }
+            if (!result.containsKey(DEFAULT)) {
+                result.put(DEFAULT, loadDefaultFont());
+            }
             return result;
         } else {
-            return new ObjectMap<>();
+            var result = new ObjectMap<String, BitmapFont>(1);
+            result.put(DEFAULT, loadDefaultFont());
+            return result;
         }
+    }
+
+    private BitmapFont loadDefaultFont() {
+        Gdx.app.log(FontManager.class.getSimpleName(), "No default font defined, using fallback");
+        return new BitmapFont();
     }
 
     public BitmapFont getFont(String name) {

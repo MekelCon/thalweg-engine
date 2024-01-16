@@ -59,6 +59,7 @@ components:
       properties:
         name:
           type: string
+          description: "The name to retrieve the font. It should be unique. Use 'default' to override the default font."
         source:
           type: string
           pattern: ^font/.*\.(ttf)$
