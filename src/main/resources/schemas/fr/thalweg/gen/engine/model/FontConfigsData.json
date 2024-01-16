@@ -1,0 +1,45 @@
+{
+  "type" : "object",
+  "properties" : {
+    "configs" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "borderColor" : {
+            "type" : "object",
+            "properties" : {
+              "a" : {
+                "type" : "number"
+              },
+              "b" : {
+                "type" : "number"
+              },
+              "g" : {
+                "type" : "number"
+              },
+              "r" : {
+                "type" : "number"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "borderSize" : {
+            "type" : "integer"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "size" : {
+            "type" : "integer"
+          },
+          "source" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      }
+    }
+  },
+  "additionalProperties" : false
+}

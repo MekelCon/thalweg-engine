@@ -38,6 +38,19 @@
             <artifactId>ashley</artifactId>
             <version>1.7.4</version>
         </dependency>
+        <!-- LIBGDX font -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-freetype</artifactId>
+            <version>${dependency.gdx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-freetype-platform</artifactId>
+            <version>${dependency.gdx.version}</version>
+            <classifier>natives-desktop</classifier>
+        </dependency>
+
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -130,6 +143,7 @@
                     <classNames>
                         <className>fr.thalweg.gen.engine.model.ThalwegScreenData</className>
                         <className>fr.thalweg.gen.engine.model.ThalwegGameConfigurationData</className>
+                        <className>fr.thalweg.gen.engine.model.FontConfigsData</className>
                     </classNames>
                     <schemaFilePath>src/main/resources/schemas</schemaFilePath>
                     <schemaFileName>{1}/{0}.json</schemaFileName>

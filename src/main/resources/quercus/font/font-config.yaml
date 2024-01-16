@@ -1,0 +1,13 @@
+configs:
+  - name: default
+    size: 50
+    source: font/Perfect DOS VGA 437 Win.ttf
+    borderColor:
+      r: 0
+      g: 0
+      b: 0
+      a: 1
+    borderSize: 3
+  - name: square
+    size: 20
+    source: font/FORCED SQUARE.ttf
