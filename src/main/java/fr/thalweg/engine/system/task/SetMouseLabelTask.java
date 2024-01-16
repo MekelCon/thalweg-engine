@@ -23,6 +23,7 @@ public class SetMouseLabelTask extends OneShotTask {
         var setMouseLabelTaskComponent = cm.get(entity);
         var renderMouseLabelComponent = getEngine().createComponent(RenderMouseLabelComponent.class);
         renderMouseLabelComponent.label = setMouseLabelTaskComponent.data.getLabel();
+        renderMouseLabelComponent.fontName = setMouseLabelTaskComponent.data.getFontName();
         getEngine().addEntity(getEngine().createEntity()
                 .add(renderMouseLabelComponent));
     }

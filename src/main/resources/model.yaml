@@ -58,8 +58,7 @@ components:
       type: object
       properties:
         name:
-          type: string
-          description: "The name to retrieve the font. It should be unique. Use 'default' to override the default font."
+          $ref: '#/components/schemas/FontName'
         source:
           type: string
           pattern: ^font/.*\.(ttf)$
@@ -84,6 +83,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FontConfig'
+    FontName:
+      type: string
+      description: "The name to retrieve the font. It should be unique. Use 'default' to override the default font."
     GdxConfiguration:
       type: object
       properties:
@@ -165,7 +167,9 @@ components:
         - properties:
             label:
               type: string
-              description: The to display near the mouse
+              description: The text to display near the mouse
+            fontName:
+              $ref: '#/components/schemas/FontName'
       required:
         - type
         - label

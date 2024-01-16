@@ -1,6 +1,6 @@
 configs:
   - name: default
-    size: 50
+    size: 28
     source: font/Perfect DOS VGA 437 Win.ttf
     borderColor:
       r: 0
@@ -8,6 +8,7 @@ configs:
       b: 0
       a: 1
     borderSize: 3
+  # Will be removed just here for test purpose
   - name: square
-    size: 20
+    size: 28
     source: font/FORCED SQUARE.ttf

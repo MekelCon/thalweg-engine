@@ -51,6 +51,11 @@ public class TextRenderingSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         var setMouseLabelTaskComponent = rm.get(entity);
         mouseLabel.setText(setMouseLabelTaskComponent.label);
+        if (setMouseLabelTaskComponent.fontName != null) {
+            Label.LabelStyle currentStyle = mouseLabel.getStyle();
+            currentStyle.font = fontManager.getFont(setMouseLabelTaskComponent.fontName);
+            mouseLabel.setStyle(currentStyle);
+        }
         entity.removeAll();
         getEngine().removeEntity(entity);
     }

@@ -5,25 +5,25 @@ actors:
         todo:
           type: PLAY_TRANSITION
           duration: 0.4
-          transition: "transition/center_to_border.png"
+          transition: transition/center_to_border.png
   - position:
       x: 50
       y: 20
       z: 0
-    texture: "sprite/norah.png"
+    texture: sprite/norah.png
     triggers:
       - type: MOUSEENTER
         todo:
           type: SEQUENCE
           todos:
             - type: LOG
-              message: "Enter Norah 1"
+              message: Enter Norah 1
             - type: SET_MOUSE_LABEL
               label: "Norah"
             - type: LOG
-              message: "Enter Norah 2"
+              message: Enter Norah 2
             - type: LOG
-              message: "Enter Norah 3"
+              message: Enter Norah 3
       - type: MOUSELEAVE
         todo:
           type: SET_MOUSE_LABEL
@@ -33,9 +33,9 @@ actors:
           type: SEQUENCE
           todos:
             - type: LOG
-              message: "Auto Norah"
+              message: Auto Norah
             - type: LOG
-              message: "Auto Norah 2"
+              message: Auto Norah 2
   - position:
       x: 100
       y: 20
@@ -55,12 +55,12 @@ actors:
           type: PARALLEL
           todos:
             - type: LOG
-              message: "Bye rectangle"
+              message: Bye rectangle
             - type: LOG
-              message: "ByeBye"
+              message: ByeBye
   - position:
       x: 0
       y: 0
       z: 1
-    texture: "sprite/sequence1.png"
+    texture: sprite/sequence1.png
 

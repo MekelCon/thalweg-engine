@@ -36,6 +36,9 @@
     "SetMouseLabelTaskData" : {
       "type" : "object",
       "properties" : {
+        "fontName" : {
+          "type" : "string"
+        },
         "label" : {
           "type" : "string"
         },
