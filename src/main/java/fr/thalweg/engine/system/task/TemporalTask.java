@@ -17,8 +17,8 @@ public abstract class TemporalTask extends Task {
     protected void processEntity(Entity entity, float deltaTime) {
         var temporalTaskComponent = cm.get(entity);
         if (temporalTaskComponent == null) {
-            temporalTaskComponent = TemporalTaskComponent.builder()
-                    .build();
+            temporalTaskComponent = getEngine().createComponent(TemporalTaskComponent.class);
+            temporalTaskComponent.duration = getDuration(entity);
             entity.add(temporalTaskComponent);
         }
         if (!temporalTaskComponent.began) {
@@ -26,8 +26,8 @@ public abstract class TemporalTask extends Task {
             temporalTaskComponent.began = true;
         }
         temporalTaskComponent.time += deltaTime;
-        temporalTaskComponent.complete = temporalTaskComponent.time >= getDuration(entity);
-        float percent = temporalTaskComponent.complete ? 1 : temporalTaskComponent.time / getDuration(entity);
+        temporalTaskComponent.complete = temporalTaskComponent.time >= temporalTaskComponent.duration;
+        float percent = temporalTaskComponent.complete ? 1 : temporalTaskComponent.time / temporalTaskComponent.duration;
         if (temporalTaskComponent.interpolation != null) percent = temporalTaskComponent.interpolation.apply(percent);
         update(entity, temporalTaskComponent.reverse ? 1 - percent : percent);
         if (temporalTaskComponent.complete) {

@@ -20,7 +20,7 @@ public class AutoTriggerSystem extends IteratingSystem {
         var autoTriggerComponent = am.get(entity);
         getEngine().addEntity(getEngine().createEntity()
                 .add(autoTriggerComponent.todo)
-                .add(WorkingFlag.builder().build()));
+                .add(getEngine().createComponent(WorkingFlag.class)));
         entity.remove(AutoTriggerComponent.class);
         if (entity.getComponents().size() == 0) {
             getEngine().removeEntity(entity);

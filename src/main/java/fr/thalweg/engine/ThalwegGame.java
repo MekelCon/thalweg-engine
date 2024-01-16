@@ -1,6 +1,6 @@
 package fr.thalweg.engine;
 
-import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -32,7 +32,7 @@ public class ThalwegGame extends Game {
     private static ThalwegGame INSTANCE;
     private final Directory root;
     private final ThalwegGameConfigurationData config;
-    private final Engine ECSEngine;
+    private final PooledEngine ECSEngine;
     private SpriteBatch batch;
     private Viewport viewport;
     private Viewport textViewport;
@@ -44,7 +44,7 @@ public class ThalwegGame extends Game {
         this.config = Reader.getInstance().read(
                 new PublicFileHandle(root + "/configuration.yaml", Files.FileType.Internal),
                 ThalwegGameConfigurationData.class);
-        this.ECSEngine = new Engine();
+        this.ECSEngine = new PooledEngine(10, 50, 20, 100);
     }
 
     public static ThalwegGame build(String rootDirectory) {

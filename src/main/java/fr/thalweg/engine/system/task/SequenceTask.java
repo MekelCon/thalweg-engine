@@ -31,7 +31,7 @@ public class SequenceTask extends Task {
                 sequenceTaskComponent.executor
                         .add(sequenceTaskComponent.components
                                 .get(sequenceTaskComponent.currentIndex))
-                        .add(WorkingFlag.builder().build());
+                        .add(getEngine().createComponent(WorkingFlag.class));
                 sequenceTaskComponent.currentIndex = sequenceTaskComponent.currentIndex + 1;
                 getEngine().addEntity(sequenceTaskComponent.executor);
             } else {

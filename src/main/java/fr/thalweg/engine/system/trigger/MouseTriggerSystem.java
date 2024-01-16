@@ -71,7 +71,7 @@ public class MouseTriggerSystem extends IteratingSystem {
             if (mouseTriggerComponent.onMouseLeave != null) {
                 getEngine().addEntity(getEngine().createEntity()
                         .add(mouseTriggerComponent.onMouseLeave)
-                        .add(WorkingFlag.builder().build()));
+                        .add(getEngine().createComponent(WorkingFlag.class)));
             }
             currentTouchedEntity = null;
         }
@@ -83,7 +83,7 @@ public class MouseTriggerSystem extends IteratingSystem {
             if (mouseTriggerComponent.onMouseEnter != null) {
                 getEngine().addEntity(getEngine().createEntity()
                         .add(mouseTriggerComponent.onMouseEnter)
-                        .add(WorkingFlag.builder().build()));
+                        .add(getEngine().createComponent(WorkingFlag.class)));
             }
             currentTouchedEntity = nexCurrent;
         }
