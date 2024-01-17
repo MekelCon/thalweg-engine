@@ -6,3 +6,6 @@ configs:
   - name: square
     size: 28
     source: font/FORCED SQUARE.ttf
+  - name: carolingia
+    size: 28
+    source: font/carolingia.ttf

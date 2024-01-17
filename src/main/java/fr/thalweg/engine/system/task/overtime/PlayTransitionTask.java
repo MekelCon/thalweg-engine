@@ -1,4 +1,4 @@
-package fr.thalweg.engine.system.task;
+package fr.thalweg.engine.system.task.overtime;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.PlayTransitionTaskComponent;
 
-public class PlayTransitionTask extends TemporalTask {
+public class PlayTransitionTask extends OverTimeTask {
 
     private static final Class<PlayTransitionTaskComponent> COMPONENT = PlayTransitionTaskComponent.class;
     private static final Family FAMILY = Family.all(COMPONENT, WorkingFlag.class).get();

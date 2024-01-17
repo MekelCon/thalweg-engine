@@ -15,8 +15,8 @@ public class MouseLabelSystem extends EntitySystem {
 
     public MouseLabelSystem(Directory root) {
         this.fontManager = new FontManager(root);
-        this.mouseLabel = new TypingLabel("", fontManager.getFont(FontManager.DEFAULT));
-        this.mouseLabel.setDefaultToken("{FAST}[BLACKEN][#CCCCCC]");
+        this.mouseLabel = new TypingLabel("", fontManager.font);
+        this.mouseLabel.setDefaultToken("{FAST}[BLACKEN][#CCCCCC][@]");
     }
 
     @Override

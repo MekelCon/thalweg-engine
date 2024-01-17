@@ -1,4 +1,4 @@
-package fr.thalweg.engine.system.task;
+package fr.thalweg.engine.system.task.onetime;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
