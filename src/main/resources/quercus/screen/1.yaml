@@ -19,7 +19,7 @@ actors:
             - type: LOG
               message: Enter Norah 1
             - type: SET_MOUSE_LABEL
-              label: Norah [@writing]Norah
+              label: "Norah [@writing]Norah"
             - type: LOG
               message: Enter Norah 2
             - type: LOG

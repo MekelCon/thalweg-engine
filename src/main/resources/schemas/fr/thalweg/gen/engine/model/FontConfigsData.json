@@ -1,7 +1,7 @@
 {
   "type" : "object",
   "properties" : {
-    "configs" : {
+    "family": {
       "type" : "array",
       "items" : {
         "type" : "object",
@@ -30,6 +30,36 @@
         },
         "additionalProperties" : false
       }
+    },
+    "vars": {
+      "type": "object",
+      "properties": {
+        "custom": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "existing": {
+          "type": "object",
+          "properties": {
+            "mouseLabelDefaultToken": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties" : false

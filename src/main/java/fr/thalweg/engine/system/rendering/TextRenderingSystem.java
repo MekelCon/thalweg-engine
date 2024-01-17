@@ -11,7 +11,7 @@ import fr.thalweg.engine.model.Directory;
 
 public class TextRenderingSystem extends EntitySystem {
 
-    public static final String INITIAL_LABEL_TOKEN = "{FAST}[BLACKEN][#CCCCCC][@]";
+    public static final String MOUSE_LABEL_DEFAULT_TOKEN_VAR = "MOUSE_LABEL";
     public final TypingLabel mouseLabel;
     public final FontManager fontManager;
     private final Stage textStage;
@@ -21,7 +21,7 @@ public class TextRenderingSystem extends EntitySystem {
         super(2);
         this.fontManager = new FontManager(root);
         this.mouseLabel = new TypingLabel("", fontManager.font);
-        this.mouseLabel.setDefaultToken(INITIAL_LABEL_TOKEN);
+        mouseLabel.setDefaultToken("{VAR=" + MOUSE_LABEL_DEFAULT_TOKEN_VAR + "}");
         this.textStage = new Stage(viewport);
         this.textStage.addActor(mouseLabel);
     }

@@ -4,9 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Array;
 import com.github.tommyettinger.textra.Font;
+import com.github.tommyettinger.textra.TypingConfig;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.gen.engine.model.CustomVarData;
 import fr.thalweg.gen.engine.model.FontConfigData;
 import fr.thalweg.gen.engine.model.FontConfigsData;
+
+import static fr.thalweg.engine.system.rendering.TextRenderingSystem.MOUSE_LABEL_DEFAULT_TOKEN_VAR;
 
 public class FontManager {
 
@@ -16,14 +20,15 @@ public class FontManager {
 
     public FontManager(Directory root) {
         this.root = root;
-        this.font = loadFontFamily();
+        var fontConfigsData = Reader.getInstance().read(Gdx.files.internal(root.getSubFolder("font/font-config.yaml")), FontConfigsData.class);
+        this.font = loadFontFamily(fontConfigsData);
+        this.loadGlobalVars(fontConfigsData);
     }
 
-    private Font loadFontFamily() {
-        var fontConfigsData = Reader.getInstance().read(Gdx.files.internal(root.getSubFolder("font/font-config.yaml")), FontConfigsData.class);
+    private Font loadFontFamily(FontConfigsData fontConfigsData) {
         var family = new Array<Font>();
-        if (fontConfigsData.getConfigs() != null) {
-            for (FontConfigData fontConfigData : fontConfigsData.getConfigs()) {
+        if (fontConfigsData.getFamily() != null) {
+            for (FontConfigData fontConfigData : fontConfigsData.getFamily()) {
                 FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(root.getSubFolder(fontConfigData.getSource())));
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
                 parameter.size = (int) (fontConfigData.getSize() * Gdx.graphics.getDensity());
@@ -50,5 +55,22 @@ public class FontManager {
             return result;
         }
         return new Font();
+    }
+
+    private void loadGlobalVars(FontConfigsData fontConfigsData) {
+        if (fontConfigsData.getVars() != null) {
+            if (fontConfigsData.getVars().getExisting() != null) {
+                if (fontConfigsData.getVars().getExisting().getMouseLabelDefaultToken() != null) {
+                    TypingConfig.GLOBAL_VARS.put(
+                            MOUSE_LABEL_DEFAULT_TOKEN_VAR,
+                            fontConfigsData.getVars().getExisting().getMouseLabelDefaultToken());
+                }
+            }
+            if (fontConfigsData.getVars().getCustom() != null) {
+                for (CustomVarData var : fontConfigsData.getVars().getCustom()) {
+                    TypingConfig.GLOBAL_VARS.put(var.getName(), var.getValue());
+                }
+            }
+        }
     }
 }

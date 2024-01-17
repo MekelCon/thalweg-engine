@@ -88,10 +88,12 @@ components:
     FontConfigs:
       type: object
       properties:
-        configs:
+        family:
           type: array
           items:
             $ref: '#/components/schemas/FontConfig'
+        vars:
+          $ref: '#/components/schemas/Vars'
     FontName:
       type: string
       description: "The name to retrieve the font. It should be unique. Use 'default' to override the default font."
@@ -287,6 +289,28 @@ components:
         - AUTO
         - MOUSEENTER
         - MOUSELEAVE
+    CustomVar:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      required:
+        - name
+        - value
+    Vars:
+      type: object
+      properties:
+        existing:
+          type: object
+          properties:
+            mouseLabelDefaultToken:
+              type: string
+        custom:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomVar'
     WidthAndHeight:
       type: object
       properties:
