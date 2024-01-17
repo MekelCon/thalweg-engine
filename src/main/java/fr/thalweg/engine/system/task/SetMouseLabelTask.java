@@ -3,9 +3,9 @@ package fr.thalweg.engine.system.task;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import fr.thalweg.engine.component.RenderMouseLabelComponent;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.SetMouseLabelTaskComponent;
+import fr.thalweg.engine.system.MouseLabelSystem;
 
 public class SetMouseLabelTask extends OneShotTask {
 
@@ -21,10 +21,12 @@ public class SetMouseLabelTask extends OneShotTask {
     @Override
     protected void work(Entity entity) {
         var setMouseLabelTaskComponent = cm.get(entity);
-        var renderMouseLabelComponent = getEngine().createComponent(RenderMouseLabelComponent.class);
-        renderMouseLabelComponent.label = setMouseLabelTaskComponent.data.getLabel();
-        renderMouseLabelComponent.fontName = setMouseLabelTaskComponent.data.getFontName();
-        getEngine().addEntity(getEngine().createEntity()
-                .add(renderMouseLabelComponent));
+        var mouseLabelSystem = getEngine().getSystem(MouseLabelSystem.class);
+        if (setMouseLabelTaskComponent.data.getFontName() != null) {
+            mouseLabelSystem.mouseLabel
+                    .setFont(mouseLabelSystem.fontManager.getFont(
+                            setMouseLabelTaskComponent.data.getFontName()));
+        }
+        mouseLabelSystem.mouseLabel.restart(setMouseLabelTaskComponent.data.getLabel());
     }
 }

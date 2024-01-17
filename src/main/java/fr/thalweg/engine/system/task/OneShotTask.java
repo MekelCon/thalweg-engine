@@ -3,7 +3,6 @@ package fr.thalweg.engine.system.task;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 
-
 public abstract class OneShotTask extends Task {
 
     public OneShotTask(Family family) {
