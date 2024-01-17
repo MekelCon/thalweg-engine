@@ -66,6 +66,22 @@ components:
           type: integer
           format: int32
           default: 12
+        xAdjust:
+          type: number
+          format: float
+          default: 0
+        yAdjust:
+          type: number
+          format: float
+          default: 0
+        widthAdjust:
+          type: number
+          format: float
+          default: 0
+        heightAdjust:
+          type: number
+          format: float
+          default: 0
       required:
         - name
         - source

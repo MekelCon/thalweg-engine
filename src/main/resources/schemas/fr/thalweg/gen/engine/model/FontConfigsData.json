@@ -6,6 +6,9 @@
       "items" : {
         "type" : "object",
         "properties" : {
+          "heightAdjust": {
+            "type": "number"
+          },
           "name" : {
             "type" : "string"
           },
@@ -14,6 +17,15 @@
           },
           "source" : {
             "type" : "string"
+          },
+          "widthAdjust": {
+            "type": "number"
+          },
+          "xAdjust": {
+            "type": "number"
+          },
+          "yAdjust": {
+            "type": "number"
           }
         },
         "additionalProperties" : false

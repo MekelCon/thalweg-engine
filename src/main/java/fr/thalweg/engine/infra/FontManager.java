@@ -27,7 +27,12 @@ public class FontManager {
                 FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(root.getSubFolder(fontConfigData.getSource())));
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
                 parameter.size = (int) (fontConfigData.getSize() * Gdx.graphics.getDensity());
-                var fontToAdd = new Font(generator.generateFont(parameter));
+                var fontToAdd = new Font(
+                        generator.generateFont(parameter),
+                        fontConfigData.getxAdjust(),
+                        fontConfigData.getyAdjust(),
+                        fontConfigData.getWidthAdjust(),
+                        fontConfigData.getHeightAdjust());
                 fontToAdd.setName(fontConfigData.getName());
                 Gdx.app.log("LOAD", "Font added, name : " + fontToAdd.getName());
                 if (DEFAULT.equals(fontConfigData.getName())) {
