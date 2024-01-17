@@ -19,8 +19,7 @@ actors:
             - type: LOG
               message: Enter Norah 1
             - type: SET_MOUSE_LABEL
-              label: Norah
-              fontName: "Carolingia"
+              label: Norah [@Carolingia]Hello
             - type: LOG
               message: Enter Norah 2
             - type: LOG

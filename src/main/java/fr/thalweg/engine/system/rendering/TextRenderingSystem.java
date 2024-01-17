@@ -1,32 +1,39 @@
 package fr.thalweg.engine.system.rendering;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.system.MouseLabelSystem;
+import com.github.tommyettinger.textra.TypingLabel;
+import fr.thalweg.engine.infra.FontManager;
+import fr.thalweg.engine.model.Directory;
 
 public class TextRenderingSystem extends EntitySystem {
 
+    public static final String INITIAL_LABEL_TOKEN = "{FAST}[BLACKEN][#CCCCCC][@]";
+    public final TypingLabel mouseLabel;
+    public final FontManager fontManager;
     private final Stage textStage;
 
-    public TextRenderingSystem(Viewport viewport) {
+    public TextRenderingSystem(Directory root, Viewport viewport) {
         // Render text over rendering world
         super(2);
+        this.fontManager = new FontManager(root);
+        this.mouseLabel = new TypingLabel("", fontManager.font);
+        this.mouseLabel.setDefaultToken(INITIAL_LABEL_TOKEN);
         this.textStage = new Stage(viewport);
-    }
-
-    @Override
-    public void addedToEngine(Engine engine) {
-        var mouseLabelSystem = engine.getSystem(MouseLabelSystem.class);
-        textStage.addActor(mouseLabelSystem.mouseLabel);
+        this.textStage.addActor(mouseLabel);
     }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        textStage.act(deltaTime);
         textStage.getViewport().apply();
+        textStage.act(deltaTime);
+        Vector2 worldXY = mouseLabel.getStage().getViewport()
+                .unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+        mouseLabel.setPosition(worldXY.x, worldXY.y);
         textStage.draw();
     }
 }

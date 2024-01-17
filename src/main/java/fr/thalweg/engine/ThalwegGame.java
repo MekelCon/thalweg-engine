@@ -13,11 +13,11 @@ import fr.thalweg.engine.entity.WorkingFlagListener;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
-import fr.thalweg.engine.system.MouseLabelSystem;
 import fr.thalweg.engine.system.rendering.MouseTriggerDebugRenderingSystem;
 import fr.thalweg.engine.system.rendering.TextRenderingSystem;
 import fr.thalweg.engine.system.rendering.WorldRenderingSystem;
-import fr.thalweg.engine.system.task.*;
+import fr.thalweg.engine.system.task.ParallelTask;
+import fr.thalweg.engine.system.task.SequenceTask;
 import fr.thalweg.engine.system.task.onetime.LogTask;
 import fr.thalweg.engine.system.task.onetime.SetMouseLabelTask;
 import fr.thalweg.engine.system.task.overtime.PlayTransitionTask;
@@ -76,13 +76,11 @@ public class ThalwegGame extends Game {
         if (config.isDebug()) {
             ECSEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
         }
-
-        ECSEngine.addSystem(new MouseLabelSystem(root));
-        ECSEngine.addSystem(new TextRenderingSystem(textViewport));
+        ECSEngine.addSystem(new TextRenderingSystem(root, textViewport));
 
         ECSEngine.addSystem(new MouseTriggerSystem(viewport));
         ECSEngine.addSystem(new AutoTriggerSystem());
-        // Tsk System
+        // Task System
         ECSEngine.addSystem(new LogTask());
         ECSEngine.addSystem(new PlayTransitionTask());
         ECSEngine.addSystem(new SetMouseLabelTask());

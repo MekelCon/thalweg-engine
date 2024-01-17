@@ -5,14 +5,16 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.SetMouseLabelTaskComponent;
-import fr.thalweg.engine.system.MouseLabelSystem;
+import fr.thalweg.engine.system.rendering.TextRenderingSystem;
+
+import java.util.regex.Pattern;
 
 public class SetMouseLabelTask extends OneShotTask {
 
     private static final Class<SetMouseLabelTaskComponent> COMPONENT = SetMouseLabelTaskComponent.class;
     private static final Family FAMILY = Family.all(COMPONENT, WorkingFlag.class).get();
+    private static final Pattern FONT_TOKEN = Pattern.compile("\\[@.*]");
     private final ComponentMapper<SetMouseLabelTaskComponent> cm;
-    String pattern = "\\[@.*]";
 
     public SetMouseLabelTask() {
         super(FAMILY);
@@ -22,14 +24,10 @@ public class SetMouseLabelTask extends OneShotTask {
     @Override
     protected void work(Entity entity) {
         var setMouseLabelTaskComponent = cm.get(entity);
-        var mouseLabelSystem = getEngine().getSystem(MouseLabelSystem.class);
+        var txtRendering = getEngine().getSystem(TextRenderingSystem.class);
         if (setMouseLabelTaskComponent.data.getFontName() != null) {
-            mouseLabelSystem.mouseLabel.setDefaultToken(
-                    mouseLabelSystem.mouseLabel.getDefaultToken().replaceFirst(
-                            pattern,
-                            "[@" + setMouseLabelTaskComponent.data.getFontName() + "]"));
+            txtRendering.mouseLabel.setDefaultToken(FONT_TOKEN.matcher(txtRendering.mouseLabel.getDefaultToken()).replaceFirst("[@" + setMouseLabelTaskComponent.data.getFontName() + "]"));
         }
-
-        mouseLabelSystem.mouseLabel.restart(setMouseLabelTaskComponent.data.getLabel());
+        txtRendering.mouseLabel.restart(setMouseLabelTaskComponent.data.getLabel());
     }
 }
