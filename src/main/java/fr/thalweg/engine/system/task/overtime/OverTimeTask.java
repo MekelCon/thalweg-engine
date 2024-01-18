@@ -25,29 +25,39 @@ public abstract class OverTimeTask extends Task {
         }
         overTimeTaskComponent.time += deltaTime;
         if (!overTimeTaskComponent.began) {
-            if (overTimeTaskComponent.delay >= overTimeTaskComponent.time) {
-                begin(entity);
-                overTimeTaskComponent.began = true;
-                overTimeTaskComponent.time -= overTimeTaskComponent.delay;
-            }
-        } else {
-            overTimeTaskComponent.complete = overTimeTaskComponent.time >= overTimeTaskComponent.duration;
-            float percent = overTimeTaskComponent.complete ? 1 : overTimeTaskComponent.time / overTimeTaskComponent.duration;
-            if (overTimeTaskComponent.interpolation != null)
-                percent = overTimeTaskComponent.interpolation.apply(percent);
-            update(entity, overTimeTaskComponent.reverse ? 1 - percent : percent);
-            if (overTimeTaskComponent.complete) {
-                end(entity);
-                entity.removeAll();
-                getEngine().removeEntity(entity);
-            }
+            begin(entity);
+            overTimeTaskComponent.began = true;
         }
+        if (overTimeTaskComponent.delay > 0) {
+            overTimeTaskComponent.delay = Math.max(
+                    0,
+                    overTimeTaskComponent.delay - deltaTime);
+            overTimeTaskComponent.time = Math.max(
+                    0,
+                    overTimeTaskComponent.time - overTimeTaskComponent.delay);
+        }
+        overTimeTaskComponent.complete = overTimeTaskComponent.time >= overTimeTaskComponent.duration;
+        float percent = overTimeTaskComponent.complete ? 1 : overTimeTaskComponent.time / overTimeTaskComponent.duration;
+        if (overTimeTaskComponent.interpolation != null)
+            percent = overTimeTaskComponent.interpolation.apply(percent);
+        update(entity, overTimeTaskComponent.reverse ? 1 - percent : percent);
+        if (overTimeTaskComponent.complete) {
+            end(entity);
+            entity.removeAll();
+            getEngine().removeEntity(entity);
+        }
+
     }
 
     protected abstract float getDuration(Entity entity);
 
     protected abstract float getDelay(Entity entity);
 
+    /**
+     * Will be cal even before the delay, allow the initialization
+     *
+     * @param entity
+     */
     protected void begin(Entity entity) {
     }
 
