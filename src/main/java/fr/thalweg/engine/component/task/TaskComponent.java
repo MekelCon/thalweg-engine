@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.engine.transformer.tolibgdx.ToInterpolation;
 import fr.thalweg.gen.engine.model.*;
 
 public interface TaskComponent extends Component, Pool.Poolable {
@@ -43,10 +44,13 @@ public interface TaskComponent extends Component, Pool.Poolable {
         var result = ecsEngine.createComponent(PlayTransitionTaskComponent.class);
         result.root = root;
         result.data = data;
+        if (data.getInterpolation() != null) {
+            result.interpolation = ToInterpolation.from(data.getInterpolation());
+        }
         return result;
     }
 
-    static SequenceTaskComponent sequence(Engine ecs, TaskArrayData data, Directory root) {
+    private static SequenceTaskComponent sequence(Engine ecs, TaskArrayData data, Directory root) {
         var res = ecs.createComponent(SequenceTaskComponent.class);
         Array<TaskComponent> taskComponents = new Array<>(data.getTodos().size());
         for (TaskData todo : data.getTodos()) {

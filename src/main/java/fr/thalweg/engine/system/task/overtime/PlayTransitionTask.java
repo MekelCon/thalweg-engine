@@ -10,26 +10,16 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.PlayTransitionTaskComponent;
 import fr.thalweg.engine.system.rendering.WorldRenderingSystem;
+import fr.thalweg.gen.engine.model.PlayTransitionTaskData;
 
-public class PlayTransitionTask extends OverTimeTask {
-
+public class PlayTransitionTask extends OverTimeTask<PlayTransitionTaskComponent> {
     private static final Class<PlayTransitionTaskComponent> COMPONENT = PlayTransitionTaskComponent.class;
     private static final Family FAMILY = Family.all(COMPONENT, WorkingFlag.class).get();
     private final ComponentMapper<PlayTransitionTaskComponent> cm;
 
     public PlayTransitionTask() {
-        super(FAMILY);
+        super(FAMILY, COMPONENT);
         this.cm = ComponentMapper.getFor(COMPONENT);
-    }
-
-    @Override
-    protected float getDuration(Entity entity) {
-        return cm.get(entity).data.getDuration();
-    }
-
-    @Override
-    protected float getDelay(Entity entity) {
-        return cm.get(entity).data.getDelay();
     }
 
     @Override
@@ -37,8 +27,9 @@ public class PlayTransitionTask extends OverTimeTask {
         super.begin(entity);
         var transitionTaskComponent = cm.get(entity);
         transitionTaskComponent.shader = createTransitionShader();
-        transitionTaskComponent.texture = new Texture(Gdx.files.internal(transitionTaskComponent.root.getSubFolder(transitionTaskComponent.data.getTransition())));
-        new Texture(Gdx.files.internal(transitionTaskComponent.root.getSubFolder(transitionTaskComponent.data.getTransition()))).bind(1);
+        transitionTaskComponent.texture = new Texture(Gdx.files.internal(
+                transitionTaskComponent.root.getSubFolder(((PlayTransitionTaskData) transitionTaskComponent.data).getTransition())));
+        transitionTaskComponent.texture.bind(1);
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
         getEngine().getSystem(WorldRenderingSystem.class).transitioning = true;
     }
@@ -54,6 +45,9 @@ public class PlayTransitionTask extends OverTimeTask {
     protected void end(Entity entity) {
         super.end(entity);
         getEngine().getSystem(WorldRenderingSystem.class).transitioning = false;
+        var transitionTaskComponent = cm.get(entity);
+        transitionTaskComponent.shader.dispose();
+        transitionTaskComponent.texture.dispose();
     }
 
     private ShaderProgram createTransitionShader() {
