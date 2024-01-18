@@ -29,7 +29,7 @@ public class ToEntity {
         handleTexture(ecsEngine, root, source).ifPresent(result::add);
         handleVertices(ecsEngine, source).ifPresent(result::add);
         handleZIndex(ecsEngine, source).ifPresent(result::add);
-        handleTriggers(ecsEngine, root, source).ifPresent(triggerComponents -> triggerComponents.forEach(result::add));
+        handleTriggers(ecsEngine, source).ifPresent(triggerComponents -> triggerComponents.forEach(result::add));
         return result;
     }
 
@@ -76,15 +76,15 @@ public class ToEntity {
         return Optional.empty();
     }
 
-    private static Optional<Array<Component>> handleTriggers(Engine ecsEngine, Directory root, ThalwegActorData source) {
+    private static Optional<Array<Component>> handleTriggers(Engine ecsEngine, ThalwegActorData source) {
         if (source.getTriggers() != null && !source.getTriggers().isEmpty()) {
-            Array<Component> triggerComponents = handleTrigger(ecsEngine, root, source.getTriggers());
+            Array<Component> triggerComponents = handleTrigger(ecsEngine, source.getTriggers());
             return Optional.of(triggerComponents);
         }
         return Optional.empty();
     }
 
-    private static Array<Component> handleTrigger(Engine ecsEngine, Directory root, List<TriggerData> triggers) {
+    private static Array<Component> handleTrigger(Engine ecsEngine, List<TriggerData> triggers) {
         var result = new Array<Component>();
         TaskData onMouseEnter = null;
         TaskData onMouseLeave = null;
