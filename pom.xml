@@ -115,6 +115,8 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/model.yaml</inputSpec>
+                            <templateResourcePath>${project.basedir}/src/main/resources/custom_template
+                            </templateResourcePath>
                             <generatorName>java</generatorName>
                             <modelPackage>fr.thalweg.gen.engine.model</modelPackage>
                             <generateApis>false</generateApis>
@@ -122,6 +124,10 @@
                             <generateModelDocumentation>false</generateModelDocumentation>
                             <generateSupportingFiles>false</generateSupportingFiles>
                             <modelNameSuffix>Data</modelNameSuffix>
+                            <typeMappings>
+                                <mapping>Integer=int</mapping>
+                                <mapping>Float=float</mapping>
+                            </typeMappings>
                             <configOptions>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <useJakartaEe>true</useJakartaEe>

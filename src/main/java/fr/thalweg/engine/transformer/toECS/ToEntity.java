@@ -17,6 +17,7 @@ import fr.thalweg.engine.model.Directory;
 import fr.thalweg.gen.engine.model.TaskData;
 import fr.thalweg.gen.engine.model.ThalwegActorData;
 import fr.thalweg.gen.engine.model.TriggerData;
+import fr.thalweg.gen.engine.model.XYData;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,9 +61,11 @@ public class ToEntity {
 
     private static Optional<PolygonComponent> handleVertices(Engine ecsEngine, ThalwegActorData source) {
         if (source.getVertices() != null && !source.getVertices().isEmpty()) {
-            var vertices = new float[source.getVertices().size()];
-            for (int i = 0; i < vertices.length; i++) {
-                vertices[i] = source.getVertices().get(i);
+            var vertices = new float[source.getVertices().size() * 2];
+            for (int i = 0; i < source.getVertices().size(); i++) {
+                XYData point = source.getVertices().get(i);
+                vertices[i * 2] = point.x;
+                vertices[i * 2 + 1] = point.y;
             }
             var polygon = new Polygon(vertices);
             var position = ToVector2Position.from(source.getPosition());

@@ -252,8 +252,7 @@ components:
         vertices:
           type: array
           items:
-            type: number
-            format: float
+            $ref: '#/components/schemas/XY'
         triggers:
           type: array
           items:
@@ -341,3 +340,14 @@ components:
     World:
       allOf:
         - $ref: '#/components/schemas/WidthAndHeight'
+    XY:
+      type: object
+      properties:
+        x:
+          type: number
+          default: 0
+          format: float
+        y:
+          type: number
+          default: 0
+          format: float

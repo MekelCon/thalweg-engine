@@ -26,16 +26,12 @@ public abstract class OverTimeTask<T extends OverTimeTaskComponent> extends Task
             overTimeTaskComponent.began = true;
         }
         // Decrease the delay until 0
-        if (overTimeTaskComponent.data.getDelay() > 0) {
-            overTimeTaskComponent.data.setDelay(Math.max(
-                    0,
-                    overTimeTaskComponent.data.getDelay() - deltaTime));
-            overTimeTaskComponent.time = Math.max(
-                    0,
-                    overTimeTaskComponent.time - overTimeTaskComponent.data.getDelay());
+        if (overTimeTaskComponent.data.delay > 0) {
+            overTimeTaskComponent.data.delay = Math.max(0, overTimeTaskComponent.data.delay - deltaTime);
+            overTimeTaskComponent.time = Math.max(0, overTimeTaskComponent.time - overTimeTaskComponent.data.delay);
         }
-        overTimeTaskComponent.complete = overTimeTaskComponent.time >= overTimeTaskComponent.data.getDuration();
-        float percent = overTimeTaskComponent.complete ? 1 : overTimeTaskComponent.time / overTimeTaskComponent.data.getDuration();
+        overTimeTaskComponent.complete = overTimeTaskComponent.time >= overTimeTaskComponent.data.duration;
+        float percent = overTimeTaskComponent.complete ? 1 : overTimeTaskComponent.time / overTimeTaskComponent.data.duration;
         if (overTimeTaskComponent.interpolation != null)
             percent = overTimeTaskComponent.interpolation.apply(percent);
         update(entity, overTimeTaskComponent.reverse ? 1 - percent : percent);

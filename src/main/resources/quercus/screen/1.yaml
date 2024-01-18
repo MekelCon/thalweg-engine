@@ -51,14 +51,14 @@ actors:
       y: 20
       z: 0
     vertices:
-      - 100
-      - 20
-      - 120
-      - 20
-      - 120
-      - 70
-      - 100
-      - 70
+      - x: 100
+        y: 20
+      - x: 120
+        y: 20
+      - x: 120
+        y: 70
+      - x: 100
+        y: 70
     triggers:
       - type: MOUSELEAVE
         todo:
