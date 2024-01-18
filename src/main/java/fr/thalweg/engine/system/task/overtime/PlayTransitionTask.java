@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.PlayTransitionTaskComponent;
+import fr.thalweg.engine.system.rendering.WorldRenderingSystem;
 
 public class PlayTransitionTask extends OverTimeTask {
 
@@ -28,11 +29,13 @@ public class PlayTransitionTask extends OverTimeTask {
 
     @Override
     protected void begin(Entity entity) {
+        super.begin(entity);
         var transitionTaskComponent = cm.get(entity);
         transitionTaskComponent.shader = createTransitionShader();
         transitionTaskComponent.texture = new Texture(Gdx.files.internal(transitionTaskComponent.root.getSubFolder(transitionTaskComponent.data.getTransition())));
         new Texture(Gdx.files.internal(transitionTaskComponent.root.getSubFolder(transitionTaskComponent.data.getTransition()))).bind(1);
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
+        getEngine().getSystem(WorldRenderingSystem.class).transitioning = true;
     }
 
     @Override
@@ -40,6 +43,12 @@ public class PlayTransitionTask extends OverTimeTask {
         var transitionTaskComponent = cm.get(entity);
         transitionTaskComponent.shader.bind();
         transitionTaskComponent.shader.setUniformf("u_transitionPercent", percent);
+    }
+
+    @Override
+    protected void end(Entity entity) {
+        super.end(entity);
+        getEngine().getSystem(WorldRenderingSystem.class).transitioning = false;
     }
 
     private ShaderProgram createTransitionShader() {

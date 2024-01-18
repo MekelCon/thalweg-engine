@@ -88,6 +88,7 @@ components:
       enum:
         - LINEAR
         - POW
+      default: LINEAR
     LogLevelEnum:
       type: string
       enum:
@@ -126,9 +127,16 @@ components:
             duration:
               type: number
               format: float
-              description: The to display near the mouse
+              description: The duration in seconds
             interpolation:
               $ref: '#/components/schemas/Interpolation'
+            delay:
+              type: number
+              format: float
+              description: The time to wait before starting the action
+              default: 0
+          required:
+            - duration
     PlayTransitionTask:
       allOf:
         - $ref: '#/components/schemas/OverTimeTask'

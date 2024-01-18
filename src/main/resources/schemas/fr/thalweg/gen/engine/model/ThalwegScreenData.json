@@ -23,6 +23,9 @@
     "OverTimeTaskData": {
       "type": "object",
       "properties": {
+        "delay": {
+          "type": "number"
+        },
         "duration": {
           "type": "number"
         },
@@ -41,6 +44,9 @@
     "PlayTransitionTaskData" : {
       "type" : "object",
       "properties" : {
+        "delay": {
+          "type": "number"
+        },
         "duration" : {
           "type" : "number"
         },

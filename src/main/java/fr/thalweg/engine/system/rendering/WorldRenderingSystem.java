@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +15,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
+import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.PlayTransitionTaskComponent;
 import fr.thalweg.engine.entity.EntityZIndexComparator;
 import fr.thalweg.gen.engine.model.WorldData;
@@ -28,6 +28,7 @@ public class WorldRenderingSystem extends SortedIteratingSystem {
     private final FrameBuffer worldBuffer;
     private final Viewport viewport;
     private final ComponentMapper<PlayTransitionTaskComponent> pm;
+    public boolean transitioning;
 
     public WorldRenderingSystem(WorldData world, SpriteBatch batch, Viewport viewport) {
         // priority 1 because rendering must be done AFTER action
@@ -67,11 +68,10 @@ public class WorldRenderingSystem extends SortedIteratingSystem {
     }
 
     private void renderWorldBuffer() {
-        ImmutableArray<Entity> transitionEntities = this.getEngine().getEntitiesFor(
-                Family.all(PlayTransitionTaskComponent.class).get());
-        // A transition is on going
-        for (Entity e : transitionEntities) {
-            var taskComponent = pm.get(e);
+        if (transitioning) {
+            Entity entity = this.getEngine().getEntitiesFor(
+                    Family.all(PlayTransitionTaskComponent.class, WorkingFlag.class).get()).first();
+            var taskComponent = pm.get(entity);
             batch.setShader(taskComponent.shader);
         }
         viewport.apply(true);
