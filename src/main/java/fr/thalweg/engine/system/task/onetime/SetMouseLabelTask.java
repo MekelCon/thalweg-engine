@@ -1,11 +1,11 @@
-package fr.thalweg.engine.system.task;
+package fr.thalweg.engine.system.task.onetime;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import fr.thalweg.engine.component.RenderMouseLabelComponent;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.SetMouseLabelTaskComponent;
+import fr.thalweg.engine.system.rendering.TextRenderingSystem;
 
 public class SetMouseLabelTask extends OneShotTask {
 
@@ -21,9 +21,7 @@ public class SetMouseLabelTask extends OneShotTask {
     @Override
     protected void work(Entity entity) {
         var setMouseLabelTaskComponent = cm.get(entity);
-        var renderMouseLabelComponent = getEngine().createComponent(RenderMouseLabelComponent.class);
-        renderMouseLabelComponent.label = setMouseLabelTaskComponent.data.getLabel();
-        getEngine().addEntity(getEngine().createEntity()
-                .add(renderMouseLabelComponent));
+        var txtRendering = getEngine().getSystem(TextRenderingSystem.class);
+        txtRendering.mouseLabel.restart(setMouseLabelTaskComponent.data.getLabel());
     }
 }

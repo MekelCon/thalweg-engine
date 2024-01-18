@@ -1,0 +1,11 @@
+family:
+  - name: default
+    size: 28
+    source: font/Perfect DOS VGA 437 Win.ttf
+  - name: writing
+    size: 28
+    source: font/F25 Executive.ttf
+    yAdjust: -4
+vars:
+  existing:
+    mouseLabelDefaultToken: "{FAST}[%?black outline][#CCCCCC][@]"

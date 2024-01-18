@@ -20,7 +20,7 @@ import fr.thalweg.engine.component.task.PlayTransitionTaskComponent;
 import fr.thalweg.engine.entity.EntityZIndexComparator;
 import fr.thalweg.gen.engine.model.WorldData;
 
-public class RenderingSystem extends SortedIteratingSystem {
+public class WorldRenderingSystem extends SortedIteratingSystem {
     private static final Matrix4 IDENTITY = new Matrix4();
     private final Array<Entity> renderQueue;
     private final ComponentMapper<SpriteComponent> sm;
@@ -29,7 +29,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     private final Viewport viewport;
     private final ComponentMapper<PlayTransitionTaskComponent> pm;
 
-    public RenderingSystem(WorldData world, SpriteBatch batch, Viewport viewport) {
+    public WorldRenderingSystem(WorldData world, SpriteBatch batch, Viewport viewport) {
         // priority 1 because rendering must be done AFTER action
         super(
                 Family.all(ZIndexComponent.class, SpriteComponent.class).get(),

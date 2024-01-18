@@ -16,30 +16,97 @@ paths:
                 $ref: '#/components/schemas/ThalwegGameConfiguration'
 components:
   schemas:
-    ThalwegGameConfiguration:
+    ChangeCursorTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            cursor:
+              type: string
+            xHotspot:
+              type: integer
+              format: int32
+              default: 0
+              description: Position on the X-Axis of the active pixel
+            yHotspot:
+              type: integer
+              format: int32
+              default: 0
+              description: Position on the Y-Axis of the active pixel
+      required:
+        - type
+        - cursor
+    Color:
       type: object
       properties:
-        debug:
-          type: boolean
-          default: false
-        gdx:
-          $ref: '#/components/schemas/GdxConfiguration'
-        lwjgl3ApplicationConfig:
-          $ref: '#/components/schemas/Lwjgl3ApplicationConfig'
-        startScreen:
+        r:
+          type: number
+          default: 1
+          format: float
+        g:
+          type: number
+          default: 1
+          format: float
+        b:
+          type: number
+          default: 1
+          format: float
+        a:
+          type: number
+          default: 1
+          format: float
+    FontConfig:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/FontName'
+        source:
           type: string
-          pattern: ^screen/.*\.(json|yaml)$
-        world:
-          $ref: '#/components/schemas/World'
+          pattern: ^font/.*\.(ttf)$
+        size:
+          type: integer
+          format: int32
+          default: 12
+        xAdjust:
+          type: number
+          format: float
+          default: 0
+        yAdjust:
+          type: number
+          format: float
+          default: 0
+        widthAdjust:
+          type: number
+          format: float
+          default: 0
+        heightAdjust:
+          type: number
+          format: float
+          default: 0
       required:
-        - debug
-        - startScreen
-        - world
+        - name
+        - source
+    FontConfigs:
+      type: object
+      properties:
+        family:
+          type: array
+          items:
+            $ref: '#/components/schemas/FontConfig'
+        vars:
+          $ref: '#/components/schemas/Vars'
+    FontName:
+      type: string
+      description: "The name to retrieve the font. It should be unique. Use 'default' to override the default font."
     GdxConfiguration:
       type: object
       properties:
         logLevel:
           $ref: '#/components/schemas/LogLevelEnum'
+    Interpolation:
+      type: string
+      enum:
+        - LINEAR
+        - POW
     LogLevelEnum:
       type: string
       enum:
@@ -47,6 +114,16 @@ components:
         - INFO
         - ERROR
         - NONE
+    LogTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            message:
+              type: string
+              description: The message to log
+      required:
+        - type
+        - message
     Lwjgl3ApplicationConfig:
       type: object
       properties:
@@ -61,53 +138,14 @@ components:
         foregroundFPS:
           type: integer
           default: 60
-    World:
+    PlayTransitionTask:
       allOf:
-        - $ref: '#/components/schemas/WidthAndHeight'
-    WidthAndHeight:
-      type: object
-      properties:
-        width:
-          type: integer
-          minimum: 0
-          default: 0
-        height:
-          type: integer
-          minimum: 0
-          default: 0
-      required:
-        - width
-        - height
-    ThalwegScreen:
-      type: object
-      properties:
-        name:
-          type: string
-        actors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ThalwegActor'
-      required:
-        - name
-        - actors
-    ThalwegActor:
-      type: object
-      properties:
-        position:
-          $ref: '#/components/schemas/Position'
-        scale:
-          $ref: '#/components/schemas/Scale'
-        texture:
-          type: string
-        vertices:
-          type: array
-          items:
-            type: number
-            format: float
-        triggers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Trigger'
+        - $ref: '#/components/schemas/OverTimeTask'
+        - properties:
+            transition:
+              type: string
+              pattern: ^transition/.*\.(png)$
+              description: Name of the transition
     Position:
       type: object
       description: A position, with coordinate in world system
@@ -134,19 +172,18 @@ components:
           type: number
           default: 1
           format: float
-    Trigger:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/TriggerTypeEnum'
-        todo:
-          $ref: '#/components/schemas/Task'
-    TriggerTypeEnum:
-      type: string
-      enum:
-        - AUTO
-        - MOUSEENTER
-        - MOUSELEAVE
+    SetMouseLabelTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            label:
+              type: string
+              description: The text to display near the mouse
+            fontName:
+              $ref: '#/components/schemas/FontName'
+      required:
+        - type
+        - label
     Task:
       type: object
       properties:
@@ -162,13 +199,6 @@ components:
           PLAY_TRANSITION: '#/components/schemas/PlayTransitionTask'
           SEQUENCE: '#/components/schemas/TaskArray'
           SET_MOUSE_LABEL: '#/components/schemas/SetMouseLabelTask'
-    TaskTypeEnum:
-      enum:
-        - LOG
-        - PARALLEL
-        - PLAY_TRANSITION
-        - SEQUENCE
-        - SET_MOUSE_LABEL
     TaskArray:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -180,59 +210,14 @@ components:
       required:
         - type
         - todos
-    ChangeCursorTask:
-      allOf:
-        - $ref: '#/components/schemas/Task'
-        - properties:
-            cursor:
-              type: string
-            xHotspot:
-              type: integer
-              format: int32
-              default: 0
-              description: Position on the X-Axis of the active pixel
-            yHotspot:
-              type: integer
-              format: int32
-              default: 0
-              description: Position on the Y-Axis of the active pixel
-      required:
-        - type
-        - cursor
-    Interpolation:
-      type: string
+    TaskTypeEnum:
       enum:
-        - LINEAR
-        - POW
-    LogTask:
-      allOf:
-        - $ref: '#/components/schemas/Task'
-        - properties:
-            message:
-              type: string
-              description: The message to log
-      required:
-        - type
-        - message
-    PlayTransitionTask:
-      allOf:
-        - $ref: '#/components/schemas/TemporalTask'
-        - properties:
-            transition:
-              type: string
-              pattern: ^transition/.*\.(png)$
-              description: Name of the transition
-    SetMouseLabelTask:
-      allOf:
-        - $ref: '#/components/schemas/Task'
-        - properties:
-            label:
-              type: string
-              description: The to display near the mouse
-      required:
-        - type
-        - label
-    TemporalTask:
+        - LOG
+        - PARALLEL
+        - PLAY_TRANSITION
+        - SEQUENCE
+        - SET_MOUSE_LABEL
+    OverTimeTask:
       allOf:
         - $ref: '#/components/schemas/Task'
         - properties:
@@ -242,3 +227,104 @@ components:
               description: The to display near the mouse
             interpolation:
               $ref: '#/components/schemas/Interpolation'
+    ThalwegActor:
+      type: object
+      properties:
+        position:
+          $ref: '#/components/schemas/Position'
+        scale:
+          $ref: '#/components/schemas/Scale'
+        texture:
+          type: string
+        vertices:
+          type: array
+          items:
+            type: number
+            format: float
+        triggers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trigger'
+    ThalwegGameConfiguration:
+      type: object
+      properties:
+        debug:
+          type: boolean
+          default: false
+        gdx:
+          $ref: '#/components/schemas/GdxConfiguration'
+        lwjgl3ApplicationConfig:
+          $ref: '#/components/schemas/Lwjgl3ApplicationConfig'
+        startScreen:
+          type: string
+          pattern: ^screen/.*\.(json|yaml)$
+        world:
+          $ref: '#/components/schemas/World'
+      required:
+        - debug
+        - startScreen
+        - world
+    ThalwegScreen:
+      type: object
+      properties:
+        name:
+          type: string
+        actors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThalwegActor'
+      required:
+        - name
+        - actors
+    Trigger:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/TriggerTypeEnum'
+        todo:
+          $ref: '#/components/schemas/Task'
+    TriggerTypeEnum:
+      type: string
+      enum:
+        - AUTO
+        - MOUSEENTER
+        - MOUSELEAVE
+    CustomVar:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      required:
+        - name
+        - value
+    Vars:
+      type: object
+      properties:
+        existing:
+          type: object
+          properties:
+            mouseLabelDefaultToken:
+              type: string
+        custom:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomVar'
+    WidthAndHeight:
+      type: object
+      properties:
+        width:
+          type: integer
+          minimum: 0
+          default: 0
+        height:
+          type: integer
+          minimum: 0
+          default: 0
+      required:
+        - width
+        - height
+    World:
+      allOf:
+        - $ref: '#/components/schemas/WidthAndHeight'

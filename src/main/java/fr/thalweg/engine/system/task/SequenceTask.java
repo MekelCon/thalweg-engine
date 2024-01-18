@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.Family;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.SequenceTaskComponent;
 
-
 public class SequenceTask extends Task {
 
     private static final Class<SequenceTaskComponent> COMPONENT = SequenceTaskComponent.class;

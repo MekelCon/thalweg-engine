@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.ParallelTaskComponent;
 
-
 public class ParallelTask extends Task {
 
     private static final Class<ParallelTaskComponent> COMPONENT = ParallelTaskComponent.class;
