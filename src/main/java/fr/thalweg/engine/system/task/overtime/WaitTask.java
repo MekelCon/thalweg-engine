@@ -23,6 +23,11 @@ public class WaitTask extends OverTimeTask {
     }
 
     @Override
+    protected float getDelay(Entity entity) {
+        return cm.get(entity).data.getDelay();
+    }
+
+    @Override
     protected void update(Entity entity, float percent) {
         // Nothing to do, we just wait for the 100%
     }

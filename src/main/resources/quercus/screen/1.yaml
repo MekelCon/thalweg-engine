@@ -70,6 +70,7 @@ actors:
               message: ByeBye
             - type: PLAY_TRANSITION
               duration: 1
+              delay: 1
               transition: transition/spiral.png
   - position:
       x: 0

@@ -28,6 +28,11 @@ public class PlayTransitionTask extends OverTimeTask {
     }
 
     @Override
+    protected float getDelay(Entity entity) {
+        return cm.get(entity).data.getDelay();
+    }
+
+    @Override
     protected void begin(Entity entity) {
         super.begin(entity);
         var transitionTaskComponent = cm.get(entity);
