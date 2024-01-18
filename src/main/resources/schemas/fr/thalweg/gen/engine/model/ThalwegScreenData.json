@@ -30,6 +30,27 @@
           "const" : "PLAY_TRANSITION"
         }
       },
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ]
+    },
+    "SetCursorTaskData": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string"
+        },
+        "xHotspot": {
+          "type": "integer"
+        },
+        "yHotspot": {
+          "type": "integer"
+        },
+        "type": {
+          "const": "SET_CURSOR"
+        }
+      },
       "additionalProperties" : false,
       "required" : [ "type" ]
     },
@@ -64,6 +85,9 @@
             }, {
               "$ref" : "#/definitions/TaskArrayData-2"
             }, {
+              "$ref": "#/definitions/SetCursorTaskData"
+            },
+              {
               "$ref" : "#/definitions/SetMouseLabelTaskData"
             } ]
           }
@@ -137,6 +161,9 @@
                   }, {
                     "$ref" : "#/definitions/TaskArrayData-2"
                   }, {
+                    "$ref": "#/definitions/SetCursorTaskData"
+                  },
+                    {
                     "$ref" : "#/definitions/SetMouseLabelTaskData"
                   } ]
                 },

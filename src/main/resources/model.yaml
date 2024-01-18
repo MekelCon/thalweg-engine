@@ -16,25 +16,6 @@ paths:
                 $ref: '#/components/schemas/ThalwegGameConfiguration'
 components:
   schemas:
-    ChangeCursorTask:
-      allOf:
-        - $ref: '#/components/schemas/Task'
-        - properties:
-            cursor:
-              type: string
-            xHotspot:
-              type: integer
-              format: int32
-              default: 0
-              description: Position on the X-Axis of the active pixel
-            yHotspot:
-              type: integer
-              format: int32
-              default: 0
-              description: Position on the Y-Axis of the active pixel
-      required:
-        - type
-        - cursor
     Color:
       type: object
       properties:
@@ -138,6 +119,16 @@ components:
         foregroundFPS:
           type: integer
           default: 60
+    OverTimeTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            duration:
+              type: number
+              format: float
+              description: The to display near the mouse
+            interpolation:
+              $ref: '#/components/schemas/Interpolation'
     PlayTransitionTask:
       allOf:
         - $ref: '#/components/schemas/OverTimeTask'
@@ -161,6 +152,26 @@ components:
         z:
           type: integer
           default: 0
+    SetCursorTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            cursor:
+              type: string
+              pattern: ^cursor/.*\.(ttf)$
+            xHotspot:
+              type: integer
+              format: int32
+              default: 0
+              description: Position on the X-Axis of the active pixel
+            yHotspot:
+              type: integer
+              format: int32
+              default: 0
+              description: Position on the Y-Axis of the active pixel
+      required:
+        - type
+        - cursor
     Scale:
       type: object
       properties:
@@ -198,6 +209,7 @@ components:
           PARALLEL: '#/components/schemas/TaskArray'
           PLAY_TRANSITION: '#/components/schemas/PlayTransitionTask'
           SEQUENCE: '#/components/schemas/TaskArray'
+          SET_CURSOR: '#/components/schemas/SetCursorTask'
           SET_MOUSE_LABEL: '#/components/schemas/SetMouseLabelTask'
     TaskArray:
       allOf:
@@ -216,17 +228,8 @@ components:
         - PARALLEL
         - PLAY_TRANSITION
         - SEQUENCE
+        - SET_CURSOR
         - SET_MOUSE_LABEL
-    OverTimeTask:
-      allOf:
-        - $ref: '#/components/schemas/Task'
-        - properties:
-            duration:
-              type: number
-              format: float
-              description: The to display near the mouse
-            interpolation:
-              $ref: '#/components/schemas/Interpolation'
     ThalwegActor:
       type: object
       properties:

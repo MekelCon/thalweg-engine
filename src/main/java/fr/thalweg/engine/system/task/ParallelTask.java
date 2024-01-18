@@ -14,7 +14,6 @@ public class ParallelTask extends Task {
     private static final Family FAMILY = Family.all(WorkingFlag.class, COMPONENT).get();
     private final ComponentMapper<ParallelTaskComponent> cm;
 
-
     public ParallelTask() {
         super(FAMILY);
         this.cm = ComponentMapper.getFor(COMPONENT);

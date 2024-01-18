@@ -3,9 +3,13 @@ actors:
   - triggers:
       - type: AUTO
         todo:
-          type: PLAY_TRANSITION
-          duration: 0.4
-          transition: transition/center_to_border.png
+          type: PARALLEL
+          todos:
+            - type: PLAY_TRANSITION
+              duration: 0.4
+              transition: transition/center_to_border.png
+            - type: SET_CURSOR
+              cursor: '/cursor/cursor.png'
   - position:
       x: 50
       y: 20

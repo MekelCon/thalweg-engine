@@ -3,6 +3,8 @@ package fr.thalweg.engine.transformer.toECS;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -117,8 +119,16 @@ public class ToEntity {
             case PARALLEL -> createParallelTask(ecsEngine, root, (TaskArrayData) data);
             case PLAY_TRANSITION -> createPlayTransitionTask(ecsEngine, root, (PlayTransitionTaskData) data);
             case SEQUENCE -> createSequenceTask(ecsEngine, root, (TaskArrayData) data);
+            case SET_CURSOR -> createSetCursorTask(ecsEngine, root, (SetCursorTaskData) data);
             case SET_MOUSE_LABEL -> createSetMouseLabelTask(ecsEngine, (SetMouseLabelTaskData) data);
         };
+    }
+
+    private static SetCursorTaskComponent createSetCursorTask(Engine ecsEngine, Directory root, SetCursorTaskData data) {
+        var result = ecsEngine.createComponent(SetCursorTaskComponent.class);
+        result.data = data;
+        result.icon = new Pixmap(Gdx.files.internal(root.getSubFolder(data.getCursor())));
+        return result;
     }
 
     private static LogTaskComponent createLogTask(Engine ecsEngine, LogTaskData data) {

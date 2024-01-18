@@ -1,4 +1,4 @@
-package fr.thalweg.engine.system.task.onetime;
+package fr.thalweg.engine.system.task.oneshot;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;

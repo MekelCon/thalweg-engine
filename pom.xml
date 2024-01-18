@@ -130,6 +130,7 @@
                                 <annotationLibrary>none</annotationLibrary>
                                 <library>resteasy</library>
                                 <booleanGetterPrefix>is</booleanGetterPrefix>
+                                <beanValidation>true</beanValidation>
                             </configOptions>
                         </configuration>
                     </execution>
