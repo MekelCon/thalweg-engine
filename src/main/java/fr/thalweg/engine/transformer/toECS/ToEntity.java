@@ -3,8 +3,6 @@ package fr.thalweg.engine.transformer.toECS;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,11 +11,12 @@ import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
-import fr.thalweg.engine.component.task.*;
 import fr.thalweg.engine.component.trigger.AutoTriggerComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.model.Directory;
-import fr.thalweg.gen.engine.model.*;
+import fr.thalweg.gen.engine.model.TaskData;
+import fr.thalweg.gen.engine.model.ThalwegActorData;
+import fr.thalweg.gen.engine.model.TriggerData;
 
 import java.util.List;
 import java.util.Optional;
@@ -87,14 +86,14 @@ public class ToEntity {
 
     private static Array<Component> handleTrigger(Engine ecsEngine, Directory root, List<TriggerData> triggers) {
         var result = new Array<Component>();
-        Component onMouseEnter = null;
-        Component onMouseLeave = null;
+        TaskData onMouseEnter = null;
+        TaskData onMouseLeave = null;
         for (TriggerData triggerData : triggers) {
             if (triggerData.getType() != null && triggerData.getTodo() != null) {
                 switch (triggerData.getType()) {
-                    case AUTO -> result.add(createAutoTriggerComponent(ecsEngine, root, triggerData.getTodo()));
-                    case MOUSEENTER -> onMouseEnter = handleTask(ecsEngine, root, triggerData.getTodo());
-                    case MOUSELEAVE -> onMouseLeave = handleTask(ecsEngine, root, triggerData.getTodo());
+                    case AUTO -> result.add(createAutoTriggerComponent(ecsEngine, triggerData.getTodo()));
+                    case MOUSEENTER -> onMouseEnter = triggerData.getTodo();
+                    case MOUSELEAVE -> onMouseLeave = triggerData.getTodo();
                 }
             }
         }
@@ -107,66 +106,9 @@ public class ToEntity {
         return result;
     }
 
-    private static AutoTriggerComponent createAutoTriggerComponent(Engine ecsEngine, Directory root, TaskData todo) {
+    private static AutoTriggerComponent createAutoTriggerComponent(Engine ecsEngine, TaskData todo) {
         var autoTriggerComponent = ecsEngine.createComponent(AutoTriggerComponent.class);
-        autoTriggerComponent.todo = handleTask(ecsEngine, root, todo);
+        autoTriggerComponent.todo = todo;
         return autoTriggerComponent;
-    }
-
-    private static Component handleTask(Engine ecsEngine, Directory root, TaskData data) {
-        return switch (data.getType()) {
-            case LOG -> createLogTask(ecsEngine, (LogTaskData) data);
-            case PARALLEL -> createParallelTask(ecsEngine, root, (TaskArrayData) data);
-            case PLAY_TRANSITION -> createPlayTransitionTask(ecsEngine, root, (PlayTransitionTaskData) data);
-            case SEQUENCE -> createSequenceTask(ecsEngine, root, (TaskArrayData) data);
-            case SET_CURSOR -> createSetCursorTask(ecsEngine, root, (SetCursorTaskData) data);
-            case SET_MOUSE_LABEL -> createSetMouseLabelTask(ecsEngine, (SetMouseLabelTaskData) data);
-        };
-    }
-
-    private static SetCursorTaskComponent createSetCursorTask(Engine ecsEngine, Directory root, SetCursorTaskData data) {
-        var result = ecsEngine.createComponent(SetCursorTaskComponent.class);
-        result.data = data;
-        result.icon = new Pixmap(Gdx.files.internal(root.getSubFolder(data.getCursor())));
-        return result;
-    }
-
-    private static LogTaskComponent createLogTask(Engine ecsEngine, LogTaskData data) {
-        var result = ecsEngine.createComponent(LogTaskComponent.class);
-        result.data = data;
-        return result;
-    }
-
-    private static ParallelTaskComponent createParallelTask(Engine ecsEngine, Directory root, TaskArrayData data) {
-        Array<Component> taskArray = new Array<>(data.getTodos().size());
-        for (TaskData taskData : data.getTodos()) {
-            taskArray.add(handleTask(ecsEngine, root, taskData));
-        }
-        var result = ecsEngine.createComponent(ParallelTaskComponent.class);
-        result.components = taskArray;
-        return result;
-    }
-
-    private static PlayTransitionTaskComponent createPlayTransitionTask(Engine ecsEngine, Directory root, PlayTransitionTaskData data) {
-        var result = ecsEngine.createComponent(PlayTransitionTaskComponent.class);
-        result.root = root;
-        result.data = data;
-        return result;
-    }
-
-    private static SequenceTaskComponent createSequenceTask(Engine ecsEngine, Directory root, TaskArrayData data) {
-        Array<Component> components = new Array<>(data.getTodos().size());
-        for (TaskData taskData : data.getTodos()) {
-            components.add(handleTask(ecsEngine, root, taskData));
-        }
-        var result = ecsEngine.createComponent(SequenceTaskComponent.class);
-        result.components = components;
-        return result;
-    }
-
-    private static SetMouseLabelTaskComponent createSetMouseLabelTask(Engine ecsEngine, SetMouseLabelTaskData data) {
-        var result = ecsEngine.createComponent(SetMouseLabelTaskComponent.class);
-        result.data = data;
-        return result;
     }
 }

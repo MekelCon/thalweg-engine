@@ -1,5 +1,12 @@
 {
   "definitions" : {
+    "InterpolationData": {
+      "type": "string",
+      "enum": [
+        "LINEAR",
+        "POW"
+      ]
+    },
     "LogTaskData" : {
       "type" : "object",
       "properties" : {
@@ -13,6 +20,24 @@
       "additionalProperties" : false,
       "required" : [ "type" ]
     },
+    "OverTimeTaskData": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "type": "number"
+        },
+        "interpolation": {
+          "$ref": "#/definitions/InterpolationData"
+        },
+        "type": {
+          "const": "WAIT"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ]
+    },
     "PlayTransitionTaskData" : {
       "type" : "object",
       "properties" : {
@@ -20,8 +45,7 @@
           "type" : "number"
         },
         "interpolation" : {
-          "type" : "string",
-          "enum" : [ "LINEAR", "POW" ]
+          "$ref": "#/definitions/InterpolationData"
         },
         "transition" : {
           "type" : "string"
@@ -89,6 +113,9 @@
             },
               {
               "$ref" : "#/definitions/SetMouseLabelTaskData"
+              },
+              {
+                "$ref": "#/definitions/OverTimeTaskData"
             } ]
           }
         }
@@ -165,6 +192,9 @@
                   },
                     {
                     "$ref" : "#/definitions/SetMouseLabelTaskData"
+                    },
+                    {
+                      "$ref": "#/definitions/OverTimeTaskData"
                   } ]
                 },
                 "type" : {

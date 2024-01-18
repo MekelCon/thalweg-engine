@@ -26,11 +26,12 @@ public class PlayTransitionTask extends OverTimeTask {
         return cm.get(entity).data.getDuration();
     }
 
+    @Override
     protected void begin(Entity entity) {
         var transitionTaskComponent = cm.get(entity);
         transitionTaskComponent.shader = createTransitionShader();
-        new Texture(Gdx.files.internal(transitionTaskComponent.root.getSubFolder(transitionTaskComponent.data.getTransition())))
-                .bind(1);
+        transitionTaskComponent.texture = new Texture(Gdx.files.internal(transitionTaskComponent.root.getSubFolder(transitionTaskComponent.data.getTransition())));
+        new Texture(Gdx.files.internal(transitionTaskComponent.root.getSubFolder(transitionTaskComponent.data.getTransition()))).bind(1);
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
     }
 

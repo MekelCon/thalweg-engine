@@ -20,12 +20,18 @@ actors:
         todo:
           type: SEQUENCE
           todos:
-            - type: LOG
-              message: Enter Norah 1
             - type: SET_MOUSE_LABEL
               label: "Norah [@writing]Norah"
+            - type: WAIT
+              duration: 2
+            - type: LOG
+              message: Enter Norah 1
+            - type: WAIT
+              duration: 2
             - type: LOG
               message: Enter Norah 2
+            - type: WAIT
+              duration: 2
             - type: LOG
               message: Enter Norah 3
       - type: MOUSELEAVE

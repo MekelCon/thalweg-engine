@@ -211,6 +211,7 @@ components:
           SEQUENCE: '#/components/schemas/TaskArray'
           SET_CURSOR: '#/components/schemas/SetCursorTask'
           SET_MOUSE_LABEL: '#/components/schemas/SetMouseLabelTask'
+          WAIT: '#/components/schemas/OverTimeTask'
     TaskArray:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -230,6 +231,7 @@ components:
         - SEQUENCE
         - SET_CURSOR
         - SET_MOUSE_LABEL
+        - WAIT
     ThalwegActor:
       type: object
       properties:
