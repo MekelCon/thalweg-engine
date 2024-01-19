@@ -58,7 +58,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -124,6 +123,7 @@
                             <generateModelDocumentation>false</generateModelDocumentation>
                             <generateSupportingFiles>false</generateSupportingFiles>
                             <modelNameSuffix>Data</modelNameSuffix>
+                            <generateAliasAsModel>true</generateAliasAsModel>
                             <typeMappings>
                                 <mapping>Integer=int</mapping>
                                 <mapping>Float=float</mapping>
@@ -131,7 +131,6 @@
                             <configOptions>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <useJakartaEe>true</useJakartaEe>
-                                <legacyDiscriminatorBehavior>true</legacyDiscriminatorBehavior>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <annotationLibrary>none</annotationLibrary>
                                 <library>resteasy</library>

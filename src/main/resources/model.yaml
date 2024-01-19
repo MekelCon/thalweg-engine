@@ -137,6 +137,10 @@ components:
               format: float
               description: The time to wait before starting the action
               default: 0
+    ParallelTask:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TaskArray'
     PlayTransitionTask:
       allOf:
         - $ref: '#/components/schemas/OverTimeTask'
@@ -191,6 +195,10 @@ components:
           type: number
           format: float
           default: 1
+    SequenceTask:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TaskArray'
     SetMouseLabelTask:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -214,9 +222,9 @@ components:
         propertyName: type
         mapping:
           LOG: '#/components/schemas/LogTask'
-          PARALLEL: '#/components/schemas/TaskArray'
+          PARALLEL: '#/components/schemas/ParallelTask'
           PLAY_TRANSITION: '#/components/schemas/PlayTransitionTask'
-          SEQUENCE: '#/components/schemas/TaskArray'
+          SEQUENCE: '#/components/schemas/SequenceTask'
           SET_CURSOR: '#/components/schemas/SetCursorTask'
           SET_MOUSE_LABEL: '#/components/schemas/SetMouseLabelTask'
           WAIT: '#/components/schemas/OverTimeTask'

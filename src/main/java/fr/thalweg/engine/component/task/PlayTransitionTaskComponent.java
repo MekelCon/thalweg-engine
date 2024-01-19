@@ -1,14 +1,13 @@
 package fr.thalweg.engine.component.task;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.utils.Pool;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.gen.engine.model.OverTimeTaskData;
 import fr.thalweg.gen.engine.model.PlayTransitionTaskData;
 
-public class PlayTransitionTaskComponent implements Component, Pool.Poolable {
+public class PlayTransitionTaskComponent extends OverTimeTaskComponent {
 
     public PlayTransitionTaskData data;
 
@@ -19,8 +18,15 @@ public class PlayTransitionTaskComponent implements Component, Pool.Poolable {
     public Interpolation interpolation;
 
     @Override
+    public OverTimeTaskData getData() {
+        return data;
+    }
+
+    @Override
     public void reset() {
+        super.reset();
         root = null;
+        data = null;
         shader = null;
         texture = null;
     }

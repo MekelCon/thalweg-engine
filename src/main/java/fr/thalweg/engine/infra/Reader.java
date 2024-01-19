@@ -11,6 +11,7 @@ public class Reader {
     @Getter
     private static final Reader instance = new Reader();
 
+    @Getter
     private final ObjectMapper jsonMapper;
 
     private final ObjectMapper yamlMapper;

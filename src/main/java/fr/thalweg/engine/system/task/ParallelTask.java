@@ -3,7 +3,6 @@ package fr.thalweg.engine.system.task;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.ParallelTaskComponent;
@@ -11,11 +10,10 @@ import fr.thalweg.engine.component.task.ParallelTaskComponent;
 public class ParallelTask extends Task {
 
     private static final Class<ParallelTaskComponent> COMPONENT = ParallelTaskComponent.class;
-    private static final Family FAMILY = Family.all(WorkingFlag.class, COMPONENT).get();
     private final ComponentMapper<ParallelTaskComponent> cm;
 
     public ParallelTask() {
-        super(FAMILY);
+        super(COMPONENT);
         this.cm = ComponentMapper.getFor(COMPONENT);
     }
 

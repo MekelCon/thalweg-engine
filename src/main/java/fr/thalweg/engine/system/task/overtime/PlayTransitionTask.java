@@ -2,42 +2,20 @@ package fr.thalweg.engine.system.task.overtime;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Interpolation;
-import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.PlayTransitionTaskComponent;
 import fr.thalweg.engine.system.rendering.WorldRenderingSystem;
 
 public class PlayTransitionTask extends OverTimeTask {
     private static final Class<PlayTransitionTaskComponent> COMPONENT = PlayTransitionTaskComponent.class;
-    private static final Family FAMILY = Family.all(COMPONENT, WorkingFlag.class).get();
     private final ComponentMapper<PlayTransitionTaskComponent> cm;
 
     public PlayTransitionTask() {
-        super(FAMILY);
+        super(COMPONENT);
         this.cm = ComponentMapper.getFor(COMPONENT);
-    }
-
-    @Override
-    protected float getDelay(Entity entity) {
-        var transitionTaskComponent = cm.get(entity);
-        return transitionTaskComponent.data.delay;
-    }
-
-    @Override
-    protected float getDuration(Entity entity) {
-        var transitionTaskComponent = cm.get(entity);
-        return transitionTaskComponent.data.duration;
-    }
-
-    @Override
-    protected Interpolation getInterpolation(Entity entity) {
-        var transitionTaskComponent = cm.get(entity);
-        return transitionTaskComponent.interpolation;
     }
 
     @Override

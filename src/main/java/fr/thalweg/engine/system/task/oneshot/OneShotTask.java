@@ -1,13 +1,13 @@
 package fr.thalweg.engine.system.task.oneshot;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
+import fr.thalweg.engine.component.task.TaskComponent;
 import fr.thalweg.engine.system.task.Task;
 
 public abstract class OneShotTask extends Task {
 
-    public OneShotTask(Family family) {
-        super(family);
+    public OneShotTask(Class<? extends TaskComponent> clazz) {
+        super(clazz);
     }
 
     @Override
