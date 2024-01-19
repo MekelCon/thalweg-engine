@@ -8,4 +8,4 @@ family:
     yAdjust: -4
 vars:
   existing:
-    mouseLabelDefaultToken: "{FAST}[%?black outline][#CCCCCC][@]"
+    mouseLabelDefaultToken: "{SPEED=0.1}[%?black outline][#CCCCCC][@]"

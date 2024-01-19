@@ -9,7 +9,7 @@ public abstract class OverTimeTaskComponent<T extends OverTimeTaskData> implemen
     public T data;
     public float time;
     public @Null Interpolation interpolation;
-    public boolean reverse, began, complete;
+    public boolean reverse, began, started, complete;
 
     @Override
     public void reset() {
@@ -18,6 +18,7 @@ public abstract class OverTimeTaskComponent<T extends OverTimeTaskData> implemen
         interpolation = null;
         reverse = false;
         began = false;
+        started = false;
         complete = false;
     }
 }

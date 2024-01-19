@@ -22,6 +22,7 @@ actors:
           todos:
             - type: SET_MOUSE_LABEL
               label: "Norah [@writing]Norah"
+              delay: 2
             - type: WAIT
               duration: 2
             - type: LOG
@@ -37,7 +38,8 @@ actors:
       - type: MOUSELEAVE
         todo:
           type: SET_MOUSE_LABEL
-          label: ""
+          label: "OUT"
+          delay: 10
       - type: AUTO
         todo:
           type: SEQUENCE
