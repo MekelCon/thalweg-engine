@@ -5,7 +5,6 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import fr.thalweg.engine.ThalwegGame;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.TaskBuilder;
-import fr.thalweg.engine.transformer.DataCloner;
 import fr.thalweg.gen.engine.model.TaskData;
 
 public abstract class TriggerSystem extends IteratingSystem {
@@ -21,7 +20,7 @@ public abstract class TriggerSystem extends IteratingSystem {
         if (todo != null)
             getEngine().addEntity(getEngine().createEntity()
                     .add(TaskBuilder.build(getEngine(),
-                            DataCloner.INSTANCE.clone(todo),
+                            todo,
                             ThalwegGame.INSTANCE.getRoot()))
                     .add(getEngine().createComponent(WorkingFlag.class)));
     }

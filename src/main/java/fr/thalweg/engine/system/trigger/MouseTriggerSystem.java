@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
-import lombok.SneakyThrows;
 
 public class MouseTriggerSystem extends TriggerSystem {
 
@@ -63,7 +62,6 @@ public class MouseTriggerSystem extends TriggerSystem {
                 && polygonComponent.polygon.contains(mouseXYWorld);
     }
 
-    @SneakyThrows
     private void checkOnMouseLeave(Entity nexCurrent) {
         if (currentTouchedEntity != null
                 && nexCurrent != currentTouchedEntity) {
@@ -73,7 +71,6 @@ public class MouseTriggerSystem extends TriggerSystem {
         }
     }
 
-    @SneakyThrows
     private void checkOnMouseEnter(Entity nexCurrent) {
         if (nexCurrent != null && nexCurrent != currentTouchedEntity) {
             var mouseTriggerComponent = mm.get(nexCurrent);

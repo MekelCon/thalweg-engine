@@ -360,6 +360,16 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public {{classname}} copy() {
+    return Cloner.INSTANCE.clone(this);
+  }
+
+  @Mapper(mappingControl = DeepClone.class)
+  public interface Cloner {
+    public static Cloner INSTANCE = Mappers.getMapper(Cloner.class);
+    {{classname}} clone({{classname}} source);
+  }
 {{#supportUrlQuery}}
 
   /**

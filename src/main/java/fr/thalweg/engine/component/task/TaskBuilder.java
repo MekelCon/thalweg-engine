@@ -25,7 +25,8 @@ public interface TaskBuilder {
 
     private static Component log(Engine ecs, LogTaskData data) {
         var result = ecs.createComponent(LogTaskComponent.class);
-        result.data = data;
+        //result.data = DataCloner.INSTANCE.clone(data);
+        result.data = data.copy();
         return result;
     }
 
@@ -42,7 +43,7 @@ public interface TaskBuilder {
 
     private static PlayTransitionTaskComponent playTransition(Engine ecs, PlayTransitionTaskData data, Directory root) {
         var result = ecs.createComponent(PlayTransitionTaskComponent.class);
-        result.data = data;
+        result.data = data.copy();
         result.interpolation = ToInterpolation.from(data.getInterpolation());
         result.root = root;
         return result;
@@ -60,20 +61,20 @@ public interface TaskBuilder {
 
     private static Component setCursor(Engine ecs, SetCursorTaskData data, Directory root) {
         var result = ecs.createComponent(SetCursorTaskComponent.class);
-        result.data = data;
+        result.data = data.copy();
         result.icon = new Pixmap(Gdx.files.internal(root.getSubFolder(data.getCursor())));
         return result;
     }
 
     private static Component setMouseLabel(Engine ecs, SetMouseLabelTaskData data) {
         var result = ecs.createComponent(SetMouseLabelTaskComponent.class);
-        result.data = data;
+        result.data = data.copy();
         return result;
     }
 
     private static WaitTaskComponent wait(Engine ecs, OverTimeTaskData data) {
         WaitTaskComponent result = ecs.createComponent(WaitTaskComponent.class);
-        result.data = data;
+        result.data = data.copy();
         result.interpolation = ToInterpolation.from(data.interpolation);
         return result;
     }
