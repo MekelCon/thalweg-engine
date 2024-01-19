@@ -135,17 +135,17 @@
                             <generatorName>java</generatorName>
                             <modelPackage>fr.thalweg.gen.engine.model</modelPackage>
                             <modelNameSuffix>Data</modelNameSuffix>
-                            <generateApis>false</generateApis>
-                            <generateModelTests>false</generateModelTests>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <generateAliasAsModel>true</generateAliasAsModel>
-                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
-                            <skipValidateSpec>true</skipValidateSpec>
                             <typeMappings>
                                 <mapping>Integer=int</mapping>
                                 <mapping>Float=float</mapping>
                             </typeMappings>
+                            <!-- Disable almost everything because we only want model -->
+                            <generateApis>false</generateApis>
+                            <generateModelTests>false</generateModelTests>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                            <skipValidateSpec>true</skipValidateSpec>
                             <configOptions>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <useJakartaEe>true</useJakartaEe>
@@ -153,7 +153,6 @@
                                 <annotationLibrary>none</annotationLibrary>
                                 <library>resteasy</library>
                                 <booleanGetterPrefix>is</booleanGetterPrefix>
-                                <beanValidation>true</beanValidation>
                             </configOptions>
                         </configuration>
                     </execution>
