@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.transformer.tolibgdx.ToInterpolation;
 import fr.thalweg.gen.engine.model.*;
@@ -25,24 +24,21 @@ public interface TaskBuilder {
 
     private static Component log(Engine ecs, LogTaskData data) {
         var result = ecs.createComponent(LogTaskComponent.class);
-        result.data = data;
+        result.data = data.copy();
         return result;
     }
 
     private static ParallelTaskComponent parallel(Engine ecs, TaskArrayData data, Directory root) {
         var result = ecs.createComponent(ParallelTaskComponent.class);
-        Array<Component> taskComponents = new Array<>(data.getTodos().size());
         for (TaskData todo : data.getTodos()) {
-            taskComponents.addAll(build(ecs, todo, root));
+            result.components.add(build(ecs, todo, root));
         }
-        result.components = taskComponents;
-
         return result;
     }
 
     private static PlayTransitionTaskComponent playTransition(Engine ecs, PlayTransitionTaskData data, Directory root) {
         var result = ecs.createComponent(PlayTransitionTaskComponent.class);
-        result.data = data;
+        result.data = data.copy();
         result.interpolation = ToInterpolation.from(data.getInterpolation());
         result.root = root;
         return result;
@@ -50,30 +46,28 @@ public interface TaskBuilder {
 
     private static SequenceTaskComponent sequence(Engine ecs, TaskArrayData data, Directory root) {
         var result = ecs.createComponent(SequenceTaskComponent.class);
-        Array<Component> taskComponents = new Array<>(data.getTodos().size());
         for (TaskData todo : data.getTodos()) {
-            taskComponents.addAll(build(ecs, todo, root));
+            result.components.add(build(ecs, todo, root));
         }
-        result.components = taskComponents;
         return result;
     }
 
-    private static Component setCursor(Engine ecs, SetCursorTaskData data, Directory root) {
+    private static SetCursorTaskComponent setCursor(Engine ecs, SetCursorTaskData data, Directory root) {
         var result = ecs.createComponent(SetCursorTaskComponent.class);
-        result.data = data;
+        result.data = data.copy();
         result.icon = new Pixmap(Gdx.files.internal(root.getSubFolder(data.getCursor())));
         return result;
     }
 
-    private static Component setMouseLabel(Engine ecs, SetMouseLabelTaskData data) {
+    private static SetMouseLabelTaskComponent setMouseLabel(Engine ecs, SetMouseLabelTaskData data) {
         var result = ecs.createComponent(SetMouseLabelTaskComponent.class);
-        result.data = data;
+        result.data = data.copy();
         return result;
     }
 
     private static WaitTaskComponent wait(Engine ecs, OverTimeTaskData data) {
         WaitTaskComponent result = ecs.createComponent(WaitTaskComponent.class);
-        result.data = data;
+        result.data = data.copy();
         result.interpolation = ToInterpolation.from(data.interpolation);
         return result;
     }

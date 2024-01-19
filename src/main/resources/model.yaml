@@ -3,17 +3,7 @@ info:
   title: Not used API
   description: Just here to generate model of the thalweg engine
   version: 2024.01.01
-paths:
-  /fake:
-    get:
-      summary: Fake path to be valid against openapi 3.0.0
-      responses:
-        '200':
-          description: fake response to be valid against openapi 3.0.0
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ThalwegGameConfiguration'
+paths: { } # just here to avoid validation
 components:
   schemas:
     Color:
@@ -137,10 +127,6 @@ components:
               format: float
               description: The time to wait before starting the action
               default: 0
-    ParallelTask:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/TaskArray'
     PlayTransitionTask:
       allOf:
         - $ref: '#/components/schemas/OverTimeTask'
@@ -195,10 +181,6 @@ components:
           type: number
           format: float
           default: 1
-    SequenceTask:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/TaskArray'
     SetMouseLabelTask:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -222,9 +204,9 @@ components:
         propertyName: type
         mapping:
           LOG: '#/components/schemas/LogTask'
-          PARALLEL: '#/components/schemas/ParallelTask'
+          PARALLEL: '#/components/schemas/TaskArray'
           PLAY_TRANSITION: '#/components/schemas/PlayTransitionTask'
-          SEQUENCE: '#/components/schemas/SequenceTask'
+          SEQUENCE: '#/components/schemas/TaskArray'
           SET_CURSOR: '#/components/schemas/SetCursorTask'
           SET_MOUSE_LABEL: '#/components/schemas/SetMouseLabelTask'
           WAIT: '#/components/schemas/OverTimeTask'
