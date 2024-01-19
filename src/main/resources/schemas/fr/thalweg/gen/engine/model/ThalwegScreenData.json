@@ -19,13 +19,13 @@
           "$ref": "#/definitions/LogTaskData"
         },
         {
-          "$ref": "#/definitions/ParallelTaskData-2"
+          "$ref": "#/definitions/TaskArrayData-2"
         },
         {
           "$ref": "#/definitions/PlayTransitionTaskData"
         },
         {
-          "$ref": "#/definitions/SequenceTaskData-2"
+          "$ref": "#/definitions/TaskArrayData-2"
         },
         {
           "$ref": "#/definitions/SetCursorTaskData"
@@ -35,61 +35,6 @@
         },
         {
           "$ref": "#/definitions/OverTimeTaskData"
-        }
-      ]
-    },
-    "ParallelTaskData-1": {
-      "type": "object",
-      "properties": {
-        "todos": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/LogTaskData"
-              },
-              {
-                "$ref": "#/definitions/ParallelTaskData-2"
-              },
-              {
-                "$ref": "#/definitions/PlayTransitionTaskData"
-              },
-              {
-                "$ref": "#/definitions/SequenceTaskData-2"
-              },
-              {
-                "$ref": "#/definitions/SetCursorTaskData"
-              },
-              {
-                "$ref": "#/definitions/SetMouseLabelTaskData"
-              },
-              {
-                "$ref": "#/definitions/OverTimeTaskData"
-              },
-              {
-                "$ref": "#/definitions/TaskArrayData"
-              }
-            ]
-          }
-        }
-      },
-      "additionalProperties": false
-    },
-    "ParallelTaskData-2": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/ParallelTaskData-1"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "ParallelTaskData"
-            }
-          },
-          "required": [
-            "type"
-          ]
         }
       ]
     },
@@ -119,61 +64,6 @@
       "additionalProperties": false,
       "required": [
         "type"
-      ]
-    },
-    "SequenceTaskData-1": {
-      "type": "object",
-      "properties": {
-        "todos": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/LogTaskData"
-              },
-              {
-                "$ref": "#/definitions/ParallelTaskData-2"
-              },
-              {
-                "$ref": "#/definitions/PlayTransitionTaskData"
-              },
-              {
-                "$ref": "#/definitions/SequenceTaskData-2"
-              },
-              {
-                "$ref": "#/definitions/SetCursorTaskData"
-              },
-              {
-                "$ref": "#/definitions/SetMouseLabelTaskData"
-              },
-              {
-                "$ref": "#/definitions/OverTimeTaskData"
-              },
-              {
-                "$ref": "#/definitions/TaskArrayData"
-              }
-            ]
-          }
-        }
-      },
-      "additionalProperties": false
-    },
-    "SequenceTaskData-2": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/SequenceTaskData-1"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "SequenceTaskData"
-            }
-          },
-          "required": [
-            "type"
-          ]
-        }
       ]
     },
     "SetCursorTaskData": {
@@ -211,28 +101,55 @@
       "additionalProperties" : false,
       "required" : [ "type" ]
     },
-    "TaskArrayData": {
-      "anyOf": [
+    "TaskArrayData-1": {
+      "type": "object",
+      "properties": {
+        "todos": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/LogTaskData"
+              },
+              {
+                "$ref": "#/definitions/TaskArrayData-2"
+              },
+              {
+                "$ref": "#/definitions/PlayTransitionTaskData"
+              },
+              {
+                "$ref": "#/definitions/TaskArrayData-2"
+              },
+              {
+                "$ref": "#/definitions/SetCursorTaskData"
+              },
+              {
+                "$ref": "#/definitions/SetMouseLabelTaskData"
+              },
+              {
+                "$ref": "#/definitions/OverTimeTaskData"
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "TaskArrayData-2": {
+      "allOf": [
         {
-          "$ref": "#/definitions/LogTaskData"
+          "$ref": "#/definitions/TaskArrayData-1"
         },
         {
-          "$ref": "#/definitions/ParallelTaskData-2"
-        },
-        {
-          "$ref": "#/definitions/PlayTransitionTaskData"
-        },
-        {
-          "$ref": "#/definitions/SequenceTaskData-2"
-        },
-        {
-          "$ref": "#/definitions/SetCursorTaskData"
-        },
-        {
-          "$ref": "#/definitions/SetMouseLabelTaskData"
-        },
-        {
-          "$ref": "#/definitions/OverTimeTaskData"
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "TaskArrayData"
+            }
+          },
+          "required": [
+            "type"
+          ]
       } ]
     }
   },
@@ -282,11 +199,11 @@
                   "anyOf" : [ {
                     "$ref" : "#/definitions/LogTaskData"
                   }, {
-                    "$ref": "#/definitions/ParallelTaskData-2"
+                    "$ref": "#/definitions/TaskArrayData-2"
                   }, {
                     "$ref" : "#/definitions/PlayTransitionTaskData"
                   }, {
-                    "$ref": "#/definitions/SequenceTaskData-2"
+                    "$ref": "#/definitions/TaskArrayData-2"
                   }, {
                     "$ref": "#/definitions/SetCursorTaskData"
                   },
@@ -295,9 +212,6 @@
                     },
                     {
                       "$ref": "#/definitions/OverTimeTaskData"
-                    },
-                    {
-                      "$ref": "#/definitions/TaskArrayData"
                   } ]
                 },
                 "type" : {

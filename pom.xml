@@ -134,12 +134,14 @@
                             </templateResourcePath>
                             <generatorName>java</generatorName>
                             <modelPackage>fr.thalweg.gen.engine.model</modelPackage>
+                            <modelNameSuffix>Data</modelNameSuffix>
                             <generateApis>false</generateApis>
                             <generateModelTests>false</generateModelTests>
                             <generateModelDocumentation>false</generateModelDocumentation>
                             <generateSupportingFiles>false</generateSupportingFiles>
-                            <modelNameSuffix>Data</modelNameSuffix>
                             <generateAliasAsModel>true</generateAliasAsModel>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                            <skipValidateSpec>true</skipValidateSpec>
                             <typeMappings>
                                 <mapping>Integer=int</mapping>
                                 <mapping>Float=float</mapping>

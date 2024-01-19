@@ -11,6 +11,7 @@ public class SetCursorTaskComponent implements TaskComponent {
     @Override
     public void reset() {
         data = null;
+        icon.dispose();
         icon = null;
     }
 }
