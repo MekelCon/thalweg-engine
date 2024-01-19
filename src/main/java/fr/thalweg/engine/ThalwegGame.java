@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.thalweg.engine.entity.WorkingFlagListener;
 import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
@@ -92,11 +91,6 @@ public class ThalwegGame extends Game {
         ECSEngine.addSystem(new SetCursorTask());
         ECSEngine.addSystem(new SetMouseLabelTask());
         ECSEngine.addSystem(new WaitTask());
-
-        ECSEngine.addEntityListener(
-                WorkingFlagListener.LISTENING,
-                new WorkingFlagListener()
-        );
 
         setScreen(new ThalwegScreen(
                 this,
