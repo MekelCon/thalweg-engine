@@ -4,12 +4,13 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import fr.thalweg.engine.component.task.OverTimeTaskComponent;
 import fr.thalweg.engine.system.task.Task;
+import fr.thalweg.gen.engine.model.OverTimeTaskData;
 
 public abstract class OverTimeTask extends Task {
 
-    private final ComponentMapper<? extends OverTimeTaskComponent> cm;
+    private final ComponentMapper<? extends OverTimeTaskComponent<? extends OverTimeTaskData>> cm;
 
-    public OverTimeTask(Class<? extends OverTimeTaskComponent> clazz) {
+    public OverTimeTask(Class<? extends OverTimeTaskComponent<? extends OverTimeTaskData>> clazz) {
         super(clazz);
         this.cm = ComponentMapper.getFor(clazz);
     }
@@ -23,12 +24,12 @@ public abstract class OverTimeTask extends Task {
             overTimeTaskComponent.began = true;
         }
         // Decrease the delay until 0
-        if (overTimeTaskComponent.getData().delay > 0) {
-            overTimeTaskComponent.getData().delay = Math.max(0, overTimeTaskComponent.getData().delay - deltaTime);
-            overTimeTaskComponent.time = Math.max(0, overTimeTaskComponent.time - overTimeTaskComponent.getData().delay);
+        if (overTimeTaskComponent.data.delay > 0) {
+            overTimeTaskComponent.data.delay = Math.max(0, overTimeTaskComponent.data.delay - deltaTime);
+            overTimeTaskComponent.time = Math.max(0, overTimeTaskComponent.time - overTimeTaskComponent.data.delay);
         }
-        overTimeTaskComponent.complete = overTimeTaskComponent.time >= overTimeTaskComponent.getData().duration;
-        float percent = overTimeTaskComponent.complete ? 1 : overTimeTaskComponent.time / overTimeTaskComponent.getData().duration;
+        overTimeTaskComponent.complete = overTimeTaskComponent.time >= overTimeTaskComponent.data.duration;
+        float percent = overTimeTaskComponent.complete ? 1 : overTimeTaskComponent.time / overTimeTaskComponent.data.duration;
         if (overTimeTaskComponent.interpolation != null)
             percent = overTimeTaskComponent.interpolation.apply(percent);
         update(entity, overTimeTaskComponent.reverse ? 1 - percent : percent);
