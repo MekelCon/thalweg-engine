@@ -6,11 +6,11 @@ import com.badlogic.gdx.utils.Array;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.TypingConfig;
 import fr.thalweg.engine.model.Directory;
+import fr.thalweg.engine.system.rendering.TextRenderingSystem;
 import fr.thalweg.gen.engine.model.CustomVarData;
 import fr.thalweg.gen.engine.model.FontConfigData;
 import fr.thalweg.gen.engine.model.FontConfigsData;
 
-import static fr.thalweg.engine.system.rendering.TextRenderingSystem.MOUSE_LABEL_DEFAULT_TOKEN_VAR;
 
 public class FontManager {
 
@@ -62,7 +62,7 @@ public class FontManager {
             if (fontConfigsData.getVars().getExisting() != null) {
                 if (fontConfigsData.getVars().getExisting().getMouseLabelDefaultToken() != null) {
                     TypingConfig.GLOBAL_VARS.put(
-                            MOUSE_LABEL_DEFAULT_TOKEN_VAR,
+                            TextRenderingSystem.MOUSE_LABEL_DEFAULT_TOKEN_VAR_NAME,
                             fontConfigsData.getVars().getExisting().getMouseLabelDefaultToken());
                 }
             }

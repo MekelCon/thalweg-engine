@@ -7,27 +7,189 @@
           "type" : "string"
         },
         "type" : {
-          "const" : "LOG"
+          "const": "LogTaskData"
         }
       },
       "additionalProperties" : false,
       "required" : [ "type" ]
     },
+    "OverTimeTaskData": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/LogTaskData"
+        },
+        {
+          "$ref": "#/definitions/ParallelTaskData-2"
+        },
+        {
+          "$ref": "#/definitions/PlayTransitionTaskData"
+        },
+        {
+          "$ref": "#/definitions/SequenceTaskData-2"
+        },
+        {
+          "$ref": "#/definitions/SetCursorTaskData"
+        },
+        {
+          "$ref": "#/definitions/SetMouseLabelTaskData"
+        },
+        {
+          "$ref": "#/definitions/OverTimeTaskData"
+        }
+      ]
+    },
+    "ParallelTaskData-1": {
+      "type": "object",
+      "properties": {
+        "todos": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/LogTaskData"
+              },
+              {
+                "$ref": "#/definitions/ParallelTaskData-2"
+              },
+              {
+                "$ref": "#/definitions/PlayTransitionTaskData"
+              },
+              {
+                "$ref": "#/definitions/SequenceTaskData-2"
+              },
+              {
+                "$ref": "#/definitions/SetCursorTaskData"
+              },
+              {
+                "$ref": "#/definitions/SetMouseLabelTaskData"
+              },
+              {
+                "$ref": "#/definitions/OverTimeTaskData"
+              },
+              {
+                "$ref": "#/definitions/TaskArrayData"
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ParallelTaskData-2": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ParallelTaskData-1"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "ParallelTaskData"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    },
     "PlayTransitionTaskData" : {
       "type" : "object",
       "properties" : {
+        "delay": {
+          "type": "number"
+        },
         "duration" : {
           "type" : "number"
         },
         "interpolation" : {
-          "type" : "string",
-          "enum" : [ "LINEAR", "POW" ]
+          "type": "string",
+          "enum": [
+            "LINEAR",
+            "POW"
+          ]
         },
         "transition" : {
           "type" : "string"
         },
         "type" : {
-          "const" : "PLAY_TRANSITION"
+          "const": "PlayTransitionTaskData"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ]
+    },
+    "SequenceTaskData-1": {
+      "type": "object",
+      "properties": {
+        "todos": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/LogTaskData"
+              },
+              {
+                "$ref": "#/definitions/ParallelTaskData-2"
+              },
+              {
+                "$ref": "#/definitions/PlayTransitionTaskData"
+              },
+              {
+                "$ref": "#/definitions/SequenceTaskData-2"
+              },
+              {
+                "$ref": "#/definitions/SetCursorTaskData"
+              },
+              {
+                "$ref": "#/definitions/SetMouseLabelTaskData"
+              },
+              {
+                "$ref": "#/definitions/OverTimeTaskData"
+              },
+              {
+                "$ref": "#/definitions/TaskArrayData"
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "SequenceTaskData-2": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/SequenceTaskData-1"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "SequenceTaskData"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    },
+    "SetCursorTaskData": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string"
+        },
+        "xHotspot": {
+          "type": "integer"
+        },
+        "yHotspot": {
+          "type": "integer"
+        },
+        "type": {
+          "const": "SetCursorTaskData"
         }
       },
       "additionalProperties" : false,
@@ -43,45 +205,34 @@
           "type" : "string"
         },
         "type" : {
-          "const" : "SET_MOUSE_LABEL"
+          "const": "SetMouseLabelTaskData"
         }
       },
       "additionalProperties" : false,
       "required" : [ "type" ]
     },
-    "TaskArrayData-1" : {
-      "type" : "object",
-      "properties" : {
-        "todos" : {
-          "type" : "array",
-          "items" : {
-            "anyOf" : [ {
-              "$ref" : "#/definitions/LogTaskData"
-            }, {
-              "$ref" : "#/definitions/TaskArrayData-2"
-            }, {
-              "$ref" : "#/definitions/PlayTransitionTaskData"
-            }, {
-              "$ref" : "#/definitions/TaskArrayData-2"
-            }, {
-              "$ref" : "#/definitions/SetMouseLabelTaskData"
-            } ]
-          }
-        }
-      },
-      "additionalProperties" : false
-    },
-    "TaskArrayData-2" : {
-      "allOf" : [ {
-        "$ref" : "#/definitions/TaskArrayData-1"
-      }, {
-        "type" : "object",
-        "properties" : {
-          "type" : {
-            "const" : "PARALLEL"
-          }
+    "TaskArrayData": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/LogTaskData"
         },
-        "required" : [ "type" ]
+        {
+          "$ref": "#/definitions/ParallelTaskData-2"
+        },
+        {
+          "$ref": "#/definitions/PlayTransitionTaskData"
+        },
+        {
+          "$ref": "#/definitions/SequenceTaskData-2"
+        },
+        {
+          "$ref": "#/definitions/SetCursorTaskData"
+        },
+        {
+          "$ref": "#/definitions/SetMouseLabelTaskData"
+        },
+        {
+          "$ref": "#/definitions/OverTimeTaskData"
       } ]
     }
   },
@@ -131,13 +282,22 @@
                   "anyOf" : [ {
                     "$ref" : "#/definitions/LogTaskData"
                   }, {
-                    "$ref" : "#/definitions/TaskArrayData-2"
+                    "$ref": "#/definitions/ParallelTaskData-2"
                   }, {
                     "$ref" : "#/definitions/PlayTransitionTaskData"
                   }, {
-                    "$ref" : "#/definitions/TaskArrayData-2"
+                    "$ref": "#/definitions/SequenceTaskData-2"
                   }, {
+                    "$ref": "#/definitions/SetCursorTaskData"
+                  },
+                    {
                     "$ref" : "#/definitions/SetMouseLabelTaskData"
+                    },
+                    {
+                      "$ref": "#/definitions/OverTimeTaskData"
+                    },
+                    {
+                      "$ref": "#/definitions/TaskArrayData"
                   } ]
                 },
                 "type" : {
@@ -151,7 +311,16 @@
           "vertices" : {
             "type" : "array",
             "items" : {
-              "type" : "number"
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false
             }
           }
         },

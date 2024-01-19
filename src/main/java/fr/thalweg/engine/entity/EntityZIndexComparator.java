@@ -15,7 +15,7 @@ public class EntityZIndexComparator implements Comparator<Entity> {
 
     @Override
     public int compare(Entity e1, Entity e2) {
-        return (int) Math.signum(zIndexComponentMapper.get(e2).zIndex -
+        return Integer.signum(zIndexComponentMapper.get(e2).zIndex -
                 zIndexComponentMapper.get(e1).zIndex);
     }
 }

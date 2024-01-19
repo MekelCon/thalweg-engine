@@ -16,25 +16,6 @@ paths:
                 $ref: '#/components/schemas/ThalwegGameConfiguration'
 components:
   schemas:
-    ChangeCursorTask:
-      allOf:
-        - $ref: '#/components/schemas/Task'
-        - properties:
-            cursor:
-              type: string
-            xHotspot:
-              type: integer
-              format: int32
-              default: 0
-              description: Position on the X-Axis of the active pixel
-            yHotspot:
-              type: integer
-              format: int32
-              default: 0
-              description: Position on the Y-Axis of the active pixel
-      required:
-        - type
-        - cursor
     Color:
       type: object
       properties:
@@ -107,6 +88,7 @@ components:
       enum:
         - LINEAR
         - POW
+      default: LINEAR
     LogLevelEnum:
       type: string
       enum:
@@ -138,6 +120,27 @@ components:
         foregroundFPS:
           type: integer
           default: 60
+          minimum: 0
+    OverTimeTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            duration:
+              type: number
+              format: float
+              description: The duration in seconds
+              default: 0
+            interpolation:
+              $ref: '#/components/schemas/Interpolation'
+            delay:
+              type: number
+              format: float
+              description: The time to wait before starting the action
+              default: 0
+    ParallelTask:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TaskArray'
     PlayTransitionTask:
       allOf:
         - $ref: '#/components/schemas/OverTimeTask'
@@ -152,26 +155,50 @@ components:
       properties:
         x:
           type: number
-          default: 0
           format: float
+          default: 0
         y:
           type: number
-          default: 0
           format: float
+          default: 0
         z:
           type: integer
           default: 0
+    SetCursorTask:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - properties:
+            cursor:
+              type: string
+              pattern: ^cursor/.*\.(ttf)$
+            xHotspot:
+              type: integer
+              format: int32
+              default: 0
+              description: Position on the X-Axis of the active pixel
+            yHotspot:
+              type: integer
+              format: int32
+              default: 0
+              description: Position on the Y-Axis of the active pixel
+      required:
+        - type
+        - cursor
     Scale:
       type: object
       properties:
         x:
           type: number
-          default: 1
           format: float
+          default: 1
         y:
           type: number
-          default: 1
           format: float
+          default: 1
+    SequenceTask:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TaskArray'
     SetMouseLabelTask:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -195,10 +222,12 @@ components:
         propertyName: type
         mapping:
           LOG: '#/components/schemas/LogTask'
-          PARALLEL: '#/components/schemas/TaskArray'
+          PARALLEL: '#/components/schemas/ParallelTask'
           PLAY_TRANSITION: '#/components/schemas/PlayTransitionTask'
-          SEQUENCE: '#/components/schemas/TaskArray'
+          SEQUENCE: '#/components/schemas/SequenceTask'
+          SET_CURSOR: '#/components/schemas/SetCursorTask'
           SET_MOUSE_LABEL: '#/components/schemas/SetMouseLabelTask'
+          WAIT: '#/components/schemas/OverTimeTask'
     TaskArray:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -216,17 +245,9 @@ components:
         - PARALLEL
         - PLAY_TRANSITION
         - SEQUENCE
+        - SET_CURSOR
         - SET_MOUSE_LABEL
-    OverTimeTask:
-      allOf:
-        - $ref: '#/components/schemas/Task'
-        - properties:
-            duration:
-              type: number
-              format: float
-              description: The to display near the mouse
-            interpolation:
-              $ref: '#/components/schemas/Interpolation'
+        - WAIT
     ThalwegActor:
       type: object
       properties:
@@ -239,8 +260,7 @@ components:
         vertices:
           type: array
           items:
-            type: number
-            format: float
+            $ref: '#/components/schemas/XY'
         triggers:
           type: array
           items:
@@ -328,3 +348,14 @@ components:
     World:
       allOf:
         - $ref: '#/components/schemas/WidthAndHeight'
+    XY:
+      type: object
+      properties:
+        x:
+          type: number
+          format: float
+          default: 0
+        y:
+          type: number
+          format: float
+          default: 0

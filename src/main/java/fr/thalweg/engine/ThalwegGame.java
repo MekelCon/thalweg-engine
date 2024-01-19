@@ -18,9 +18,11 @@ import fr.thalweg.engine.system.rendering.TextRenderingSystem;
 import fr.thalweg.engine.system.rendering.WorldRenderingSystem;
 import fr.thalweg.engine.system.task.ParallelTask;
 import fr.thalweg.engine.system.task.SequenceTask;
-import fr.thalweg.engine.system.task.onetime.LogTask;
-import fr.thalweg.engine.system.task.onetime.SetMouseLabelTask;
+import fr.thalweg.engine.system.task.oneshot.LogTask;
+import fr.thalweg.engine.system.task.oneshot.SetCursorTask;
+import fr.thalweg.engine.system.task.oneshot.SetMouseLabelTask;
 import fr.thalweg.engine.system.task.overtime.PlayTransitionTask;
+import fr.thalweg.engine.system.task.overtime.WaitTask;
 import fr.thalweg.engine.system.trigger.AutoTriggerSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
@@ -33,7 +35,7 @@ import lombok.extern.java.Log;
 @Log
 public class ThalwegGame extends Game {
 
-    private static ThalwegGame INSTANCE;
+    public static ThalwegGame INSTANCE;
     private final Directory root;
     private final ThalwegGameConfigurationData config;
     private final PooledEngine ECSEngine;
@@ -81,11 +83,15 @@ public class ThalwegGame extends Game {
         ECSEngine.addSystem(new MouseTriggerSystem(viewport));
         ECSEngine.addSystem(new AutoTriggerSystem());
         // Task System
-        ECSEngine.addSystem(new LogTask());
-        ECSEngine.addSystem(new PlayTransitionTask());
-        ECSEngine.addSystem(new SetMouseLabelTask());
+        // 1st treat wrapper task, so atomic tack will be executed during the same frame
         ECSEngine.addSystem(new ParallelTask());
         ECSEngine.addSystem(new SequenceTask());
+        // Atomic Task
+        ECSEngine.addSystem(new LogTask());
+        ECSEngine.addSystem(new PlayTransitionTask());
+        ECSEngine.addSystem(new SetCursorTask());
+        ECSEngine.addSystem(new SetMouseLabelTask());
+        ECSEngine.addSystem(new WaitTask());
 
         ECSEngine.addEntityListener(
                 WorkingFlagListener.LISTENING,

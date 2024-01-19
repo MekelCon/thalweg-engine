@@ -2,18 +2,16 @@ package fr.thalweg.engine.system.task;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.SequenceTaskComponent;
 
 public class SequenceTask extends Task {
 
     private static final Class<SequenceTaskComponent> COMPONENT = SequenceTaskComponent.class;
-    private static final Family FAMILY = Family.all(WorkingFlag.class, COMPONENT).get();
     private final ComponentMapper<SequenceTaskComponent> cm;
 
     public SequenceTask() {
-        super(FAMILY);
+        super(COMPONENT);
         this.cm = ComponentMapper.getFor(COMPONENT);
     }
 
