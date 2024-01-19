@@ -14,9 +14,9 @@ public interface TaskBuilder {
     static Component build(Engine ecs, TaskData todo, Directory root) {
         return switch (todo.getType()) {
             case LOG -> log(ecs, (LogTaskData) todo);
-            case PARALLEL -> parallel(ecs, (TaskArrayData) todo, root);
+            case PARALLEL -> parallel(ecs, (ParallelTaskData) todo, root);
             case PLAY_TRANSITION -> playTransition(ecs, (PlayTransitionTaskData) todo, root);
-            case SEQUENCE -> sequence(ecs, (TaskArrayData) todo, root);
+            case SEQUENCE -> sequence(ecs, (SequenceTaskData) todo, root);
             case SET_CURSOR -> setCursor(ecs, (SetCursorTaskData) todo, root);
             case SET_MOUSE_LABEL -> setMouseLabel(ecs, (SetMouseLabelTaskData) todo);
             case WAIT -> wait(ecs, (OverTimeTaskData) todo);
@@ -29,7 +29,7 @@ public interface TaskBuilder {
         return result;
     }
 
-    private static ParallelTaskComponent parallel(Engine ecs, TaskArrayData data, Directory root) {
+    private static ParallelTaskComponent parallel(Engine ecs, ParallelTaskData data, Directory root) {
         var result = ecs.createComponent(ParallelTaskComponent.class);
         Array<Component> taskComponents = new Array<>(data.getTodos().size());
         for (TaskData todo : data.getTodos()) {
@@ -48,7 +48,7 @@ public interface TaskBuilder {
         return result;
     }
 
-    private static SequenceTaskComponent sequence(Engine ecs, TaskArrayData data, Directory root) {
+    private static SequenceTaskComponent sequence(Engine ecs, SequenceTaskData data, Directory root) {
         var result = ecs.createComponent(SequenceTaskComponent.class);
         Array<Component> taskComponents = new Array<>(data.getTodos().size());
         for (TaskData todo : data.getTodos()) {
