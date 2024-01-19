@@ -3,23 +3,32 @@ package fr.thalweg.engine.system.task.overtime;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.gdx.math.Interpolation;
 import fr.thalweg.engine.component.task.OverTimeTaskComponent;
 import fr.thalweg.engine.system.task.Task;
+import fr.thalweg.gen.engine.model.OverTimeTaskData;
 
-public abstract class OverTimeTask<T extends OverTimeTaskComponent> extends Task {
-    private final ComponentMapper<T> cm;
+public abstract class OverTimeTask extends Task {
+    private final ComponentMapper<OverTimeTaskComponent> cm;
 
-    public Class<T> aClass;
-
-    public OverTimeTask(Family family, Class<T> subClass) {
+    public OverTimeTask(Family family) {
         super(family);
-        this.aClass = subClass;
-        this.cm = ComponentMapper.getFor(aClass);
+        this.cm = ComponentMapper.getFor(OverTimeTaskComponent.class);
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        T overTimeTaskComponent = cm.get(entity);
+        OverTimeTaskComponent overTimeTaskComponent = cm.get(entity);
+        if (overTimeTaskComponent == null) {
+            overTimeTaskComponent = getEngine().createComponent(OverTimeTaskComponent.class);
+            overTimeTaskComponent.data = new OverTimeTaskData()
+                    .delay(getDelay(entity))
+                    .duration(getDuration(entity));
+            overTimeTaskComponent.interpolation = getInterpolation(entity);
+            entity.add(overTimeTaskComponent);
+        }
+
+
         overTimeTaskComponent.time += deltaTime;
         if (!overTimeTaskComponent.began) {
             begin(entity);
@@ -42,10 +51,16 @@ public abstract class OverTimeTask<T extends OverTimeTaskComponent> extends Task
         }
     }
 
+    protected abstract float getDelay(Entity entity);
+
+    protected abstract float getDuration(Entity entity);
+
+    protected abstract Interpolation getInterpolation(Entity entity);
+
     /**
      * Will be cal even before the delay, allow the initialization
      *
-     * @param entity
+     * @param entity The current processed entity
      */
     protected void begin(Entity entity) {
     }

@@ -120,6 +120,7 @@ components:
         foregroundFPS:
           type: integer
           default: 60
+          minimum: 0
     OverTimeTask:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -128,6 +129,7 @@ components:
               type: number
               format: float
               description: The duration in seconds
+              default: 0
             interpolation:
               $ref: '#/components/schemas/Interpolation'
             delay:
@@ -135,8 +137,6 @@ components:
               format: float
               description: The time to wait before starting the action
               default: 0
-          required:
-            - duration
     PlayTransitionTask:
       allOf:
         - $ref: '#/components/schemas/OverTimeTask'
@@ -151,12 +151,12 @@ components:
       properties:
         x:
           type: number
-          default: 0
           format: float
+          default: 0
         y:
           type: number
-          default: 0
           format: float
+          default: 0
         z:
           type: integer
           default: 0
@@ -185,12 +185,12 @@ components:
       properties:
         x:
           type: number
-          default: 1
           format: float
+          default: 1
         y:
           type: number
-          default: 1
           format: float
+          default: 1
     SetMouseLabelTask:
       allOf:
         - $ref: '#/components/schemas/Task'
@@ -345,9 +345,9 @@ components:
       properties:
         x:
           type: number
-          default: 0
           format: float
+          default: 0
         y:
           type: number
-          default: 0
           format: float
+          default: 0

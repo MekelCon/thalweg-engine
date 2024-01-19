@@ -7,19 +7,37 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Interpolation;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.PlayTransitionTaskComponent;
 import fr.thalweg.engine.system.rendering.WorldRenderingSystem;
-import fr.thalweg.gen.engine.model.PlayTransitionTaskData;
 
-public class PlayTransitionTask extends OverTimeTask<PlayTransitionTaskComponent> {
+public class PlayTransitionTask extends OverTimeTask {
     private static final Class<PlayTransitionTaskComponent> COMPONENT = PlayTransitionTaskComponent.class;
     private static final Family FAMILY = Family.all(COMPONENT, WorkingFlag.class).get();
     private final ComponentMapper<PlayTransitionTaskComponent> cm;
 
     public PlayTransitionTask() {
-        super(FAMILY, COMPONENT);
+        super(FAMILY);
         this.cm = ComponentMapper.getFor(COMPONENT);
+    }
+
+    @Override
+    protected float getDelay(Entity entity) {
+        var transitionTaskComponent = cm.get(entity);
+        return transitionTaskComponent.data.delay;
+    }
+
+    @Override
+    protected float getDuration(Entity entity) {
+        var transitionTaskComponent = cm.get(entity);
+        return transitionTaskComponent.data.duration;
+    }
+
+    @Override
+    protected Interpolation getInterpolation(Entity entity) {
+        var transitionTaskComponent = cm.get(entity);
+        return transitionTaskComponent.interpolation;
     }
 
     @Override
@@ -28,7 +46,7 @@ public class PlayTransitionTask extends OverTimeTask<PlayTransitionTaskComponent
         var transitionTaskComponent = cm.get(entity);
         transitionTaskComponent.shader = createTransitionShader();
         transitionTaskComponent.texture = new Texture(Gdx.files.internal(
-                transitionTaskComponent.root.getSubFolder(((PlayTransitionTaskData) transitionTaskComponent.data).getTransition())));
+                transitionTaskComponent.root.getSubFolder(transitionTaskComponent.data.transition)));
         transitionTaskComponent.texture.bind(1);
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
         getEngine().getSystem(WorldRenderingSystem.class).transitioning = true;
