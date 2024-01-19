@@ -37,13 +37,11 @@ public class PlayTransitionTask extends OverTimeTask {
         transitionTaskComponent.shader.setUniformf("u_transitionPercent", percent);
     }
 
+
     @Override
     protected void end(Entity entity) {
         super.end(entity);
         getEngine().getSystem(WorldRenderingSystem.class).transitioning = false;
-        var transitionTaskComponent = cm.get(entity);
-        transitionTaskComponent.shader.dispose();
-        transitionTaskComponent.texture.dispose();
     }
 
     private ShaderProgram createTransitionShader() {
