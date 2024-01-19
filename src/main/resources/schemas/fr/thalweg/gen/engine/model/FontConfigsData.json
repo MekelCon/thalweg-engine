@@ -6,6 +6,9 @@
       "items" : {
         "type" : "object",
         "properties" : {
+          "borderSize": {
+            "type": "integer"
+          },
           "heightAdjust": {
             "type": "number"
           },

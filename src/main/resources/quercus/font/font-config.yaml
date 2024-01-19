@@ -1,11 +1,15 @@
 family:
   - name: default
-    size: 28
     source: font/Perfect DOS VGA 437 Win.ttf
-  - name: writing
     size: 28
+    borderSize: 2
+  - name: writing
     source: font/F25 Executive.ttf
+    size: 28
     yAdjust: -4
 vars:
   existing:
-    mouseLabelDefaultToken: "{SPEED=0.1}[%?black outline][#CCCCCC][@]"
+    mouseLabelDefaultToken: "{SLOW}[%?black outline][#CCCCCC][@]"
+  custom:
+    - name: NORAH
+      value: "[#66CCCC]"
