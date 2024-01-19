@@ -1,22 +1,22 @@
 package fr.thalweg.engine.system.task.overtime;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import fr.thalweg.engine.component.task.OverTimeTaskComponent;
 import fr.thalweg.engine.system.task.Task;
 
 public abstract class OverTimeTask extends Task {
 
-    private final Class<? extends OverTimeTaskComponent> baseClazz;
+    private final ComponentMapper<? extends OverTimeTaskComponent> cm;
 
     public OverTimeTask(Class<? extends OverTimeTaskComponent> clazz) {
         super(clazz);
-        this.baseClazz = clazz;
+        this.cm = ComponentMapper.getFor(clazz);
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        var overTimeTaskComponent = entity.getComponent(baseClazz);
-
+        var overTimeTaskComponent = cm.get(entity);
         overTimeTaskComponent.time += deltaTime;
         if (!overTimeTaskComponent.began) {
             begin(entity);
