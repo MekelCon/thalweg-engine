@@ -120,45 +120,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.2.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/model.yaml</inputSpec>
-                            <templateResourcePath>${project.basedir}/src/main/resources/custom_template
-                            </templateResourcePath>
-                            <generatorName>java</generatorName>
-                            <modelPackage>fr.thalweg.gen.engine.model</modelPackage>
-                            <modelNameSuffix>Data</modelNameSuffix>
-                            <typeMappings>
-                                <mapping>Integer=int</mapping>
-                                <mapping>Float=float</mapping>
-                            </typeMappings>
-                            <!-- Disable almost everything because we only want model -->
-                            <generateApis>false</generateApis>
-                            <generateModelTests>false</generateModelTests>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
-                            <skipValidateSpec>true</skipValidateSpec>
-                            <configOptions>
-                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                                <useJakartaEe>true</useJakartaEe>
-                                <sourceFolder>src/gen/java/main</sourceFolder>
-                                <annotationLibrary>none</annotationLibrary>
-                                <library>resteasy</library>
-                                <booleanGetterPrefix>is</booleanGetterPrefix>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>com.github.victools</groupId>
                 <artifactId>jsonschema-maven-plugin</artifactId>
                 <version>4.31.1</version>
@@ -171,9 +132,9 @@
                 </executions>
                 <configuration>
                     <classNames>
-                        <className>fr.thalweg.gen.engine.model.ThalwegScreenData</className>
-                        <className>fr.thalweg.gen.engine.model.ThalwegGameConfigurationData</className>
-                        <className>fr.thalweg.gen.engine.model.FontConfigsData</className>
+                        <className>fr.thalweg.engine.infra.data.ThalwegScreenData</className>
+                        <className>fr.thalweg.engine.infra.data.ThalwegGameConfigurationData</className>
+                        <className>fr.thalweg.engine.infra.data.FontConfigsData</className>
                     </classNames>
                     <schemaFilePath>src/main/resources/schemas</schemaFilePath>
                     <schemaFileName>{1}/{0}.json</schemaFileName>

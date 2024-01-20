@@ -18,7 +18,7 @@ import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.PlayTransitionTaskComponent;
 import fr.thalweg.engine.entity.EntityZIndexComparator;
-import fr.thalweg.gen.engine.model.WorldData;
+import fr.thalweg.engine.infra.data.WorldData;
 
 public class WorldRenderingSystem extends SortedIteratingSystem {
     private static final Matrix4 IDENTITY = new Matrix4();

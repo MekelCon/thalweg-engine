@@ -1,7 +1,7 @@
 package fr.thalweg.engine.transformer.toECS;
 
 import com.badlogic.gdx.math.Vector2;
-import fr.thalweg.gen.engine.model.ScaleData;
+import fr.thalweg.engine.infra.data.ScaleData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

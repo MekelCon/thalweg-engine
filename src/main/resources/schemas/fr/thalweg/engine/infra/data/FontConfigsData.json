@@ -1,6 +1,6 @@
 {
-  "type" : "object",
-  "properties" : {
+  "type": "object",
+  "properties": {
     "family": {
       "type": "object",
       "properties": {
@@ -89,5 +89,5 @@
       "additionalProperties": false
     }
   },
-  "additionalProperties" : false
+  "additionalProperties": false
 }

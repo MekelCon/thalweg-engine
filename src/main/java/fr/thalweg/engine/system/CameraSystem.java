@@ -2,7 +2,7 @@ package fr.thalweg.engine.system;
 
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import fr.thalweg.gen.engine.model.WorldData;
+import fr.thalweg.engine.infra.data.WorldData;
 import lombok.Getter;
 
 @Getter

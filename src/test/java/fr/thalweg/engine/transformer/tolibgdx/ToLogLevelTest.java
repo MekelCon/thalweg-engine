@@ -1,6 +1,6 @@
 package fr.thalweg.engine.transformer.tolibgdx;
 
-import fr.thalweg.gen.engine.model.LogLevelEnumData;
+import fr.thalweg.engine.infra.data.LogLevelEnumData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

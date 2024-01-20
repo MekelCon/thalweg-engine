@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.infra.Reader;
+import fr.thalweg.engine.infra.data.ThalwegGameConfigurationData;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
 import fr.thalweg.engine.system.rendering.MouseTriggerDebugRenderingSystem;
@@ -26,7 +27,6 @@ import fr.thalweg.engine.system.trigger.AutoTriggerSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
 import fr.thalweg.engine.validator.ProjectStructureValidator;
-import fr.thalweg.gen.engine.model.ThalwegGameConfigurationData;
 import lombok.Getter;
 import lombok.extern.java.Log;
 

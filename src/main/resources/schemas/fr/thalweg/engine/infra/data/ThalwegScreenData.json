@@ -1,5 +1,5 @@
 {
-  "definitions" : {
+  "definitions": {
     "InterpolationData": {
       "type": "string",
       "enum": [
@@ -7,18 +7,20 @@
         "POW"
       ]
     },
-    "LogTaskData" : {
-      "type" : "object",
-      "properties" : {
-        "message" : {
-          "type" : "string"
+    "LogTaskData": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
         },
-        "type" : {
+        "type": {
           "const": "LogTaskData"
         }
       },
-      "additionalProperties" : false,
-      "required" : [ "type" ]
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ]
     },
     "OverTimeTaskData": {
       "anyOf": [
@@ -45,22 +47,22 @@
         }
       ]
     },
-    "PlayTransitionTaskData" : {
-      "type" : "object",
-      "properties" : {
+    "PlayTransitionTaskData": {
+      "type": "object",
+      "properties": {
         "delay": {
           "type": "number"
         },
-        "duration" : {
-          "type" : "number"
+        "duration": {
+          "type": "number"
         },
-        "interpolation" : {
+        "interpolation": {
           "$ref": "#/definitions/InterpolationData"
         },
-        "transition" : {
-          "type" : "string"
+        "transition": {
+          "type": "string"
         },
-        "type" : {
+        "type": {
           "const": "PlayTransitionTaskData"
         }
       },
@@ -85,33 +87,37 @@
           "const": "SetCursorTaskData"
         }
       },
-      "additionalProperties" : false,
-      "required" : [ "type" ]
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ]
     },
-    "SetMouseLabelTaskData" : {
-      "type" : "object",
-      "properties" : {
+    "SetMouseLabelTaskData": {
+      "type": "object",
+      "properties": {
         "delay": {
           "type": "number"
         },
         "duration": {
           "type": "number"
         },
-        "fontName" : {
-          "type" : "string"
+        "fontName": {
+          "type": "string"
         },
         "interpolation": {
           "$ref": "#/definitions/InterpolationData"
         },
-        "label" : {
-          "type" : "string"
+        "label": {
+          "type": "string"
         },
-        "type" : {
+        "type": {
           "const": "SetMouseLabelTaskData"
         }
       },
-      "additionalProperties" : false,
-      "required" : [ "type" ]
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ]
     },
     "TaskArrayData-1": {
       "type": "object",
@@ -174,12 +180,13 @@
           "required": [
             "type"
           ]
-      } ]
+        }
+      ]
     }
   },
-  "type" : "object",
-  "properties" : {
-    "actors" : {
+  "type": "object",
+  "properties": {
+    "actors": {
       "type": "object",
       "properties": {
         "items": {
@@ -311,9 +318,9 @@
       },
       "additionalProperties": false
     },
-    "name" : {
-      "type" : "string"
+    "name": {
+      "type": "string"
     }
   },
-  "additionalProperties" : false
+  "additionalProperties": false
 }

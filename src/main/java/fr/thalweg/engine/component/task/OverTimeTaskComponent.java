@@ -2,7 +2,7 @@ package fr.thalweg.engine.component.task;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Null;
-import fr.thalweg.gen.engine.model.OverTimeTaskData;
+import fr.thalweg.engine.infra.data.OverTimeTaskData;
 
 public abstract class OverTimeTaskComponent<T extends OverTimeTaskData> implements TaskComponent {
 

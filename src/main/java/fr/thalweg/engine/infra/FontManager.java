@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Array;
 import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.TypingConfig;
+import fr.thalweg.engine.infra.data.CustomVarData;
+import fr.thalweg.engine.infra.data.FontConfigData;
+import fr.thalweg.engine.infra.data.FontConfigsData;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.rendering.TextRenderingSystem;
-import fr.thalweg.gen.engine.model.CustomVarData;
-import fr.thalweg.gen.engine.model.FontConfigData;
-import fr.thalweg.gen.engine.model.FontConfigsData;
 
 
 public class FontManager {

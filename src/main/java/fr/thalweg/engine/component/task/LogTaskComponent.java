@@ -1,6 +1,6 @@
 package fr.thalweg.engine.component.task;
 
-import fr.thalweg.gen.engine.model.LogTaskData;
+import fr.thalweg.engine.infra.data.LogTaskData;
 
 public class LogTaskComponent implements TaskComponent {
 

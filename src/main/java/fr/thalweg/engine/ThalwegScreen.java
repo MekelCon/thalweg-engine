@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.infra.Reader;
+import fr.thalweg.engine.infra.data.ThalwegActorData;
+import fr.thalweg.engine.infra.data.ThalwegScreenData;
 import fr.thalweg.engine.model.Asset;
 import fr.thalweg.engine.model.AssetType;
 import fr.thalweg.engine.transformer.toECS.ToEntity;
-import fr.thalweg.gen.engine.model.ThalwegActorData;
-import fr.thalweg.gen.engine.model.ThalwegScreenData;
 
 public class ThalwegScreen extends ScreenAdapter {
 

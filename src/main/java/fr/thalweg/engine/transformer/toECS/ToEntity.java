@@ -13,13 +13,12 @@ import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.AutoTriggerComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
+import fr.thalweg.engine.infra.data.TaskData;
+import fr.thalweg.engine.infra.data.ThalwegActorData;
+import fr.thalweg.engine.infra.data.TriggerData;
+import fr.thalweg.engine.infra.data.XYData;
 import fr.thalweg.engine.model.Directory;
-import fr.thalweg.gen.engine.model.TaskData;
-import fr.thalweg.gen.engine.model.ThalwegActorData;
-import fr.thalweg.gen.engine.model.TriggerData;
-import fr.thalweg.gen.engine.model.XYData;
 
-import java.util.List;
 import java.util.Optional;
 
 public class ToEntity {
@@ -61,8 +60,8 @@ public class ToEntity {
 
     private static Optional<PolygonComponent> handleVertices(Engine ecsEngine, ThalwegActorData source) {
         if (source.getVertices() != null && !source.getVertices().isEmpty()) {
-            var vertices = new float[source.getVertices().size() * 2];
-            for (int i = 0; i < source.getVertices().size(); i++) {
+            var vertices = new float[source.getVertices().size * 2];
+            for (int i = 0; i < source.getVertices().size; i++) {
                 XYData point = source.getVertices().get(i);
                 vertices[i * 2] = point.x;
                 vertices[i * 2 + 1] = point.y;
@@ -87,7 +86,7 @@ public class ToEntity {
         return Optional.empty();
     }
 
-    private static Array<Component> handleTrigger(Engine ecsEngine, List<TriggerData> triggers) {
+    private static Array<Component> handleTrigger(Engine ecsEngine, Array<TriggerData> triggers) {
         var result = new Array<Component>();
         TaskData onMouseEnter = null;
         TaskData onMouseLeave = null;
