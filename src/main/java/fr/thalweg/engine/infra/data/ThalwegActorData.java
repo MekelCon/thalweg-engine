@@ -1,6 +1,7 @@
 package fr.thalweg.engine.infra.data;
 
 import com.badlogic.gdx.utils.Array;
+import fr.thalweg.engine.infra.data.trigger.TriggerData;
 import org.mapstruct.Mapper;
 import org.mapstruct.control.DeepClone;
 import org.mapstruct.factory.Mappers;

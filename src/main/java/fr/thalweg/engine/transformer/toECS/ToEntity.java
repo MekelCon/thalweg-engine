@@ -13,10 +13,10 @@ import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.AutoTriggerComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
-import fr.thalweg.engine.infra.data.TaskData;
 import fr.thalweg.engine.infra.data.ThalwegActorData;
-import fr.thalweg.engine.infra.data.TriggerData;
 import fr.thalweg.engine.infra.data.XYData;
+import fr.thalweg.engine.infra.data.task.TaskData;
+import fr.thalweg.engine.infra.data.trigger.TriggerData;
 import fr.thalweg.engine.model.Directory;
 
 import java.util.Optional;

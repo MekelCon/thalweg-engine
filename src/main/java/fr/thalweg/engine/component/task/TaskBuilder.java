@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
-import fr.thalweg.engine.infra.data.*;
+import fr.thalweg.engine.infra.data.task.*;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.transformer.tolibgdx.ToInterpolation;
 

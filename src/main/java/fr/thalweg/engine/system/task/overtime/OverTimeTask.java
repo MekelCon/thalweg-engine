@@ -3,7 +3,7 @@ package fr.thalweg.engine.system.task.overtime;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import fr.thalweg.engine.component.task.OverTimeTaskComponent;
-import fr.thalweg.engine.infra.data.OverTimeTaskData;
+import fr.thalweg.engine.infra.data.task.OverTimeTaskData;
 import fr.thalweg.engine.system.task.Task;
 
 public abstract class OverTimeTask extends Task {

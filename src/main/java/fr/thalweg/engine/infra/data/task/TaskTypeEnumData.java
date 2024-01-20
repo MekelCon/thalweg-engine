@@ -11,9 +11,8 @@
  */
 
 
-package fr.thalweg.engine.infra.data;
+package fr.thalweg.engine.infra.data.task;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 
 /**
@@ -43,21 +42,6 @@ public enum TaskTypeEnumData {
     TaskTypeEnumData(String value, Class<? extends TaskData> target) {
         this.value = value;
         this.target = target;
-    }
-
-    @JsonCreator
-    public static TaskTypeEnumData fromValue(String value) {
-        for (TaskTypeEnumData b : TaskTypeEnumData.values()) {
-            if (b.value.equals(value)) {
-                return b;
-            }
-        }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
     }
 }
 

@@ -1,4 +1,4 @@
-package fr.thalweg.engine.infra.data;
+package fr.thalweg.engine.infra.data.task;
 
 import com.badlogic.gdx.utils.Array;
 import org.mapstruct.Mapper;

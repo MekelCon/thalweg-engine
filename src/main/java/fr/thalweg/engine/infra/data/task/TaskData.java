@@ -1,4 +1,4 @@
-package fr.thalweg.engine.infra.data;
+package fr.thalweg.engine.infra.data.task;
 
 import lombok.Getter;
 import org.mapstruct.Mapper;

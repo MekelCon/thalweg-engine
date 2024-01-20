@@ -1,17 +1,16 @@
-package fr.thalweg.engine.infra.data;
+package fr.thalweg.engine.infra.data.task;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.control.DeepClone;
 import org.mapstruct.factory.Mappers;
 
-public class LogTaskData extends TaskData {
-    public String message;
+public class SetCursorTaskData extends TaskData {
 
-    public LogTaskData() {
-        super();
-    }
+    public String cursor;
+    public int xHotspot = 0;
+    public int yHotspot = 0;
 
-    public LogTaskData copy() {
+    public SetCursorTaskData copy() {
         return Cloner.INSTANCE.clone(this);
     }
 
@@ -19,7 +18,7 @@ public class LogTaskData extends TaskData {
     public interface Cloner {
         Cloner INSTANCE = Mappers.getMapper(Cloner.class);
 
-        LogTaskData clone(LogTaskData source);
+        SetCursorTaskData clone(SetCursorTaskData source);
     }
 }
 

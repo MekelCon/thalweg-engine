@@ -2,7 +2,7 @@ package fr.thalweg.engine.component.task;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import fr.thalweg.engine.infra.data.PlayTransitionTaskData;
+import fr.thalweg.engine.infra.data.task.PlayTransitionTaskData;
 import fr.thalweg.engine.model.Directory;
 
 public class PlayTransitionTaskComponent extends OverTimeTaskComponent<PlayTransitionTaskData> {

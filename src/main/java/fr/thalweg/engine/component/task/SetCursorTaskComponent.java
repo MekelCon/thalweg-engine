@@ -1,7 +1,7 @@
 package fr.thalweg.engine.component.task;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import fr.thalweg.engine.infra.data.SetCursorTaskData;
+import fr.thalweg.engine.infra.data.task.SetCursorTaskData;
 
 public class SetCursorTaskComponent implements TaskComponent {
 

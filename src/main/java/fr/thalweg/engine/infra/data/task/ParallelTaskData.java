@@ -1,25 +1,25 @@
-package fr.thalweg.engine.infra.data;
+package fr.thalweg.engine.infra.data.task;
 
 import com.badlogic.gdx.utils.Array;
 import org.mapstruct.Mapper;
 import org.mapstruct.control.DeepClone;
 import org.mapstruct.factory.Mappers;
 
-public class SequenceTaskData extends TaskArrayData {
+public class ParallelTaskData extends TaskArrayData {
 
-    public SequenceTaskData() {
+    public ParallelTaskData() {
         super();
     }
 
-    public SequenceTaskData copy() {
-        return SequenceTaskData.Cloner.INSTANCE.clone(this);
+    public ParallelTaskData copy() {
+        return ParallelTaskData.Cloner.INSTANCE.clone(this);
     }
 
     @Mapper(mappingControl = DeepClone.class)
     public interface Cloner {
-        SequenceTaskData.Cloner INSTANCE = Mappers.getMapper(SequenceTaskData.Cloner.class);
+        ParallelTaskData.Cloner INSTANCE = Mappers.getMapper(ParallelTaskData.Cloner.class);
 
-        SequenceTaskData clone(SequenceTaskData source);
+        ParallelTaskData clone(ParallelTaskData source);
 
         default Array<TaskData> mapTaskData(Array<TaskData> source) {
             if (source == null) {
@@ -30,6 +30,8 @@ public class SequenceTaskData extends TaskArrayData {
                 res.add(TaskData.Cloner.INSTANCE.clone(t));
             return new Array<>(source);
         }
+
+
     }
 }
 

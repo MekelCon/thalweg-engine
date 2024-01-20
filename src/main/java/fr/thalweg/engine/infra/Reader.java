@@ -2,8 +2,8 @@ package fr.thalweg.engine.infra;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import fr.thalweg.engine.infra.data.TaskTypeEnumData;
-import fr.thalweg.engine.infra.data.TriggerTypeEnumData;
+import fr.thalweg.engine.infra.data.task.TaskTypeEnumData;
+import fr.thalweg.engine.infra.data.trigger.TriggerTypeEnumData;
 import lombok.Getter;
 import lombok.SneakyThrows;
 

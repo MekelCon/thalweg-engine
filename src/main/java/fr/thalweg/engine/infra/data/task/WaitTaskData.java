@@ -1,4 +1,4 @@
-package fr.thalweg.engine.infra.data;
+package fr.thalweg.engine.infra.data.task;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.control.DeepClone;

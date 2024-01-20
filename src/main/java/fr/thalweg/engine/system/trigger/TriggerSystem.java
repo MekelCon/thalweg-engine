@@ -5,7 +5,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import fr.thalweg.engine.ThalwegGame;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.TaskBuilder;
-import fr.thalweg.engine.infra.data.TaskData;
+import fr.thalweg.engine.infra.data.task.TaskData;
 
 public abstract class TriggerSystem extends IteratingSystem {
     public TriggerSystem(Family family) {
