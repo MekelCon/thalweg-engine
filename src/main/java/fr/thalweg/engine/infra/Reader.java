@@ -1,8 +1,9 @@
 package fr.thalweg.engine.infra;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.badlogic.gdx.utils.Json;
+import fr.thalweg.engine.infra.data.TaskTypeEnumData;
+import fr.thalweg.engine.infra.data.TriggerTypeEnumData;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
@@ -12,21 +13,23 @@ public class Reader {
     private static final Reader instance = new Reader();
 
     @Getter
-    private final ObjectMapper jsonMapper;
-
-    private final ObjectMapper yamlMapper;
+    private final Json json;
 
     private Reader() {
-        jsonMapper = new ObjectMapper();
-        yamlMapper = new ObjectMapper(new YAMLFactory());
+        this.json = new Json();
+        for (TriggerTypeEnumData triggerType : TriggerTypeEnumData.values()) {
+            this.json.addClassTag(triggerType.getValue(), triggerType.getTarget());
+        }
+        for (TaskTypeEnumData taskType : TaskTypeEnumData.values()) {
+            this.json.addClassTag(taskType.getValue(), taskType.getTarget());
+        }
     }
 
     @SneakyThrows
     public <T> T read(FileHandle fileHandle, Class<T> clazz) {
-        if ("yaml".equals(fileHandle.extension())) {
-            return yamlMapper.readValue(fileHandle.read(), clazz);
-        } else if ("json".equals(fileHandle.extension())) {
-            return jsonMapper.readValue(fileHandle.read(), clazz);
+        if ("json".equals(fileHandle.extension())) {
+            //Gdx.app.debug(Reader.class.getSimpleName(), "Reading file " + fileHandle.path());
+            return json.fromJson(clazz, fileHandle.read());
         } else {
             throw new IllegalArgumentException("Can't read file with extension " + fileHandle.extension());
         }

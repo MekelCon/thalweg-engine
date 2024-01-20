@@ -20,7 +20,7 @@ public class FontManager {
 
     public FontManager(Directory root) {
         this.root = root;
-        var fontConfigsData = Reader.getInstance().read(Gdx.files.internal(root.getSubFolder("font/font-config.yaml")), FontConfigsData.class);
+        var fontConfigsData = Reader.getInstance().read(Gdx.files.internal(root.getSubFolder("font/font-config.json")), FontConfigsData.class);
         this.font = loadFontFamily(fontConfigsData);
         this.loadGlobalVars(fontConfigsData);
     }

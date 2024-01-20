@@ -91,8 +91,8 @@ public class ToEntity {
         TaskData onMouseEnter = null;
         TaskData onMouseLeave = null;
         for (TriggerData triggerData : triggers) {
-            if (triggerData.getType() != null && triggerData.getTodo() != null) {
-                switch (triggerData.getType()) {
+            if (triggerData.getTodo() != null) {
+                switch (triggerData.type) {
                     case AUTO -> result.add(createAutoTriggerComponent(ecsEngine, triggerData.getTodo()));
                     case MOUSEENTER -> onMouseEnter = triggerData.getTodo();
                     case MOUSELEAVE -> onMouseLeave = triggerData.getTodo();

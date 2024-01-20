@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.gdx.Gdx;
 import fr.thalweg.engine.component.flag.MouseLabelOwnerFlag;
 import fr.thalweg.engine.component.task.SetMouseLabelTaskComponent;
 import fr.thalweg.engine.system.rendering.TextRenderingSystem;
@@ -52,10 +51,5 @@ public class SetMouseLabelTask extends OverTimeTask {
         var setMouseLabelTaskComponent = cm.get(entity);
         // block ending until the typing display finishes
         setMouseLabelTaskComponent.complete = txtRendering.mouseLabel.hasEnded();
-    }
-
-    @Override
-    protected void end(Entity entity) {
-        Gdx.app.log("TMP", "END !");
     }
 }

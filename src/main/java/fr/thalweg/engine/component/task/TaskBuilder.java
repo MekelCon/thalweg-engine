@@ -18,7 +18,7 @@ public interface TaskBuilder {
             case SEQUENCE -> sequence(ecs, (TaskArrayData) todo, root);
             case SET_CURSOR -> setCursor(ecs, (SetCursorTaskData) todo, root);
             case SET_MOUSE_LABEL -> setMouseLabel(ecs, (SetMouseLabelTaskData) todo);
-            case WAIT -> wait(ecs, (OverTimeTaskData) todo);
+            case WAIT -> wait(ecs, (WaitTaskData) todo);
         };
     }
 
@@ -65,7 +65,7 @@ public interface TaskBuilder {
         return result;
     }
 
-    private static WaitTaskComponent wait(Engine ecs, OverTimeTaskData data) {
+    private static WaitTaskComponent wait(Engine ecs, WaitTaskData data) {
         WaitTaskComponent result = ecs.createComponent(WaitTaskComponent.class);
         result.data = data.copy();
         result.interpolation = ToInterpolation.from(data.interpolation);

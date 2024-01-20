@@ -20,7 +20,7 @@ class AssetTest {
         assertDoesNotThrow(() -> Asset.of(
                 BasicThalwegGame.ROOT_DIRECTORY,
                 AssetType.screen(),
-                "screen/1.yaml"));
+                "screen/1.json"));
     }
 
     @Test
@@ -73,9 +73,9 @@ class AssetTest {
         Asset asset = Asset.of(
                 BasicThalwegGame.ROOT_DIRECTORY,
                 AssetType.screen(),
-                "screen/1.yaml");
+                "screen/1.json");
         assertEquals(Gdx.files.internal(
-                        BasicThalwegGame.ROOT + "/screen/1.yaml"),
+                        BasicThalwegGame.ROOT + "/screen/1.json"),
                 asset.getFileHandle());
     }
 }

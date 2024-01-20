@@ -47,7 +47,7 @@ public class ThalwegGame extends Game {
     ) {
         this.root = Directory.of(root);
         this.config = Reader.getInstance().read(
-                new PublicFileHandle(root + "/configuration.yaml", Files.FileType.Internal),
+                new PublicFileHandle(root + "/configuration.json", Files.FileType.Internal),
                 ThalwegGameConfigurationData.class);
         this.ECSEngine = new PooledEngine(10, 50, 20, 100);
     }
