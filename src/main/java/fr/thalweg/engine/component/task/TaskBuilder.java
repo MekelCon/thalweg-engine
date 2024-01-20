@@ -30,7 +30,7 @@ public interface TaskBuilder {
 
     private static ParallelTaskComponent parallel(Engine ecs, TaskArrayData data, Directory root) {
         var result = ecs.createComponent(ParallelTaskComponent.class);
-        for (TaskData todo : data.getTodos()) {
+        for (TaskData todo : data.todos) {
             result.components.add(build(ecs, todo, root));
         }
         return result;
@@ -39,14 +39,14 @@ public interface TaskBuilder {
     private static PlayTransitionTaskComponent playTransition(Engine ecs, PlayTransitionTaskData data, Directory root) {
         var result = ecs.createComponent(PlayTransitionTaskComponent.class);
         result.data = data.copy();
-        result.interpolation = ToInterpolation.from(data.getInterpolation());
+        result.interpolation = ToInterpolation.from(data.interpolation);
         result.root = root;
         return result;
     }
 
     private static SequenceTaskComponent sequence(Engine ecs, TaskArrayData data, Directory root) {
         var result = ecs.createComponent(SequenceTaskComponent.class);
-        for (TaskData todo : data.getTodos()) {
+        for (TaskData todo : data.todos) {
             result.components.add(build(ecs, todo, root));
         }
         return result;
@@ -55,7 +55,7 @@ public interface TaskBuilder {
     private static SetCursorTaskComponent setCursor(Engine ecs, SetCursorTaskData data, Directory root) {
         var result = ecs.createComponent(SetCursorTaskComponent.class);
         result.data = data.copy();
-        result.icon = new Pixmap(Gdx.files.internal(root.getSubFolder(data.getCursor())));
+        result.icon = new Pixmap(Gdx.files.internal(root.getSubFolder(data.cursor)));
         return result;
     }
 

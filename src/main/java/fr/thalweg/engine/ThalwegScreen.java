@@ -40,7 +40,7 @@ public class ThalwegScreen extends ScreenAdapter {
 
     private void initActors(PooledEngine ecsEngine) {
         ecsEngine.clearPools();
-        for (ThalwegActorData actorData : data.getActors()) {
+        for (ThalwegActorData actorData : data.actors) {
             thalwegGame.getECSEngine().addEntity(ToEntity.from(
                     ecsEngine,
                     thalwegGame.getRoot(),

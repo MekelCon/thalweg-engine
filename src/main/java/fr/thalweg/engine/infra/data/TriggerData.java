@@ -1,6 +1,5 @@
 package fr.thalweg.engine.infra.data;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.mapstruct.Mapper;
 import org.mapstruct.control.DeepClone;
 import org.mapstruct.factory.Mappers;
@@ -19,30 +18,6 @@ public class TriggerData {
                 .orElseThrow();
     }
 
-    public TriggerData todo(TaskData todo) {
-
-        this.todo = todo;
-        return this;
-    }
-
-    /**
-     * Get todo
-     *
-     * @return todo
-     **/
-    @jakarta.annotation.Nullable
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public TaskData getTodo() {
-        return todo;
-    }
-
-
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setTodo(TaskData todo) {
-        this.todo = todo;
-    }
-
     public TriggerData copy() {
         return Cloner.INSTANCE.clone(this);
     }
@@ -57,6 +32,5 @@ public class TriggerData {
             return TaskData.Cloner.INSTANCE.clone(source);
         }
     }
-
 }
 

@@ -38,7 +38,7 @@ public class WorldRenderingSystem extends SortedIteratingSystem {
                 1);
         this.renderQueue = new Array<>();
         this.sm = ComponentMapper.getFor(SpriteComponent.class);
-        this.worldBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, world.getWidth(), world.getHeight(), false);
+        this.worldBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, world.width, world.height, false);
         this.worldBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         this.batch = batch;
         this.viewport = viewport;

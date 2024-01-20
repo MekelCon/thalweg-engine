@@ -17,6 +17,6 @@ public class LogTask extends OneShotTask {
     @Override
     protected void work(Entity entity) {
         var logTaskDataComponent = cm.get(entity);
-        Gdx.app.log("LOG TASK", logTaskDataComponent.data.getMessage());
+        Gdx.app.log("LOG TASK", logTaskDataComponent.data.message);
     }
 }

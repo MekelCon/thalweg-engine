@@ -59,22 +59,22 @@ public class ThalwegGame extends Game {
 
     @Override
     public void create() {
-        if (config.isDebug()) {
+        if (config.debug) {
             ProjectStructureValidator.validThalwegGameStructure(root);
         }
         initGdxConfig();
         batch = new SpriteBatch();
         // TODO : manage viewport type
         viewport = new FitViewport(
-                config.getWorld().getWidth(),
-                config.getWorld().getHeight()
+                config.world.width,
+                config.world.height
         );
         textViewport = new ScreenViewport();
 
-        var cameraSystem = new CameraSystem(config.getWorld());
+        var cameraSystem = new CameraSystem(config.world);
         ECSEngine.addSystem(cameraSystem);
-        ECSEngine.addSystem(new WorldRenderingSystem(config.getWorld(), batch, viewport));
-        if (config.isDebug()) {
+        ECSEngine.addSystem(new WorldRenderingSystem(config.world, batch, viewport));
+        if (config.debug) {
             ECSEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
         }
         ECSEngine.addSystem(new TextRenderingSystem(root, textViewport));
@@ -94,7 +94,7 @@ public class ThalwegGame extends Game {
 
         setScreen(new ThalwegScreen(
                 this,
-                config.getStartScreen(),
+                config.startScreen,
                 batch,
                 cameraSystem.getCamera(),
                 viewport,
@@ -102,7 +102,7 @@ public class ThalwegGame extends Game {
     }
 
     private void initGdxConfig() {
-        Gdx.app.setLogLevel(ToLogLevel.from(config.getGdx().getLogLevel()));
+        Gdx.app.setLogLevel(ToLogLevel.from(config.gdx.logLevel));
     }
 
     // TODO : get rid of this

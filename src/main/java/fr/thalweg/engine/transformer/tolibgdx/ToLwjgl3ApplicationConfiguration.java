@@ -8,13 +8,13 @@ public class ToLwjgl3ApplicationConfiguration {
 
     public static Lwjgl3ApplicationConfiguration from(Lwjgl3ApplicationConfigData source) {
         var config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle(source.getTitle());
-        config.useVsync(source.isUseVSync());
-        config.setForegroundFPS(source.getForegroundFPS());
-        if (source.getWindowed() != null) {
+        config.setTitle(source.title);
+        config.useVsync(source.useVSync);
+        config.setForegroundFPS(source.foregroundFPS);
+        if (source.windowed != null) {
             config.setWindowedMode(
-                    source.getWindowed().getWidth(),
-                    source.getWindowed().getHeight());
+                    source.windowed.width,
+                    source.windowed.height);
         } else {
             Graphics.DisplayMode primaryMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
             config.setFullscreenMode(primaryMode);

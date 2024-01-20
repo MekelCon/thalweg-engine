@@ -6,10 +6,6 @@ import org.mapstruct.factory.Mappers;
 
 public class WaitTaskData extends OverTimeTaskData {
 
-    public WaitTaskData() {
-        super();
-    }
-
     public WaitTaskData copy() {
         return WaitTaskData.Cloner.INSTANCE.clone(this);
     }
@@ -19,7 +15,5 @@ public class WaitTaskData extends OverTimeTaskData {
         WaitTaskData.Cloner INSTANCE = Mappers.getMapper(WaitTaskData.Cloner.class);
 
         WaitTaskData clone(WaitTaskData source);
-
-
     }
 }

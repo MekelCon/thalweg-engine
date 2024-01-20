@@ -14,8 +14,8 @@ public class CameraSystem extends EntitySystem {
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(
                 true,
-                world.getWidth(),
-                world.getHeight()
+                world.width,
+                world.height
         );
     }
 

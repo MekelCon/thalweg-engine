@@ -22,8 +22,8 @@ public class SetCursorTask extends OneShotTask {
         Gdx.graphics.setCursor(
                 Gdx.graphics.newCursor(
                         changeCursorTaskComponent.icon,
-                        changeCursorTaskComponent.data.getxHotspot(),
-                        changeCursorTaskComponent.data.getyHotspot()));
+                        changeCursorTaskComponent.data.xHotspot,
+                        changeCursorTaskComponent.data.yHotspot));
         var txtRendering = getEngine().getSystem(TextRenderingSystem.class);
         txtRendering.cursorWidth = changeCursorTaskComponent.icon.getWidth();
         txtRendering.cursorHeight = changeCursorTaskComponent.icon.getHeight();

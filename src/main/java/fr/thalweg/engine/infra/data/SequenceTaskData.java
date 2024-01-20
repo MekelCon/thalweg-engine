@@ -30,8 +30,6 @@ public class SequenceTaskData extends TaskArrayData {
                 res.add(TaskData.Cloner.INSTANCE.clone(t));
             return new Array<>(source);
         }
-
-
     }
 }
 

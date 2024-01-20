@@ -9,6 +9,6 @@ public class Quercus {
         var thalwegGame = ThalwegGame.build("./src/main/resources/quercus");
         new Lwjgl3Application(
                 thalwegGame,
-                ToLwjgl3ApplicationConfiguration.from(thalwegGame.getConfig().getLwjgl3ApplicationConfig()));
+                ToLwjgl3ApplicationConfiguration.from(thalwegGame.getConfig().lwjgl3ApplicationConfig));
     }
 }

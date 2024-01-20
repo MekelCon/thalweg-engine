@@ -27,21 +27,21 @@ public class FontManager {
 
     private Font loadFontFamily(FontConfigsData fontConfigsData) {
         var family = new Array<Font>();
-        if (fontConfigsData.getFamily() != null) {
-            for (FontConfigData fontConfigData : fontConfigsData.getFamily()) {
-                FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(root.getSubFolder(fontConfigData.getSource())));
+        if (fontConfigsData.family != null) {
+            for (FontConfigData fontConfigData : fontConfigsData.family) {
+                FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(root.getSubFolder(fontConfigData.source)));
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-                parameter.borderWidth = fontConfigData.getBorderSize();
-                parameter.size = (int) (fontConfigData.getSize() * Gdx.graphics.getDensity());
+                parameter.borderWidth = fontConfigData.borderSize;
+                parameter.size = (int) (fontConfigData.size * Gdx.graphics.getDensity());
                 var fontToAdd = new Font(
                         generator.generateFont(parameter),
-                        fontConfigData.getxAdjust(),
-                        fontConfigData.getyAdjust(),
-                        fontConfigData.getWidthAdjust(),
-                        fontConfigData.getHeightAdjust());
-                fontToAdd.setName(fontConfigData.getName());
+                        fontConfigData.xAdjust,
+                        fontConfigData.yAdjust,
+                        fontConfigData.widthAdjust,
+                        fontConfigData.heightAdjust);
+                fontToAdd.setName(fontConfigData.name);
                 Gdx.app.log("LOAD", "Font added, name : " + fontToAdd.getName());
-                if (DEFAULT.equals(fontConfigData.getName())) {
+                if (DEFAULT.equals(fontConfigData.name)) {
                     family.insert(0, fontToAdd);
                 } else {
                     family.add(fontToAdd);
@@ -59,17 +59,17 @@ public class FontManager {
     }
 
     private void loadGlobalVars(FontConfigsData fontConfigsData) {
-        if (fontConfigsData.getVars() != null) {
-            if (fontConfigsData.getVars().getExisting() != null) {
-                if (fontConfigsData.getVars().getExisting().getMouseLabelDefaultToken() != null) {
+        if (fontConfigsData.vars != null) {
+            if (fontConfigsData.vars.existing != null) {
+                if (fontConfigsData.vars.existing.mouseLabelDefaultToken != null) {
                     TypingConfig.GLOBAL_VARS.put(
                             TextRenderingSystem.MOUSE_LABEL_DEFAULT_TOKEN_VAR_NAME,
-                            fontConfigsData.getVars().getExisting().getMouseLabelDefaultToken());
+                            fontConfigsData.vars.existing.mouseLabelDefaultToken);
                 }
             }
-            if (fontConfigsData.getVars().getCustom() != null) {
-                for (CustomVarData var : fontConfigsData.getVars().getCustom()) {
-                    TypingConfig.GLOBAL_VARS.put(var.getName(), var.getValue());
+            if (fontConfigsData.vars.custom != null) {
+                for (CustomVarData var : fontConfigsData.vars.custom) {
+                    TypingConfig.GLOBAL_VARS.put(var.name, var.value);
                 }
             }
         }

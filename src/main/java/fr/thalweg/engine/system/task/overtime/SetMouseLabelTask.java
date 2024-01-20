@@ -42,7 +42,7 @@ public class SetMouseLabelTask extends OverTimeTask {
     protected void start(Entity entity) {
         if (mm.has(entity)) {
             var setMouseLabelTaskComponent = cm.get(entity);
-            txtRendering.mouseLabel.restart(setMouseLabelTaskComponent.data.getLabel());
+            txtRendering.mouseLabel.restart(setMouseLabelTaskComponent.data.label);
         } // else it means another task take the mouse label ownership while we were waiting
     }
 
