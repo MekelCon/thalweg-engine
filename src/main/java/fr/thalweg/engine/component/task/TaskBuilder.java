@@ -11,7 +11,7 @@ import fr.thalweg.engine.transformer.tolibgdx.ToInterpolation;
 public interface TaskBuilder {
 
     static Component build(Engine ecs, TaskData todo, Directory root) {
-        return switch (todo.getType()) {
+        return switch (todo.type) {
             case LOG -> log(ecs, (LogTaskData) todo);
             case PARALLEL -> parallel(ecs, (TaskArrayData) todo, root);
             case PLAY_TRANSITION -> playTransition(ecs, (PlayTransitionTaskData) todo, root);

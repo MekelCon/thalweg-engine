@@ -8,10 +8,6 @@ public class PlayTransitionTaskData extends OverTimeTaskData {
 
     public String transition;
 
-    public PlayTransitionTaskData() {
-        super();
-    }
-
     public PlayTransitionTaskData copy() {
         return Cloner.INSTANCE.clone(this);
     }

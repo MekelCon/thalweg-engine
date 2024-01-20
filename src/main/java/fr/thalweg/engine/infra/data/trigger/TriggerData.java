@@ -1,13 +1,10 @@
 package fr.thalweg.engine.infra.data.trigger;
 
 import fr.thalweg.engine.infra.data.task.TaskData;
-import org.mapstruct.Mapper;
-import org.mapstruct.control.DeepClone;
-import org.mapstruct.factory.Mappers;
 
 import java.util.Arrays;
 
-public class TriggerData {
+public abstract class TriggerData {
 
     public final TriggerTypeEnumData type;
     public TaskData todo;
@@ -17,21 +14,6 @@ public class TriggerData {
                 .filter(triggerType -> triggerType.getTarget().equals(this.getClass()))
                 .findFirst()
                 .orElseThrow();
-    }
-
-    public TriggerData copy() {
-        return Cloner.INSTANCE.clone(this);
-    }
-
-    @Mapper(mappingControl = DeepClone.class)
-    public interface Cloner {
-        Cloner INSTANCE = Mappers.getMapper(Cloner.class);
-
-        TriggerData clone(TriggerData source);
-
-        default TaskData mapTaskData(TaskData source) {
-            return TaskData.Cloner.INSTANCE.clone(source);
-        }
     }
 }
 

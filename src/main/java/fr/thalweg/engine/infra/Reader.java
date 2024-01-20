@@ -21,7 +21,7 @@ public class Reader {
             this.json.addClassTag(triggerType.getValue(), triggerType.getTarget());
         }
         for (TaskTypeEnumData taskType : TaskTypeEnumData.values()) {
-            this.json.addClassTag(taskType.getValue(), taskType.getTarget());
+            this.json.addClassTag(taskType.value, taskType.target);
         }
     }
 

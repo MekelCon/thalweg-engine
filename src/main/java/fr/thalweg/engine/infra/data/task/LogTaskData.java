@@ -11,6 +11,7 @@ public class LogTaskData extends TaskData {
         super();
     }
 
+    @Override
     public LogTaskData copy() {
         return Cloner.INSTANCE.clone(this);
     }
