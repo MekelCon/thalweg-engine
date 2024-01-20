@@ -13,6 +13,9 @@ public abstract class TaskData {
                 .orElseThrow();
     }
 
-    public abstract TaskData copy();
+    @SuppressWarnings("unchecked")
+    public <T extends TaskData> T copy() {
+        return (T) TaskClone.INSTANCE.copy(this);
+    }
 }
 
