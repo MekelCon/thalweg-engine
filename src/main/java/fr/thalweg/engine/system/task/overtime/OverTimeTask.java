@@ -27,29 +27,57 @@ public abstract class OverTimeTask extends Task {
         if (overTimeTaskComponent.data.delay > 0) {
             overTimeTaskComponent.data.delay = Math.max(0, overTimeTaskComponent.data.delay - deltaTime);
             overTimeTaskComponent.time = Math.max(0, overTimeTaskComponent.time - overTimeTaskComponent.data.delay);
+        } else {
+            if (!overTimeTaskComponent.started) {
+                start(entity);
+                // we want to come here only once
+                overTimeTaskComponent.started = true;
+            }
+            overTimeTaskComponent.complete = overTimeTaskComponent.time >= overTimeTaskComponent.data.duration;
+            float percent = overTimeTaskComponent.complete ? 1 : overTimeTaskComponent.time / overTimeTaskComponent.data.duration;
+            if (overTimeTaskComponent.interpolation != null)
+                percent = overTimeTaskComponent.interpolation.apply(percent);
+            update(entity, overTimeTaskComponent.reverse ? 1 - percent : percent);
+            if (overTimeTaskComponent.complete) {
+                end(entity);
+                entity.removeAll();
+                getEngine().removeEntity(entity);
+            }
         }
-        overTimeTaskComponent.complete = overTimeTaskComponent.time >= overTimeTaskComponent.data.duration;
-        float percent = overTimeTaskComponent.complete ? 1 : overTimeTaskComponent.time / overTimeTaskComponent.data.duration;
-        if (overTimeTaskComponent.interpolation != null)
-            percent = overTimeTaskComponent.interpolation.apply(percent);
-        update(entity, overTimeTaskComponent.reverse ? 1 - percent : percent);
-        if (overTimeTaskComponent.complete) {
-            end(entity);
-            entity.removeAll();
-            getEngine().removeEntity(entity);
-        }
+
     }
 
     /**
-     * Will be cal even before the delay, allow the initialization
+     * Will be call 1time even before the delay, allow the initialization
      *
      * @param entity The current processed entity
      */
     protected void begin(Entity entity) {
     }
 
-    protected void end(Entity entity) {
+    /**
+     * Will be call 1 time after the delay passed.
+     *
+     * @param entity The component holder
+     */
+    protected void start(Entity entity) {
     }
 
-    abstract protected void update(Entity entity, float percent);
+    /**
+     * Call each frame
+     *
+     * @param entity  The component holder
+     * @param percent Calculated based on the duration
+     */
+    protected void update(Entity entity, float percent) {
+
+    }
+
+    /**
+     * Call 1 time at the end
+     *
+     * @param entity The component holder
+     */
+    protected void end(Entity entity) {
+    }
 }

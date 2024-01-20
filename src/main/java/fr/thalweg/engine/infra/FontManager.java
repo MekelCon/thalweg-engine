@@ -31,6 +31,7 @@ public class FontManager {
             for (FontConfigData fontConfigData : fontConfigsData.getFamily()) {
                 FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(root.getSubFolder(fontConfigData.getSource())));
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+                parameter.borderWidth = fontConfigData.getBorderSize();
                 parameter.size = (int) (fontConfigData.getSize() * Gdx.graphics.getDensity());
                 var fontToAdd = new Font(
                         generator.generateFont(parameter),

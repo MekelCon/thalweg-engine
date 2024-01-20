@@ -1,5 +1,12 @@
 {
   "definitions" : {
+    "InterpolationData": {
+      "type": "string",
+      "enum": [
+        "LINEAR",
+        "POW"
+      ]
+    },
     "LogTaskData" : {
       "type" : "object",
       "properties" : {
@@ -48,11 +55,7 @@
           "type" : "number"
         },
         "interpolation" : {
-          "type": "string",
-          "enum": [
-            "LINEAR",
-            "POW"
-          ]
+          "$ref": "#/definitions/InterpolationData"
         },
         "transition" : {
           "type" : "string"
@@ -88,8 +91,17 @@
     "SetMouseLabelTaskData" : {
       "type" : "object",
       "properties" : {
+        "delay": {
+          "type": "number"
+        },
+        "duration": {
+          "type": "number"
+        },
         "fontName" : {
           "type" : "string"
+        },
+        "interpolation": {
+          "$ref": "#/definitions/InterpolationData"
         },
         "label" : {
           "type" : "string"

@@ -37,6 +37,10 @@ components:
           type: integer
           format: int32
           default: 12
+        borderSize:
+          type: integer
+          format: int32
+          default: 1
         xAdjust:
           type: number
           format: float
@@ -183,7 +187,7 @@ components:
           default: 1
     SetMouseLabelTask:
       allOf:
-        - $ref: '#/components/schemas/Task'
+        - $ref: '#/components/schemas/OverTimeTask'
         - properties:
             label:
               type: string

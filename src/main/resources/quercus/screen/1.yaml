@@ -9,6 +9,7 @@ actors:
               cursor: '/cursor/cursor.png'
             - type: PLAY_TRANSITION
               duration: 0.4
+              delay: 1
               transition: transition/center_to_border.png
   - position:
       x: 50
@@ -21,7 +22,7 @@ actors:
           type: SEQUENCE
           todos:
             - type: SET_MOUSE_LABEL
-              label: "Norah [@writing]Norah"
+              label: "{VAR=NORAH}Norah [@writing]Norah"
             - type: WAIT
               duration: 2
             - type: LOG
@@ -37,7 +38,7 @@ actors:
       - type: MOUSELEAVE
         todo:
           type: SET_MOUSE_LABEL
-          label: ""
+          label: "OUT"
       - type: AUTO
         todo:
           type: SEQUENCE
@@ -60,10 +61,16 @@ actors:
       - x: 100
         y: 70
     triggers:
+      - type: MOUSEENTER
+        todo:
+          type: SET_MOUSE_LABEL
+          label: "Ready !?"
       - type: MOUSELEAVE
         todo:
           type: PARALLEL
           todos:
+            - type: SET_MOUSE_LABEL
+              label: ""
             - type: LOG
               message: Bye rectangle
             - type: LOG
