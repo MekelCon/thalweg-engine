@@ -9,5 +9,4 @@ public class SetMouseLabelTaskComp extends OverTimeTaskComp {
         super.reset();
         label = null;
     }
-
 }

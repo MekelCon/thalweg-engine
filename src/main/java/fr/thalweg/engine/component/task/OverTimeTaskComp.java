@@ -3,6 +3,7 @@ package fr.thalweg.engine.component.task;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Null;
 import fr.thalweg.engine.infra.data.InterpolationData;
+import fr.thalweg.engine.transformer.tolibgdx.ToInterpolation;
 
 public abstract class OverTimeTaskComp extends TaskComp {
 
@@ -12,6 +13,12 @@ public abstract class OverTimeTaskComp extends TaskComp {
     public float _time;
     public @Null Interpolation _interpolation;
     public boolean _reverse, _began, _started, _complete;
+
+    @Override
+    public void build() {
+        super.build();
+        _interpolation = ToInterpolation.from(interpolation);
+    }
 
     @Override
     public void reset() {

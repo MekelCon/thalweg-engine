@@ -1,10 +1,9 @@
 package fr.thalweg.engine.infra;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import fr.thalweg.engine.ThalwegPooledEngine;
 import fr.thalweg.engine.component.task.TaskComp;
 import fr.thalweg.engine.component.task.TaskTypeEnumData;
 import fr.thalweg.engine.infra.data.trigger.TriggerTypeEnumData;
@@ -16,7 +15,7 @@ public class Reader {
     @Getter
     private static final Reader instance = new Reader();
 
-    private static Engine ENGINE;
+    private static ThalwegPooledEngine ENGINE;
 
     @Getter
     private final Json json;
@@ -33,7 +32,7 @@ public class Reader {
         }
     }
 
-    public static void setEcsEngine(PooledEngine ecsEngine) {
+    public static void setEcsEngine(ThalwegPooledEngine ecsEngine) {
         ENGINE = ecsEngine;
     }
 
@@ -54,13 +53,11 @@ public class Reader {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public T read(Json json, JsonValue jsonData, Class type) {
-            if (type.componentType().equals(TaskComp.class)) {
-                System.out.println("HEY");
-            }
-            var result = Reader.ENGINE.createComponent(type);
+            var result = (T) Reader.ENGINE.createComponent(type);
             json.readFields(result, jsonData);
-            return (T) result;
+            return result;
         }
     }
 }
