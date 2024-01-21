@@ -11,15 +11,14 @@ import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
+import fr.thalweg.engine.component.task.TaskComp;
 import fr.thalweg.engine.component.trigger.AutoTriggerComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
+import fr.thalweg.engine.infra.data.ThalwegActorData;
+import fr.thalweg.engine.infra.data.XYData;
+import fr.thalweg.engine.infra.data.trigger.TriggerData;
 import fr.thalweg.engine.model.Directory;
-import fr.thalweg.gen.engine.model.TaskData;
-import fr.thalweg.gen.engine.model.ThalwegActorData;
-import fr.thalweg.gen.engine.model.TriggerData;
-import fr.thalweg.gen.engine.model.XYData;
 
-import java.util.List;
 import java.util.Optional;
 
 public class ToEntity {
@@ -35,21 +34,21 @@ public class ToEntity {
     }
 
     private static Optional<ZIndexComponent> handleZIndex(Engine ecsEngine, ThalwegActorData source) {
-        if (source.getTexture() != null || (source.getVertices() != null && !source.getVertices().isEmpty()) || source.getPosition() != null) {
+        if (source.texture != null || (source.vertices != null && !source.vertices.isEmpty()) || source.position != null) {
             var zIndexComponent = ecsEngine.createComponent(ZIndexComponent.class);
-            zIndexComponent.zIndex = ToZIndex.from(source.getPosition());
+            zIndexComponent.zIndex = ToZIndex.from(source.position);
             return Optional.of(zIndexComponent);
         }
         return Optional.empty();
     }
 
     private static Optional<SpriteComponent> handleTexture(Engine ecsEngine, Directory root, ThalwegActorData source) {
-        if (source.getTexture() != null) {
-            var textureRegion = new TextureRegion(new Texture(root.getSubFolder(source.getTexture())));
+        if (source.texture != null) {
+            var textureRegion = new TextureRegion(new Texture(root.getSubFolder(source.texture)));
             textureRegion.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
             var sprite = new Sprite(textureRegion);
-            var position = ToVector2Position.from(source.getPosition());
-            var scale = ToVector2Scale.from(source.getScale());
+            var position = ToVector2Position.from(source.position);
+            var scale = ToVector2Scale.from(source.scale);
             sprite.setPosition(position.x, position.y);
             sprite.setScale(scale.x, scale.y);
             var spriteComponent = ecsEngine.createComponent(SpriteComponent.class);
@@ -60,16 +59,16 @@ public class ToEntity {
     }
 
     private static Optional<PolygonComponent> handleVertices(Engine ecsEngine, ThalwegActorData source) {
-        if (source.getVertices() != null && !source.getVertices().isEmpty()) {
-            var vertices = new float[source.getVertices().size() * 2];
-            for (int i = 0; i < source.getVertices().size(); i++) {
-                XYData point = source.getVertices().get(i);
+        if (source.vertices != null && !source.vertices.isEmpty()) {
+            var vertices = new float[source.vertices.size * 2];
+            for (int i = 0; i < source.vertices.size; i++) {
+                XYData point = source.vertices.get(i);
                 vertices[i * 2] = point.x;
                 vertices[i * 2 + 1] = point.y;
             }
             var polygon = new Polygon(vertices);
-            var position = ToVector2Position.from(source.getPosition());
-            var scale = ToVector2Scale.from(source.getScale());
+            var position = ToVector2Position.from(source.position);
+            var scale = ToVector2Scale.from(source.scale);
             polygon.setPosition(position.x, position.y);
             polygon.setScale(scale.x, scale.y);
             var polygonComponent = ecsEngine.createComponent(PolygonComponent.class);
@@ -80,23 +79,23 @@ public class ToEntity {
     }
 
     private static Optional<Array<Component>> handleTriggers(Engine ecsEngine, ThalwegActorData source) {
-        if (source.getTriggers() != null && !source.getTriggers().isEmpty()) {
-            Array<Component> triggerComponents = handleTrigger(ecsEngine, source.getTriggers());
+        if (source.triggers != null && !source.triggers.isEmpty()) {
+            Array<Component> triggerComponents = handleTrigger(ecsEngine, source.triggers);
             return Optional.of(triggerComponents);
         }
         return Optional.empty();
     }
 
-    private static Array<Component> handleTrigger(Engine ecsEngine, List<TriggerData> triggers) {
+    private static Array<Component> handleTrigger(Engine ecsEngine, Array<TriggerData> triggers) {
         var result = new Array<Component>();
-        TaskData onMouseEnter = null;
-        TaskData onMouseLeave = null;
+        TaskComp onMouseEnter = null;
+        TaskComp onMouseLeave = null;
         for (TriggerData triggerData : triggers) {
-            if (triggerData.getType() != null && triggerData.getTodo() != null) {
-                switch (triggerData.getType()) {
-                    case AUTO -> result.add(createAutoTriggerComponent(ecsEngine, triggerData.getTodo()));
-                    case MOUSEENTER -> onMouseEnter = triggerData.getTodo();
-                    case MOUSELEAVE -> onMouseLeave = triggerData.getTodo();
+            if (triggerData.todo != null) {
+                switch (triggerData.type) {
+                    case AUTO -> result.add(createAutoTriggerComponent(ecsEngine, triggerData.todo));
+                    case MOUSEENTER -> onMouseEnter = triggerData.todo;
+                    case MOUSELEAVE -> onMouseLeave = triggerData.todo;
                 }
             }
         }
@@ -109,7 +108,7 @@ public class ToEntity {
         return result;
     }
 
-    private static AutoTriggerComponent createAutoTriggerComponent(Engine ecsEngine, TaskData todo) {
+    private static AutoTriggerComponent createAutoTriggerComponent(Engine ecsEngine, TaskComp todo) {
         var autoTriggerComponent = ecsEngine.createComponent(AutoTriggerComponent.class);
         autoTriggerComponent.todo = todo;
         return autoTriggerComponent;

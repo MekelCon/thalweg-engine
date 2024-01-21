@@ -1,0 +1,18 @@
+{
+  "debug": true,
+  "gdx": {
+    "logLevel": "DEBUG"
+  },
+  "lwjgl3ApplicationConfig": {
+    "title": "Quercus",
+    "windowed": {
+      "width": 800,
+      "height": 800
+    }
+  },
+  "startScreen": "screen/1.json",
+  "world": {
+    "width": 256,
+    "height": 144
+  }
+}

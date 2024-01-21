@@ -1,6 +1,6 @@
 package fr.thalweg.engine.transformer.toECS;
 
-import fr.thalweg.gen.engine.model.PositionData;
+import fr.thalweg.engine.infra.data.PositionData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

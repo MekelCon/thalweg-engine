@@ -1,0 +1,27 @@
+{
+  "family": [
+    {
+      "name": "default",
+      "source": "font/Perfect DOS VGA 437 Win.ttf",
+      "size": 28,
+      "borderSize": 2
+    },
+    {
+      "name": "writing",
+      "source": "font/F25 Executive.ttf",
+      "size": 28,
+      "yAdjust": -4
+    }
+  ],
+  "vars": {
+    "existing": {
+      "mouseLabelDefaultToken": "{SLOW}[%?black outline][#CCCCCC][@]"
+    },
+    "custom": [
+      {
+        "name": "NORAH",
+        "value": "[#66CCCC]"
+      }
+    ]
+  }
+}

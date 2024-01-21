@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.infra.Reader;
+import fr.thalweg.engine.infra.data.ThalwegActorData;
+import fr.thalweg.engine.infra.data.ThalwegScreenData;
 import fr.thalweg.engine.model.Asset;
 import fr.thalweg.engine.model.AssetType;
 import fr.thalweg.engine.transformer.toECS.ToEntity;
-import fr.thalweg.gen.engine.model.ThalwegActorData;
-import fr.thalweg.gen.engine.model.ThalwegScreenData;
 
 public class ThalwegScreen extends ScreenAdapter {
 
@@ -35,13 +35,13 @@ public class ThalwegScreen extends ScreenAdapter {
         this.data = Reader.getInstance().read(
                 Asset.of(thalwegGame.getRoot(), AssetType.screen(), sourceFile).getFileHandle(),
                 ThalwegScreenData.class);
-        initActors(thalwegGame.getECSEngine());
+        initActors(thalwegGame.getEcsEngine());
     }
 
     private void initActors(PooledEngine ecsEngine) {
         ecsEngine.clearPools();
-        for (ThalwegActorData actorData : data.getActors()) {
-            thalwegGame.getECSEngine().addEntity(ToEntity.from(
+        for (ThalwegActorData actorData : data.actors) {
+            thalwegGame.getEcsEngine().addEntity(ToEntity.from(
                     ecsEngine,
                     thalwegGame.getRoot(),
                     actorData
@@ -52,7 +52,7 @@ public class ThalwegScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         batch.setProjectionMatrix(camera.combined);
-        thalwegGame.getECSEngine().update(delta);
+        thalwegGame.getEcsEngine().update(delta);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package fr.thalweg.engine.transformer.tolibgdx;
 
 import com.badlogic.gdx.math.Interpolation;
-import fr.thalweg.gen.engine.model.InterpolationData;
+import fr.thalweg.engine.infra.data.InterpolationData;
 
 public class ToInterpolation {
 

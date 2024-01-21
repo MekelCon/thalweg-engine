@@ -1,7 +1,7 @@
 package fr.thalweg.engine.transformer.tolibgdx;
 
-import fr.thalweg.gen.engine.model.Lwjgl3ApplicationConfigData;
-import fr.thalweg.gen.engine.model.WidthAndHeightData;
+import fr.thalweg.engine.infra.data.Lwjgl3ApplicationConfigData;
+import fr.thalweg.engine.infra.data.WidthAndHeightData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

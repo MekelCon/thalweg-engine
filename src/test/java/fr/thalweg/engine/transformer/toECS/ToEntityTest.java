@@ -4,7 +4,11 @@ import com.badlogic.ashley.core.Entity;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
-import fr.thalweg.gen.engine.model.*;
+import fr.thalweg.engine.infra.data.PositionData;
+import fr.thalweg.engine.infra.data.ScaleData;
+import fr.thalweg.engine.infra.data.ThalwegActorData;
+import fr.thalweg.engine.infra.data.trigger.TriggerData;
+import fr.thalweg.engine.infra.data.trigger.TriggerTypeEnumData;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

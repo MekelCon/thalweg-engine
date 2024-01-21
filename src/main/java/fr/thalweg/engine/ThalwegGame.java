@@ -1,6 +1,5 @@
 package fr.thalweg.engine;
 
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.infra.Reader;
+import fr.thalweg.engine.infra.data.ThalwegGameConfigurationData;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
 import fr.thalweg.engine.system.rendering.MouseTriggerDebugRenderingSystem;
@@ -26,7 +26,6 @@ import fr.thalweg.engine.system.trigger.AutoTriggerSystem;
 import fr.thalweg.engine.system.trigger.MouseTriggerSystem;
 import fr.thalweg.engine.transformer.tolibgdx.ToLogLevel;
 import fr.thalweg.engine.validator.ProjectStructureValidator;
-import fr.thalweg.gen.engine.model.ThalwegGameConfigurationData;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
@@ -37,7 +36,7 @@ public class ThalwegGame extends Game {
     public static ThalwegGame INSTANCE;
     private final Directory root;
     private final ThalwegGameConfigurationData config;
-    private final PooledEngine ECSEngine;
+    private final ThalwegPooledEngine ecsEngine;
     private SpriteBatch batch;
     private Viewport viewport;
     private Viewport textViewport;
@@ -45,11 +44,12 @@ public class ThalwegGame extends Game {
     protected ThalwegGame(
             String root
     ) {
-        this.root = Directory.of(root);
+        this.root = new Directory(root);
         this.config = Reader.getInstance().read(
-                new PublicFileHandle(root + "/configuration.yaml", Files.FileType.Internal),
+                new PublicFileHandle(root + "/configuration.json", Files.FileType.Internal),
                 ThalwegGameConfigurationData.class);
-        this.ECSEngine = new PooledEngine(10, 50, 20, 100);
+        this.ecsEngine = new ThalwegPooledEngine(10, 50, 20, 100);
+        Reader.setEcsEngine(ecsEngine);
     }
 
     public static ThalwegGame build(String rootDirectory) {
@@ -59,42 +59,42 @@ public class ThalwegGame extends Game {
 
     @Override
     public void create() {
-        if (config.isDebug()) {
+        if (config.debug) {
             ProjectStructureValidator.validThalwegGameStructure(root);
         }
         initGdxConfig();
         batch = new SpriteBatch();
         // TODO : manage viewport type
         viewport = new FitViewport(
-                config.getWorld().getWidth(),
-                config.getWorld().getHeight()
+                config.world.width,
+                config.world.height
         );
         textViewport = new ScreenViewport();
 
-        var cameraSystem = new CameraSystem(config.getWorld());
-        ECSEngine.addSystem(cameraSystem);
-        ECSEngine.addSystem(new WorldRenderingSystem(config.getWorld(), batch, viewport));
-        if (config.isDebug()) {
-            ECSEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
+        var cameraSystem = new CameraSystem(config.world);
+        ecsEngine.addSystem(cameraSystem);
+        ecsEngine.addSystem(new WorldRenderingSystem(config.world, batch, viewport));
+        if (config.debug) {
+            ecsEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
         }
-        ECSEngine.addSystem(new TextRenderingSystem(root, textViewport));
+        ecsEngine.addSystem(new TextRenderingSystem(root, textViewport));
 
-        ECSEngine.addSystem(new MouseTriggerSystem(viewport));
-        ECSEngine.addSystem(new AutoTriggerSystem());
+        ecsEngine.addSystem(new MouseTriggerSystem(viewport));
+        ecsEngine.addSystem(new AutoTriggerSystem());
         // Task System
         // 1st treat wrapper task, so atomic tack will be executed during the same frame
-        ECSEngine.addSystem(new ParallelTask());
-        ECSEngine.addSystem(new SequenceTask());
+        ecsEngine.addSystem(new ParallelTask());
+        ecsEngine.addSystem(new SequenceTask());
         // Atomic Task
-        ECSEngine.addSystem(new LogTask());
-        ECSEngine.addSystem(new PlayTransitionTask());
-        ECSEngine.addSystem(new SetCursorTask());
-        ECSEngine.addSystem(new SetMouseLabelTask());
-        ECSEngine.addSystem(new WaitTask());
+        ecsEngine.addSystem(new LogTask());
+        ecsEngine.addSystem(new PlayTransitionTask());
+        ecsEngine.addSystem(new SetCursorTask());
+        ecsEngine.addSystem(new SetMouseLabelTask());
+        ecsEngine.addSystem(new WaitTask());
 
         setScreen(new ThalwegScreen(
                 this,
-                config.getStartScreen(),
+                config.startScreen,
                 batch,
                 cameraSystem.getCamera(),
                 viewport,
@@ -102,7 +102,7 @@ public class ThalwegGame extends Game {
     }
 
     private void initGdxConfig() {
-        Gdx.app.setLogLevel(ToLogLevel.from(config.getGdx().getLogLevel()));
+        Gdx.app.setLogLevel(ToLogLevel.from(config.gdx.logLevel));
     }
 
     // TODO : get rid of this

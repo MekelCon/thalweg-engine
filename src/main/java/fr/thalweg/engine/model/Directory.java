@@ -1,29 +1,23 @@
 package fr.thalweg.engine.model;
 
 import fr.thalweg.engine.validator.ValidationUtils;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class Directory {
 
     private final String originalPath;
 
-    public static Directory of(String value) {
+    public Directory(String value) {
         Directory.assertValid(value);
         // Remove trailing / if exist
-        value = value.endsWith("/") ? value.substring(0, value.length() - 1) : value;
-        return new Directory(value);
+        this.originalPath = value.endsWith("/") ? value.substring(0, value.length() - 1) : value;
     }
 
     public static void assertValid(String value) {
         ValidationUtils.get()
                 .notNull(value)
                 .notEmpty(value);
-    }
-
-    public String get() {
-        return originalPath;
     }
 
     public String getSubFolder(String folder) {
