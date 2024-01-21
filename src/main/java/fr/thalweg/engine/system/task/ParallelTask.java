@@ -1,18 +1,18 @@
 package fr.thalweg.engine.system.task;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.flag.WorkingFlag;
-import fr.thalweg.engine.component.task.ParallelTaskComponent;
+import fr.thalweg.engine.component.task.ParallelTaskComp;
+import fr.thalweg.engine.component.task.TaskComp;
 
 import java.util.Iterator;
 
 public class ParallelTask extends Task {
 
-    private static final Class<ParallelTaskComponent> COMPONENT = ParallelTaskComponent.class;
-    private final ComponentMapper<ParallelTaskComponent> cm;
+    private static final Class<ParallelTaskComp> COMPONENT = ParallelTaskComp.class;
+    private final ComponentMapper<ParallelTaskComp> cm;
 
     public ParallelTask() {
         super(COMPONENT);
@@ -24,8 +24,8 @@ public class ParallelTask extends Task {
         var parallelTaskComponent = cm.get(entity);
         if (!parallelTaskComponent._started) { // The task is not started
             parallelTaskComponent._started = true;
-            parallelTaskComponent._executors = new Array<>(parallelTaskComponent.components.size);
-            for (Component component : parallelTaskComponent.components) {
+            parallelTaskComponent._executors = new Array<>(parallelTaskComponent.todos.size);
+            for (TaskComp component : parallelTaskComponent.todos) {
                 Entity executor = getEngine().createEntity();
                 executor.add(getEngine().createComponent(WorkingFlag.class));
                 executor.add(component);

@@ -5,7 +5,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import fr.thalweg.engine.ThalwegGame;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.TaskBuilder;
-import fr.thalweg.engine.infra.data.task.TaskData;
+import fr.thalweg.engine.component.task.TaskComp;
 
 public abstract class TriggerSystem extends IteratingSystem {
     public TriggerSystem(Family family) {
@@ -16,12 +16,14 @@ public abstract class TriggerSystem extends IteratingSystem {
         super(family, priority);
     }
 
-    protected void createEntityForTriggered(TaskData todo) {
-        if (todo != null)
+    protected void createEntityForTriggered(TaskComp todo) {
+        if (todo != null) {
+            TaskComp result = TaskBuilder.build(getEngine(),
+                    todo,
+                    ThalwegGame.INSTANCE.getRoot());
             getEngine().addEntity(getEngine().createEntity()
-                    .add(TaskBuilder.build(getEngine(),
-                            todo,
-                            ThalwegGame.INSTANCE.getRoot()))
+                    .add(result)
                     .add(getEngine().createComponent(WorkingFlag.class)));
+        }
     }
 }

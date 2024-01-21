@@ -5,9 +5,8 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import fr.thalweg.engine.infra.data.task.LogTaskData;
-import fr.thalweg.engine.infra.data.task.TaskData;
-import fr.thalweg.engine.infra.data.task.TaskTypeEnumData;
+import fr.thalweg.engine.component.task.TaskComp;
+import fr.thalweg.engine.component.task.TaskTypeEnumData;
 import fr.thalweg.engine.infra.data.trigger.TriggerTypeEnumData;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -30,10 +29,8 @@ public class Reader {
         }
         for (TaskTypeEnumData taskType : TaskTypeEnumData.values()) {
             this.json.addClassTag(taskType.value, taskType.target);
-
+            json.setSerializer(taskType.target, new TaskSerializer<>());
         }
-
-        json.setSerializer(LogTaskData.class, new TaskSerializer(LogTaskData.class));
     }
 
     public static void setEcsEngine(PooledEngine ecsEngine) {
@@ -49,24 +46,21 @@ public class Reader {
         }
     }
 
-    public static class TaskSerializer<T extends TaskData> implements Json.Serializer<T> {
-
-        final Class<T> baseType;
-
-        public TaskSerializer(Class<T> baseType) {
-            this.baseType = baseType;
-        }
+    public static class TaskSerializer<T extends TaskComp> implements Json.Serializer<T> {
 
         @Override
-        public void write(Json json, TaskData object, Class knownType) {
+        public void write(Json json, TaskComp object, Class knownType) {
             // TODO ?
         }
 
         @Override
         public T read(Json json, JsonValue jsonData, Class type) {
-            T result = (T) Reader.ENGINE.createComponent(type);
+            if (type.componentType().equals(TaskComp.class)) {
+                System.out.println("HEY");
+            }
+            var result = Reader.ENGINE.createComponent(type);
             json.readFields(result, jsonData);
-            return result;
+            return (T) result;
         }
     }
 }

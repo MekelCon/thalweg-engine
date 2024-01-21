@@ -1,13 +1,13 @@
 package fr.thalweg.engine.infra.data.trigger;
 
-import fr.thalweg.engine.infra.data.task.TaskData;
+import fr.thalweg.engine.component.task.TaskComp;
 
 import java.util.Arrays;
 
 public abstract class TriggerData {
 
     public final TriggerTypeEnumData type;
-    public TaskData todo;
+    public TaskComp todo;
 
     public TriggerData() {
         type = Arrays.stream(TriggerTypeEnumData.values())

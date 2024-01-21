@@ -3,12 +3,12 @@ package fr.thalweg.engine.system.task;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import fr.thalweg.engine.component.flag.WorkingFlag;
-import fr.thalweg.engine.component.task.SequenceTaskComponent;
+import fr.thalweg.engine.component.task.SequenceTaskComp;
 
 public class SequenceTask extends Task {
 
-    private static final Class<SequenceTaskComponent> COMPONENT = SequenceTaskComponent.class;
-    private final ComponentMapper<SequenceTaskComponent> cm;
+    private static final Class<SequenceTaskComp> COMPONENT = SequenceTaskComp.class;
+    private final ComponentMapper<SequenceTaskComp> cm;
 
     public SequenceTask() {
         super(COMPONENT);
@@ -23,10 +23,10 @@ public class SequenceTask extends Task {
             if (sequenceTaskComponent._executor != null) {
                 getEngine().removeEntity(sequenceTaskComponent._executor);
             }
-            if (sequenceTaskComponent._currentIndex < sequenceTaskComponent.components.size) {
+            if (sequenceTaskComponent._currentIndex < sequenceTaskComponent.todos.size) {
                 sequenceTaskComponent._executor = getEngine().createEntity();
                 sequenceTaskComponent._executor
-                        .add(sequenceTaskComponent.components
+                        .add(sequenceTaskComponent.todos
                                 .get(sequenceTaskComponent._currentIndex))
                         .add(getEngine().createComponent(WorkingFlag.class));
                 sequenceTaskComponent._currentIndex = sequenceTaskComponent._currentIndex + 1;

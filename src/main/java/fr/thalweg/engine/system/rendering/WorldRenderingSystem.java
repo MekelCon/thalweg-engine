@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
 import fr.thalweg.engine.component.flag.WorkingFlag;
-import fr.thalweg.engine.component.task.PlayTransitionTaskComponent;
+import fr.thalweg.engine.component.task.PlayTransitionTaskComp;
 import fr.thalweg.engine.entity.EntityZIndexComparator;
 import fr.thalweg.engine.infra.data.WorldData;
 
@@ -27,7 +27,7 @@ public class WorldRenderingSystem extends SortedIteratingSystem {
     private final SpriteBatch batch;
     private final FrameBuffer worldBuffer;
     private final Viewport viewport;
-    private final ComponentMapper<PlayTransitionTaskComponent> pm;
+    private final ComponentMapper<PlayTransitionTaskComp> pm;
     public boolean transitioning;
 
     public WorldRenderingSystem(WorldData world, SpriteBatch batch, Viewport viewport) {
@@ -42,7 +42,7 @@ public class WorldRenderingSystem extends SortedIteratingSystem {
         this.worldBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         this.batch = batch;
         this.viewport = viewport;
-        this.pm = ComponentMapper.getFor(PlayTransitionTaskComponent.class);
+        this.pm = ComponentMapper.getFor(PlayTransitionTaskComp.class);
     }
 
     @Override
@@ -70,9 +70,9 @@ public class WorldRenderingSystem extends SortedIteratingSystem {
     private void renderWorldBuffer() {
         if (transitioning) {
             Entity entity = this.getEngine().getEntitiesFor(
-                    Family.all(PlayTransitionTaskComponent.class, WorkingFlag.class).get()).first();
+                    Family.all(PlayTransitionTaskComp.class, WorkingFlag.class).get()).first();
             var taskComponent = pm.get(entity);
-            batch.setShader(taskComponent.shader);
+            batch.setShader(taskComponent._shader);
         }
         viewport.apply(true);
         batch.setProjectionMatrix(IDENTITY);

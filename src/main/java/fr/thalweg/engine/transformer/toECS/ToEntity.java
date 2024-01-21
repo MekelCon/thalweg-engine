@@ -11,11 +11,11 @@ import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.PolygonComponent;
 import fr.thalweg.engine.component.SpriteComponent;
 import fr.thalweg.engine.component.ZIndexComponent;
+import fr.thalweg.engine.component.task.TaskComp;
 import fr.thalweg.engine.component.trigger.AutoTriggerComponent;
 import fr.thalweg.engine.component.trigger.MouseTriggerComponent;
 import fr.thalweg.engine.infra.data.ThalwegActorData;
 import fr.thalweg.engine.infra.data.XYData;
-import fr.thalweg.engine.infra.data.task.TaskData;
 import fr.thalweg.engine.infra.data.trigger.TriggerData;
 import fr.thalweg.engine.model.Directory;
 
@@ -88,8 +88,8 @@ public class ToEntity {
 
     private static Array<Component> handleTrigger(Engine ecsEngine, Array<TriggerData> triggers) {
         var result = new Array<Component>();
-        TaskData onMouseEnter = null;
-        TaskData onMouseLeave = null;
+        TaskComp onMouseEnter = null;
+        TaskComp onMouseLeave = null;
         for (TriggerData triggerData : triggers) {
             if (triggerData.todo != null) {
                 switch (triggerData.type) {
@@ -108,7 +108,7 @@ public class ToEntity {
         return result;
     }
 
-    private static AutoTriggerComponent createAutoTriggerComponent(Engine ecsEngine, TaskData todo) {
+    private static AutoTriggerComponent createAutoTriggerComponent(Engine ecsEngine, TaskComp todo) {
         var autoTriggerComponent = ecsEngine.createComponent(AutoTriggerComponent.class);
         autoTriggerComponent.todo = todo;
         return autoTriggerComponent;

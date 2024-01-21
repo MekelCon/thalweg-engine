@@ -45,7 +45,7 @@ public class ThalwegGame extends Game {
     protected ThalwegGame(
             String root
     ) {
-        this.root = Directory.of(root);
+        this.root = new Directory(root);
         this.config = Reader.getInstance().read(
                 new PublicFileHandle(root + "/configuration.json", Files.FileType.Internal),
                 ThalwegGameConfigurationData.class);

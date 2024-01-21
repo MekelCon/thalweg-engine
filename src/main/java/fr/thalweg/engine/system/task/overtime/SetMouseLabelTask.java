@@ -5,13 +5,13 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import fr.thalweg.engine.component.flag.MouseLabelOwnerFlag;
-import fr.thalweg.engine.component.task.SetMouseLabelTaskComponent;
+import fr.thalweg.engine.component.task.SetMouseLabelTaskComp;
 import fr.thalweg.engine.system.rendering.TextRenderingSystem;
 
 public class SetMouseLabelTask extends OverTimeTask {
 
-    private static final Class<SetMouseLabelTaskComponent> COMPONENT = SetMouseLabelTaskComponent.class;
-    private final ComponentMapper<SetMouseLabelTaskComponent> cm;
+    private static final Class<SetMouseLabelTaskComp> COMPONENT = SetMouseLabelTaskComp.class;
+    private final ComponentMapper<SetMouseLabelTaskComp> cm;
     private final ComponentMapper<MouseLabelOwnerFlag> mm;
     private TextRenderingSystem txtRendering;
 
@@ -42,7 +42,7 @@ public class SetMouseLabelTask extends OverTimeTask {
     protected void start(Entity entity) {
         if (mm.has(entity)) {
             var setMouseLabelTaskComponent = cm.get(entity);
-            txtRendering.mouseLabel.restart(setMouseLabelTaskComponent.data.label);
+            txtRendering.mouseLabel.restart(setMouseLabelTaskComponent.label);
         } // else it means another task take the mouse label ownership while we were waiting
     }
 

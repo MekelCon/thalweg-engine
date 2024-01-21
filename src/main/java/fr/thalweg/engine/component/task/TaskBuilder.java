@@ -1,81 +1,75 @@
 package fr.thalweg.engine.component.task;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
-import fr.thalweg.engine.infra.data.task.*;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.transformer.tolibgdx.ToInterpolation;
 
 public interface TaskBuilder {
 
-    static Component build(Engine ecs, TaskData todo, Directory root) {
+    static TaskComp build(Engine ecs, TaskComp todo, Directory root) {
         return switch (todo.type) {
-            case LOG -> log(ecs, (LogTaskData) todo);
-            case PARALLEL -> parallel(ecs, (TaskArrayData) todo, root);
-            case PLAY_TRANSITION -> playTransition(ecs, (PlayTransitionTaskData) todo, root);
-            case SEQUENCE -> sequence(ecs, (TaskArrayData) todo, root);
-            case SET_CURSOR -> setCursor(ecs, (SetCursorTaskData) todo, root);
-            case SET_MOUSE_LABEL -> setMouseLabel(ecs, (SetMouseLabelTaskData) todo);
-            case WAIT -> wait(ecs, (WaitTaskData) todo);
+            case LOG -> log(ecs, (LogTaskComp) todo);
+            case PARALLEL -> parallel(ecs, (ParallelTaskComp) todo);
+            case PLAY_TRANSITION -> playTransition(ecs, (PlayTransitionTaskComp) todo, root);
+            case SEQUENCE -> sequence(ecs, (SequenceTaskComp) todo);
+            case SET_CURSOR -> setCursor(ecs, (SetCursorTaskComp) todo, root);
+            case SET_MOUSE_LABEL -> setMouseLabel(ecs, (SetMouseLabelTaskComp) todo);
+            case WAIT -> wait(ecs, (WaitTaskComp) todo);
         };
     }
 
-    private static LogTaskComponent log(Engine ecs, LogTaskData data) {
-        var result = ecs.createComponent(LogTaskComponent.class);
-        result.data = data.copy();
+    private static LogTaskComp log(Engine ecs, LogTaskComp comp) {
+        var result = ecs.createComponent(LogTaskComp.class);
+        TaskCompUpdater.INSTANCE.updateInternal(result, comp);
         return result;
     }
 
-    private static ParallelTaskComponent parallel(Engine ecs, TaskArrayData data, Directory root) {
-        var result = ecs.createComponent(ParallelTaskComponent.class);
-        result._executors = new Array<>(data.todos.size);
-        for (TaskData todo : data.todos) {
-            result.components.add(build(ecs, todo, root));
-        }
+    private static ParallelTaskComp parallel(Engine ecs, ParallelTaskComp comp) {
+        var result = ecs.createComponent(ParallelTaskComp.class);
+        TaskCompUpdater.INSTANCE.updateInternal(result, comp);
+        result._executors = new Array<>(comp.todos.size);
         return result;
     }
 
-    private static PlayTransitionTaskComponent playTransition(Engine ecs, PlayTransitionTaskData data, Directory root) {
-        var result = ecs.createComponent(PlayTransitionTaskComponent.class);
-        result.data = data.copy();
-        result.interpolation = ToInterpolation.from(data.interpolation);
-        result.root = root;
-        result.texture = new Texture(Gdx.files.internal(
-                root.getSubFolder(data.transition)));
-        result.shader = createTransitionShader();
+    private static PlayTransitionTaskComp playTransition(Engine ecs, PlayTransitionTaskComp comp, Directory root) {
+        var result = ecs.createComponent(PlayTransitionTaskComp.class);
+        TaskCompUpdater.INSTANCE.updateInternal(result, comp);
+        result._interpolation = ToInterpolation.from(comp.interpolation);
+        result._root = root;
+        result._texture = new Texture(Gdx.files.internal(
+                root.getSubFolder(comp.transition)));
+        result._shader = createTransitionShader();
         return result;
     }
 
-    private static SequenceTaskComponent sequence(Engine ecs, TaskArrayData data, Directory root) {
-        var result = ecs.createComponent(SequenceTaskComponent.class);
-        for (TaskData todo : data.todos) {
-            result.components.add(build(ecs, todo, root));
-        }
+    private static SequenceTaskComp sequence(Engine ecs, SequenceTaskComp comp) {
+        var result = ecs.createComponent(SequenceTaskComp.class);
+        TaskCompUpdater.INSTANCE.updateInternal(result, comp);
         return result;
     }
 
-    private static SetCursorTaskComponent setCursor(Engine ecs, SetCursorTaskData data, Directory root) {
-        var result = ecs.createComponent(SetCursorTaskComponent.class);
-        result.data = data.copy();
-        result.icon = new Pixmap(Gdx.files.internal(root.getSubFolder(data.cursor)));
+    private static SetCursorTaskComp setCursor(Engine ecs, SetCursorTaskComp comp, Directory root) {
+        var result = ecs.createComponent(SetCursorTaskComp.class);
+        TaskCompUpdater.INSTANCE.updateInternal(result, comp);
+        result._icon = new Pixmap(Gdx.files.internal(root.getSubFolder(result.cursor)));
         return result;
     }
 
-    private static SetMouseLabelTaskComponent setMouseLabel(Engine ecs, SetMouseLabelTaskData data) {
-        var result = ecs.createComponent(SetMouseLabelTaskComponent.class);
-        result.data = data.copy();
+    private static SetMouseLabelTaskComp setMouseLabel(Engine ecs, SetMouseLabelTaskComp comp) {
+        var result = ecs.createComponent(SetMouseLabelTaskComp.class);
+        TaskCompUpdater.INSTANCE.updateInternal(result, comp);
         return result;
     }
 
-    private static WaitTaskComponent wait(Engine ecs, WaitTaskData data) {
-        WaitTaskComponent result = ecs.createComponent(WaitTaskComponent.class);
-        result.data = data.copy();
-        result.interpolation = ToInterpolation.from(data.interpolation);
+    private static WaitTaskComp wait(Engine ecs, WaitTaskComp comp) {
+        var result = ecs.createComponent(WaitTaskComp.class);
+        TaskCompUpdater.INSTANCE.updateInternal(result, comp);
+        result._interpolation = ToInterpolation.from(result.interpolation);
         return result;
     }
 
