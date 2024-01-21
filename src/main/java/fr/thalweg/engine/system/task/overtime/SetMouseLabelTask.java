@@ -50,6 +50,6 @@ public class SetMouseLabelTask extends OverTimeTask {
     protected void update(Entity entity, float percent) {
         var setMouseLabelTaskComponent = cm.get(entity);
         // block ending until the typing display finishes
-        setMouseLabelTaskComponent.complete = txtRendering.mouseLabel.hasEnded();
+        setMouseLabelTaskComponent._complete = txtRendering.mouseLabel.hasEnded();
     }
 }

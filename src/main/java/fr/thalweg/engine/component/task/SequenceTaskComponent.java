@@ -7,13 +7,13 @@ import com.badlogic.gdx.utils.Array;
 public class SequenceTaskComponent implements TaskComponent {
 
     public Array<Component> components = new Array<>();
-    public int currentIndex;
-    public Entity executor;
+    public int _currentIndex;
+    public Entity _executor;
 
     @Override
     public void reset() {
         components.clear();
-        currentIndex = 0;
-        executor = null;
+        _currentIndex = 0;
+        _executor = null;
     }
 }

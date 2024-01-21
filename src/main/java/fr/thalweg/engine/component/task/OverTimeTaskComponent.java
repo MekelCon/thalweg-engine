@@ -7,18 +7,18 @@ import fr.thalweg.engine.infra.data.task.OverTimeTaskData;
 public abstract class OverTimeTaskComponent<T extends OverTimeTaskData> implements TaskComponent {
 
     public T data;
-    public float time;
+    public float _time;
     public @Null Interpolation interpolation;
-    public boolean reverse, began, started, complete;
+    public boolean _reverse, _began, _started, _complete;
 
     @Override
     public void reset() {
         data = null;
-        time = 0;
+        _time = 0;
         interpolation = null;
-        reverse = false;
-        began = false;
-        started = false;
-        complete = false;
+        _reverse = false;
+        _began = false;
+        _started = false;
+        _complete = false;
     }
 }

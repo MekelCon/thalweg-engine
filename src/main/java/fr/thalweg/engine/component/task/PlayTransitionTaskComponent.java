@@ -15,7 +15,6 @@ public class PlayTransitionTaskComponent extends OverTimeTaskComponent<PlayTrans
     public void reset() {
         super.reset();
         root = null;
-        data = null;
         shader.dispose();
         shader = null;
         texture.dispose();

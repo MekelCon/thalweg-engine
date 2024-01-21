@@ -4,6 +4,9 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.infra.data.task.*;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.transformer.tolibgdx.ToInterpolation;
@@ -22,7 +25,7 @@ public interface TaskBuilder {
         };
     }
 
-    private static Component log(Engine ecs, LogTaskData data) {
+    private static LogTaskComponent log(Engine ecs, LogTaskData data) {
         var result = ecs.createComponent(LogTaskComponent.class);
         result.data = data.copy();
         return result;
@@ -30,6 +33,7 @@ public interface TaskBuilder {
 
     private static ParallelTaskComponent parallel(Engine ecs, TaskArrayData data, Directory root) {
         var result = ecs.createComponent(ParallelTaskComponent.class);
+        result._executors = new Array<>(data.todos.size);
         for (TaskData todo : data.todos) {
             result.components.add(build(ecs, todo, root));
         }
@@ -41,6 +45,9 @@ public interface TaskBuilder {
         result.data = data.copy();
         result.interpolation = ToInterpolation.from(data.interpolation);
         result.root = root;
+        result.texture = new Texture(Gdx.files.internal(
+                root.getSubFolder(data.transition)));
+        result.shader = createTransitionShader();
         return result;
     }
 
@@ -70,5 +77,19 @@ public interface TaskBuilder {
         result.data = data.copy();
         result.interpolation = ToInterpolation.from(data.interpolation);
         return result;
+    }
+
+    private static ShaderProgram createTransitionShader() {
+        var vertexShader = Gdx.files.internal("shader/vertex.glsl").readString();
+        var fragmentShader = Gdx.files.internal("shader/fragment.glsl").readString();
+        var transitionShader = new ShaderProgram(vertexShader, fragmentShader);
+        if (!transitionShader.isCompiled()) {
+            Gdx.app.error("Shader", transitionShader.getLog());
+            Gdx.app.exit();
+        }
+        transitionShader.bind();
+        transitionShader.setUniformi("u_texture", 0);
+        transitionShader.setUniformi("u_mask", 1);
+        return transitionShader;
     }
 }

@@ -18,27 +18,27 @@ public abstract class OverTimeTask extends Task {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         var overTimeTaskComponent = cm.get(entity);
-        overTimeTaskComponent.time += deltaTime;
-        if (!overTimeTaskComponent.began) {
+        overTimeTaskComponent._time += deltaTime;
+        if (!overTimeTaskComponent._began) {
             begin(entity);
-            overTimeTaskComponent.began = true;
+            overTimeTaskComponent._began = true;
         }
         // Decrease the delay until 0
         if (overTimeTaskComponent.data.delay > 0) {
             overTimeTaskComponent.data.delay = Math.max(0, overTimeTaskComponent.data.delay - deltaTime);
-            overTimeTaskComponent.time = Math.max(0, overTimeTaskComponent.time - overTimeTaskComponent.data.delay);
+            overTimeTaskComponent._time = Math.max(0, overTimeTaskComponent._time - overTimeTaskComponent.data.delay);
         } else {
-            if (!overTimeTaskComponent.started) {
+            if (!overTimeTaskComponent._started) {
                 start(entity);
                 // we want to come here only once
-                overTimeTaskComponent.started = true;
+                overTimeTaskComponent._started = true;
             }
-            overTimeTaskComponent.complete = overTimeTaskComponent.time >= overTimeTaskComponent.data.duration;
-            float percent = overTimeTaskComponent.complete ? 1 : overTimeTaskComponent.time / overTimeTaskComponent.data.duration;
+            overTimeTaskComponent._complete = overTimeTaskComponent._time >= overTimeTaskComponent.data.duration;
+            float percent = overTimeTaskComponent._complete ? 1 : overTimeTaskComponent._time / overTimeTaskComponent.data.duration;
             if (overTimeTaskComponent.interpolation != null)
                 percent = overTimeTaskComponent.interpolation.apply(percent);
-            update(entity, overTimeTaskComponent.reverse ? 1 - percent : percent);
-            if (overTimeTaskComponent.complete) {
+            update(entity, overTimeTaskComponent._reverse ? 1 - percent : percent);
+            if (overTimeTaskComponent._complete) {
                 end(entity);
                 entity.removeAll();
                 getEngine().removeEntity(entity);

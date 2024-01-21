@@ -6,14 +6,14 @@ import com.badlogic.gdx.utils.Array;
 
 public class ParallelTaskComponent implements TaskComponent {
     public Array<Component> components = new Array<>();
-    public Array<Entity> executors = new Array<>();
+    public Array<Entity> _executors = new Array<>();
 
     public boolean _started;
 
     @Override
     public void reset() {
         components.clear();
-        executors.clear();
+        _executors.clear();
         _started = false;
     }
 }
