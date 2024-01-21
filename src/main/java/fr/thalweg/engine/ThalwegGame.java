@@ -37,7 +37,7 @@ public class ThalwegGame extends Game {
     public static ThalwegGame INSTANCE;
     private final Directory root;
     private final ThalwegGameConfigurationData config;
-    private final PooledEngine ECSEngine;
+    private final PooledEngine ecsEngine;
     private SpriteBatch batch;
     private Viewport viewport;
     private Viewport textViewport;
@@ -49,7 +49,8 @@ public class ThalwegGame extends Game {
         this.config = Reader.getInstance().read(
                 new PublicFileHandle(root + "/configuration.json", Files.FileType.Internal),
                 ThalwegGameConfigurationData.class);
-        this.ECSEngine = new PooledEngine(10, 50, 20, 100);
+        this.ecsEngine = new PooledEngine(10, 50, 20, 100);
+        Reader.setEcsEngine(ecsEngine);
     }
 
     public static ThalwegGame build(String rootDirectory) {
@@ -72,25 +73,25 @@ public class ThalwegGame extends Game {
         textViewport = new ScreenViewport();
 
         var cameraSystem = new CameraSystem(config.world);
-        ECSEngine.addSystem(cameraSystem);
-        ECSEngine.addSystem(new WorldRenderingSystem(config.world, batch, viewport));
+        ecsEngine.addSystem(cameraSystem);
+        ecsEngine.addSystem(new WorldRenderingSystem(config.world, batch, viewport));
         if (config.debug) {
-            ECSEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
+            ecsEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
         }
-        ECSEngine.addSystem(new TextRenderingSystem(root, textViewport));
+        ecsEngine.addSystem(new TextRenderingSystem(root, textViewport));
 
-        ECSEngine.addSystem(new MouseTriggerSystem(viewport));
-        ECSEngine.addSystem(new AutoTriggerSystem());
+        ecsEngine.addSystem(new MouseTriggerSystem(viewport));
+        ecsEngine.addSystem(new AutoTriggerSystem());
         // Task System
         // 1st treat wrapper task, so atomic tack will be executed during the same frame
-        ECSEngine.addSystem(new ParallelTask());
-        ECSEngine.addSystem(new SequenceTask());
+        ecsEngine.addSystem(new ParallelTask());
+        ecsEngine.addSystem(new SequenceTask());
         // Atomic Task
-        ECSEngine.addSystem(new LogTask());
-        ECSEngine.addSystem(new PlayTransitionTask());
-        ECSEngine.addSystem(new SetCursorTask());
-        ECSEngine.addSystem(new SetMouseLabelTask());
-        ECSEngine.addSystem(new WaitTask());
+        ecsEngine.addSystem(new LogTask());
+        ecsEngine.addSystem(new PlayTransitionTask());
+        ecsEngine.addSystem(new SetCursorTask());
+        ecsEngine.addSystem(new SetMouseLabelTask());
+        ecsEngine.addSystem(new WaitTask());
 
         setScreen(new ThalwegScreen(
                 this,

@@ -1,6 +1,8 @@
 package fr.thalweg.engine.infra.data.task;
 
-public abstract class TaskData {
+import com.badlogic.ashley.core.Component;
+
+public abstract class TaskData implements Component {
 
     public TaskTypeEnumData type;
 
@@ -8,5 +10,6 @@ public abstract class TaskData {
     public <T extends TaskData> T copy() {
         return (T) TaskClone.INSTANCE.copy(this);
     }
+
 }
 

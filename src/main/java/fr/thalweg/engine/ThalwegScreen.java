@@ -35,13 +35,13 @@ public class ThalwegScreen extends ScreenAdapter {
         this.data = Reader.getInstance().read(
                 Asset.of(thalwegGame.getRoot(), AssetType.screen(), sourceFile).getFileHandle(),
                 ThalwegScreenData.class);
-        initActors(thalwegGame.getECSEngine());
+        initActors(thalwegGame.getEcsEngine());
     }
 
     private void initActors(PooledEngine ecsEngine) {
         ecsEngine.clearPools();
         for (ThalwegActorData actorData : data.actors) {
-            thalwegGame.getECSEngine().addEntity(ToEntity.from(
+            thalwegGame.getEcsEngine().addEntity(ToEntity.from(
                     ecsEngine,
                     thalwegGame.getRoot(),
                     actorData
@@ -52,7 +52,7 @@ public class ThalwegScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         batch.setProjectionMatrix(camera.combined);
-        thalwegGame.getECSEngine().update(delta);
+        thalwegGame.getEcsEngine().update(delta);
     }
 
     @Override
