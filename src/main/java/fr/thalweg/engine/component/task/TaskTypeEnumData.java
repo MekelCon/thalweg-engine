@@ -25,15 +25,5 @@ public enum TaskTypeEnumData {
         this.value = value;
         this.target = target;
     }
-
-    public static TaskTypeEnumData forTarget(Class<? extends TaskComp> target) {
-        TaskTypeEnumData[] value = TaskTypeEnumData.values();
-        for (TaskTypeEnumData taskTypeEnumData : value) {
-            if (taskTypeEnumData.target.equals(target)) {
-                return taskTypeEnumData;
-            }
-        }
-        throw new RuntimeException("No enum found for target : " + target.getName());
-    }
 }
 

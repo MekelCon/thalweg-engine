@@ -36,7 +36,7 @@ public abstract class OverTimeTask extends Task {
             float percent = overTimeTaskComponent._complete ? 1 : overTimeTaskComponent._time / overTimeTaskComponent.duration;
             if (overTimeTaskComponent._interpolation != null)
                 percent = overTimeTaskComponent._interpolation.apply(percent);
-            update(entity, overTimeTaskComponent._reverse ? 1 - percent : percent);
+            update(entity, overTimeTaskComponent.reverse ? 1 - percent : percent);
             if (overTimeTaskComponent._complete) {
                 end(entity);
                 entity.removeAll();

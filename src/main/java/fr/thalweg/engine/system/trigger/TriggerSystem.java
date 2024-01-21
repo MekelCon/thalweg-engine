@@ -10,6 +10,7 @@ import fr.thalweg.engine.component.task.TaskComp;
 public abstract class TriggerSystem extends IteratingSystem {
 
     private ThalwegPooledEngine _engine;
+
     public TriggerSystem(Family family) {
         super(family);
     }
