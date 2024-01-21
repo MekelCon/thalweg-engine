@@ -4,16 +4,16 @@
     {
       "triggers": [
         {
-          "class": "AUTO",
+          "type": "AUTO",
           "todo": {
-            "class": "PARALLEL",
+            "type": "PARALLEL",
             "todos": [
               {
-                "class": "SET_CURSOR",
+                "type": "SET_CURSOR",
                 "cursor": "/cursor/cursor.png"
               },
               {
-                "class": "PLAY_TRANSITION",
+                "type": "PLAY_TRANSITION",
                 "duration": 0.4,
                 "delay": 1,
                 "transition": "transition/center_to_border.png"
@@ -32,59 +32,59 @@
       "texture": "sprite/norah.png",
       "triggers": [
         {
-          "class": "MOUSEENTER",
+          "type": "MOUSEENTER",
           "todo": {
-            "class": "SEQUENCE",
+            "type": "SEQUENCE",
             "todos": [
               {
-                "class": "SET_MOUSE_LABEL",
+                "type": "SET_MOUSE_LABEL",
                 "label": "{VAR=NORAH}Norah [@writing]Norah"
               },
               {
-                "class": "WAIT",
+                "type": "WAIT",
                 "duration": 2
               },
               {
-                "class": "LOG",
+                "type": "LOG",
                 "message": "Enter Norah 1"
               },
               {
-                "class": "WAIT",
+                "type": "WAIT",
                 "duration": 2
               },
               {
-                "class": "LOG",
+                "type": "LOG",
                 "message": "Enter Norah 2"
               },
               {
-                "class": "WAIT",
+                "type": "WAIT",
                 "duration": 2
               },
               {
-                "class": "LOG",
+                "type": "LOG",
                 "message": "Enter Norah 3"
               }
             ]
           }
         },
         {
-          "class": "MOUSELEAVE",
+          "type": "MOUSELEAVE",
           "todo": {
-            "class": "SET_MOUSE_LABEL",
+            "type": "SET_MOUSE_LABEL",
             "label": "OUT"
           }
         },
         {
-          "class": "AUTO",
+          "type": "AUTO",
           "todo": {
-            "class": "SEQUENCE",
+            "type": "SEQUENCE",
             "todos": [
               {
-                "class": "LOG",
+                "type": "LOG",
                 "message": "Auto Norah"
               },
               {
-                "class": "LOG",
+                "type": "LOG",
                 "message": "Auto Norah 2"
               }
             ]
@@ -118,31 +118,31 @@
       ],
       "triggers": [
         {
-          "class": "MOUSEENTER",
+          "type": "MOUSEENTER",
           "todo": {
-            "class": "SET_MOUSE_LABEL",
+            "type": "SET_MOUSE_LABEL",
             "label": "Ready !?"
           }
         },
         {
-          "class": "MOUSELEAVE",
+          "type": "MOUSELEAVE",
           "todo": {
-            "class": "PARALLEL",
+            "type": "PARALLEL",
             "todos": [
               {
-                "class": "SET_MOUSE_LABEL",
+                "type": "SET_MOUSE_LABEL",
                 "label": ""
               },
               {
-                "class": "LOG",
+                "type": "LOG",
                 "message": "Bye rectangle"
               },
               {
-                "class": "LOG",
+                "type": "LOG",
                 "message": "ByeBye"
               },
               {
-                "class": "PLAY_TRANSITION",
+                "type": "PLAY_TRANSITION",
                 "duration": 1,
                 "delay": 1,
                 "transition": "transition/spiral.png"

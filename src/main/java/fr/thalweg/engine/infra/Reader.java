@@ -17,6 +17,7 @@ public class Reader {
 
     private Reader() {
         this.json = new Json();
+        this.json.setTypeName("type");
         this.json.setIgnoreDeprecated(true);
         for (TriggerTypeEnumData triggerType : TriggerTypeEnumData.values()) {
             this.json.addClassTag(triggerType.getValue(), triggerType.getTarget());
