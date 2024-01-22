@@ -16,7 +16,6 @@ import fr.thalweg.engine.transformer.toECS.ToEntity;
 public class ThalwegScreen extends ScreenAdapter {
 
     private final static String LOG_TAG = "ThalwegScreen";
-    public final String sourceFile;
     private final ThalwegGame thalwegGame;
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
@@ -27,7 +26,6 @@ public class ThalwegScreen extends ScreenAdapter {
     public ThalwegScreen(ThalwegGame thalwegGame, String sourceFile, SpriteBatch batch, OrthographicCamera camera, Viewport viewport, Viewport textViewport) {
         Gdx.app.debug(LOG_TAG, "Creating new screen : " + sourceFile);
         this.thalwegGame = thalwegGame;
-        this.sourceFile = sourceFile;
         this.batch = batch;
         this.camera = camera;
         this.viewport = viewport;

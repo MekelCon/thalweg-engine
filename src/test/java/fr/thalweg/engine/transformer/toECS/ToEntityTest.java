@@ -49,7 +49,7 @@ class ToEntityTest {
                 null,
                 new ThalwegActorData()
                         .triggers(List.of(new TriggerData()
-                                .type(TriggerTypeEnumData.MOUSEENTER))));
+                                .type(TriggerTypeEnumData.MOUSE_ENTER))));
         assertNull(e.getComponent(MouseTriggerComponent.class));
     }
 
