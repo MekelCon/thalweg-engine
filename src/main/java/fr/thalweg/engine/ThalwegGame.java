@@ -12,6 +12,7 @@ import fr.thalweg.engine.infra.Reader;
 import fr.thalweg.engine.infra.data.ThalwegGameConfigurationData;
 import fr.thalweg.engine.model.Directory;
 import fr.thalweg.engine.system.CameraSystem;
+import fr.thalweg.engine.system.rendering.DebugInfoRenderingSystem;
 import fr.thalweg.engine.system.rendering.MouseTriggerDebugRenderingSystem;
 import fr.thalweg.engine.system.rendering.TextRenderingSystem;
 import fr.thalweg.engine.system.rendering.WorldRenderingSystem;
@@ -76,8 +77,10 @@ public class ThalwegGame extends Game {
         ecsEngine.addSystem(new WorldRenderingSystem(config.world, batch, viewport));
         if (config.debug) {
             ecsEngine.addSystem(new MouseTriggerDebugRenderingSystem(viewport));
+            ecsEngine.addSystem(new DebugInfoRenderingSystem(textViewport));
         }
         ecsEngine.addSystem(new TextRenderingSystem(root, textViewport));
+
 
         ecsEngine.addSystem(new MouseTriggerSystem(viewport));
         ecsEngine.addSystem(new AutoTriggerSystem());

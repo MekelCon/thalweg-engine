@@ -34,11 +34,11 @@ public class ParallelTask extends Task {
             }
 
         } else if (parallelTaskComponent._executors.size != 0) { // Subtask started but not ended
-            for (Iterator<Entity> itered = parallelTaskComponent._executors.iterator(); itered.hasNext(); ) {
-                var executor = itered.next();
+            for (Iterator<Entity> iterator = parallelTaskComponent._executors.iterator(); iterator.hasNext(); ) {
+                var executor = iterator.next();
                 if (executor.getComponents().size() == 0) {
                     getEngine().removeEntity(executor);
-                    itered.remove();
+                    iterator.remove();
                 }
             }
             for (int i = 0; i < parallelTaskComponent._executors.size; i++) {

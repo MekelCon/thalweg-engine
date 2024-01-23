@@ -94,8 +94,8 @@ public class ToEntity {
             if (triggerData.todo != null) {
                 switch (triggerData.type) {
                     case AUTO -> result.add(createAutoTriggerComponent(ecsEngine, triggerData.todo));
-                    case MOUSEENTER -> onMouseEnter = triggerData.todo;
-                    case MOUSELEAVE -> onMouseLeave = triggerData.todo;
+                    case MOUSE_ENTER -> onMouseEnter = triggerData.todo;
+                    case MOUSE_LEAVE -> onMouseLeave = triggerData.todo;
                 }
             }
         }

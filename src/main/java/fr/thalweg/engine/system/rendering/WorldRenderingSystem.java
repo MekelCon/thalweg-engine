@@ -26,7 +26,7 @@ public class WorldRenderingSystem extends SortedIteratingSystem {
     private final ComponentMapper<SpriteComponent> sm;
     private final SpriteBatch batch;
     private final FrameBuffer worldBuffer;
-    private final Viewport viewport;
+    final Viewport viewport;
     private final ComponentMapper<PlayTransitionTaskComp> pm;
     public boolean transitioning;
 

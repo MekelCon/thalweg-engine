@@ -13,28 +13,28 @@ import java.util.function.BiConsumer;
 
 @Mapper(mappingControl = DeepClone.class)
 public abstract class TaskUpdater {
-    public static ObjectMap<String, BiConsumer<TaskComp, TaskComp>> mappers = new ObjectMap<>(30);
-    static TaskUpdater INSTANCE = Mappers.getMapper(TaskUpdater.class);
+    public final static ObjectMap<String, BiConsumer<TaskComp, TaskComp>> MAPPERS = new ObjectMap<>(30);
+    final static TaskUpdater INSTANCE = Mappers.getMapper(TaskUpdater.class);
 
     static {
-        mappers.put(TaskTypeEnumData.LOG.value, (source, target) ->
+        MAPPERS.put(TaskTypeEnumData.LOG.value, (source, target) ->
                 INSTANCE.updateInternal((LogTaskComp) source, (LogTaskComp) target));
-        mappers.put(TaskTypeEnumData.PARALLEL.value, (source, target) ->
+        MAPPERS.put(TaskTypeEnumData.PARALLEL.value, (source, target) ->
                 INSTANCE.updateInternal((ParallelTaskComp) source, (ParallelTaskComp) target));
-        mappers.put(TaskTypeEnumData.PLAY_TRANSITION.value, (source, target) ->
+        MAPPERS.put(TaskTypeEnumData.PLAY_TRANSITION.value, (source, target) ->
                 INSTANCE.updateInternal((PlayTransitionTaskComp) source, (PlayTransitionTaskComp) target));
-        mappers.put(TaskTypeEnumData.SEQUENCE.value, (source, target) ->
+        MAPPERS.put(TaskTypeEnumData.SEQUENCE.value, (source, target) ->
                 INSTANCE.updateInternal((SequenceTaskComp) source, (SequenceTaskComp) target));
-        mappers.put(TaskTypeEnumData.SET_CURSOR.value, (source, target) ->
+        MAPPERS.put(TaskTypeEnumData.SET_CURSOR.value, (source, target) ->
                 INSTANCE.updateInternal((SetCursorTaskComp) source, (SetCursorTaskComp) target));
-        mappers.put(TaskTypeEnumData.SET_MOUSE_LABEL.value, (source, target) ->
+        MAPPERS.put(TaskTypeEnumData.SET_MOUSE_LABEL.value, (source, target) ->
                 INSTANCE.updateInternal((SetMouseLabelTaskComp) source, (SetMouseLabelTaskComp) target));
-        mappers.put(TaskTypeEnumData.WAIT.value, (source, target) ->
+        MAPPERS.put(TaskTypeEnumData.WAIT.value, (source, target) ->
                 INSTANCE.updateInternal((WaitTaskComp) source, (WaitTaskComp) target));
     }
 
     public void update(TaskComp source, TaskComp target) {
-        mappers.get(source.type.value).accept(source, target);
+        MAPPERS.get(source.type.value).accept(source, target);
     }
 
     public abstract void updateInternal(LogTaskComp source, @MappingTarget LogTaskComp target);

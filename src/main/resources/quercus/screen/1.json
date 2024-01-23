@@ -32,7 +32,7 @@
       "texture": "sprite/norah.png",
       "triggers": [
         {
-          "type": "MOUSEENTER",
+          "type": "MOUSE_ENTER",
           "todo": {
             "type": "SEQUENCE",
             "todos": [
@@ -68,7 +68,7 @@
           }
         },
         {
-          "type": "MOUSELEAVE",
+          "type": "MOUSE_LEAVE",
           "todo": {
             "type": "SET_MOUSE_LABEL",
             "label": "OUT"
@@ -118,14 +118,14 @@
       ],
       "triggers": [
         {
-          "type": "MOUSEENTER",
+          "type": "MOUSE_ENTER",
           "todo": {
             "type": "SET_MOUSE_LABEL",
             "label": "Ready !?"
           }
         },
         {
-          "type": "MOUSELEAVE",
+          "type": "MOUSE_LEAVE",
           "todo": {
             "type": "PARALLEL",
             "todos": [

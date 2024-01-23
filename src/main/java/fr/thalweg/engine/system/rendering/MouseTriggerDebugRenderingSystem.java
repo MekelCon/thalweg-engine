@@ -64,7 +64,6 @@ public class MouseTriggerDebugRenderingSystem extends IteratingSystem {
                         polygonComponent.polygon.getTransformedVertices()[i + 1],
                         polygonComponent.polygon.getTransformedVertices()[i + 2],
                         polygonComponent.polygon.getTransformedVertices()[i + 3]);
-
             }
         }
     }

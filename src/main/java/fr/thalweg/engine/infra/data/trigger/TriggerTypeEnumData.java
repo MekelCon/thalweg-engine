@@ -7,9 +7,9 @@ public enum TriggerTypeEnumData {
 
     AUTO("AUTO", AutoTriggerData.class),
 
-    MOUSEENTER("MOUSEENTER", MouseEnterTriggerData.class),
+    MOUSE_ENTER("MOUSE_ENTER", MouseEnterTriggerData.class),
 
-    MOUSELEAVE("MOUSELEAVE", MouseLeaveTriggerData.class);
+    MOUSE_LEAVE("MOUSE_LEAVE", MouseLeaveTriggerData.class);
 
     private final String value;
 
