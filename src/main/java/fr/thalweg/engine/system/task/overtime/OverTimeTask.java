@@ -43,7 +43,6 @@ public abstract class OverTimeTask extends Task {
                 getEngine().removeEntity(entity);
             }
         }
-
     }
 
     /**
