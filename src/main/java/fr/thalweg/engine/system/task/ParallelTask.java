@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.ParallelTaskComp;
 import fr.thalweg.engine.component.task.TaskComp;
+import fr.thalweg.engine.component.task.TaskTypeEnumData;
 
 import java.util.Iterator;
 
@@ -26,11 +27,7 @@ public class ParallelTask extends Task {
             parallelTaskComponent._started = true;
             parallelTaskComponent._executors = new Array<>(parallelTaskComponent.todos.size);
             for (TaskComp component : parallelTaskComponent.todos) {
-                Entity executor = getEngine().createEntity();
-                executor.add(getEngine().createComponent(WorkingFlag.class));
-                executor.add(component);
-                getEngine().addEntity(executor);
-                parallelTaskComponent._executors.add(executor);
+                addAllParallel(parallelTaskComponent._executors, component);
             }
 
         } else if (parallelTaskComponent._executors.size != 0) { // Subtask started but not ended
@@ -50,6 +47,21 @@ public class ParallelTask extends Task {
         } else { // All subtask ended
             entity.remove(WorkingFlag.class);
             getEngine().removeEntity(entity);
+        }
+    }
+
+    private void addAllParallel(Array<Entity> executors, TaskComp component) {
+        if (TaskTypeEnumData.PARALLEL == component.type) {
+            for (TaskComp todo : ((ParallelTaskComp) component).todos) {
+                addAllParallel(executors, todo);
+            }
+        } else {
+            Entity executor = getEngine().createEntity();
+            executor
+                    .add(getEngine().createComponent(WorkingFlag.class))
+                    .add(component);
+            getEngine().addEntity(executor);
+            executors.add(executor);
         }
     }
 }

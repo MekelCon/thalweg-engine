@@ -9,14 +9,45 @@
             "type": "PARALLEL",
             "todos": [
               {
-                "type": "SET_CURSOR",
-                "cursor": "/cursor/cursor.png"
+                "type": "PARALLEL",
+                "todos": [
+                  {
+                    "type": "PARALLEL",
+                    "todos": [
+                      {
+                        "type": "SET_CURSOR",
+                        "cursor": "/cursor/cursor.png"
+                      },
+                      {
+                        "type": "SEQUENCE",
+                        "todos": [
+                          {
+                            "type": "PLAY_TRANSITION",
+                            "duration": 0.4,
+                            "delay": 1,
+                            "transition": "transition/center_to_border.png"
+                          },
+                          {
+                            "type": "LOG",
+                            "message": "End transition"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "LOG",
+                        "message": "level3"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "LOG",
+                    "message": "level2"
+                  }
+                ]
               },
               {
-                "type": "PLAY_TRANSITION",
-                "duration": 0.4,
-                "delay": 1,
-                "transition": "transition/center_to_border.png"
+                "type": "LOG",
+                "message": "level1"
               }
             ]
           }
