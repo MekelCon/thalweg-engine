@@ -10,4 +10,11 @@ public abstract class ArrayTaskComp extends TaskComp {
         super.reset();
         todos.clear();
     }
+
+    @Override
+    public void build() {
+        for (TaskComp todo : todos) {
+            todo.build();
+        }
+    }
 }
