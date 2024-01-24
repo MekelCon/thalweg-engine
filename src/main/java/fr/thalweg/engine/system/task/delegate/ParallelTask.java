@@ -1,4 +1,4 @@
-package fr.thalweg.engine.system.task;
+package fr.thalweg.engine.system.task.delegate;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -7,6 +7,7 @@ import fr.thalweg.engine.component.flag.WorkingFlag;
 import fr.thalweg.engine.component.task.ParallelTaskComp;
 import fr.thalweg.engine.component.task.TaskComp;
 import fr.thalweg.engine.component.task.TaskTypeEnumData;
+import fr.thalweg.engine.system.task.Task;
 
 import java.util.Iterator;
 

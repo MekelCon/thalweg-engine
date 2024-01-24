@@ -16,8 +16,9 @@ import fr.thalweg.engine.system.rendering.DebugInfoRenderingSystem;
 import fr.thalweg.engine.system.rendering.MouseTriggerDebugRenderingSystem;
 import fr.thalweg.engine.system.rendering.TextRenderingSystem;
 import fr.thalweg.engine.system.rendering.WorldRenderingSystem;
-import fr.thalweg.engine.system.task.ParallelTask;
-import fr.thalweg.engine.system.task.SequenceTask;
+import fr.thalweg.engine.system.task.delegate.LoadTask;
+import fr.thalweg.engine.system.task.delegate.ParallelTask;
+import fr.thalweg.engine.system.task.delegate.SequenceTask;
 import fr.thalweg.engine.system.task.oneshot.LogTask;
 import fr.thalweg.engine.system.task.oneshot.SetCursorTask;
 import fr.thalweg.engine.system.task.overtime.PlayTransitionTask;
@@ -85,9 +86,10 @@ public class ThalwegGame extends Game {
         ecsEngine.addSystem(new MouseTriggerSystem(viewport));
         ecsEngine.addSystem(new AutoTriggerSystem());
         // Task System
-        // 1st treat wrapper task, so atomic tack will be executed during the same frame
+        // 1st treat wrapper task, so atomic task will be executed during the same frame
         ecsEngine.addSystem(new ParallelTask());
         ecsEngine.addSystem(new SequenceTask());
+        ecsEngine.addSystem(new LoadTask());
         // Atomic Task
         ecsEngine.addSystem(new LogTask());
         ecsEngine.addSystem(new PlayTransitionTask());

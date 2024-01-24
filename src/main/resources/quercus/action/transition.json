@@ -1,0 +1,6 @@
+{
+  "type": "PLAY_TRANSITION",
+  "duration": 0.4,
+  "delay": 1,
+  "transition": "transition/center_to_border.png"
+}

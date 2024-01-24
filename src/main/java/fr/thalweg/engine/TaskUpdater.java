@@ -17,6 +17,8 @@ public abstract class TaskUpdater {
     final static TaskUpdater INSTANCE = Mappers.getMapper(TaskUpdater.class);
 
     static {
+        MAPPERS.put(TaskTypeEnumData.LOAD.value, (source, target) ->
+                INSTANCE.updateInternal((LoadTaskComp) source, (LoadTaskComp) target));
         MAPPERS.put(TaskTypeEnumData.LOG.value, (source, target) ->
                 INSTANCE.updateInternal((LogTaskComp) source, (LogTaskComp) target));
         MAPPERS.put(TaskTypeEnumData.PARALLEL.value, (source, target) ->
@@ -36,6 +38,11 @@ public abstract class TaskUpdater {
     public void update(TaskComp source, TaskComp target) {
         MAPPERS.get(source.type.value).accept(source, target);
     }
+
+
+    @Mapping(target = "_executor", ignore = true)
+    @Mapping(target = "_todo", ignore = true)
+    public abstract void updateInternal(LoadTaskComp source, @MappingTarget LoadTaskComp target);
 
     public abstract void updateInternal(LogTaskComp source, @MappingTarget LogTaskComp target);
 

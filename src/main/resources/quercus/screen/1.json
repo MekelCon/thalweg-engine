@@ -73,7 +73,7 @@
               },
               {
                 "type": "WAIT",
-                "duration": 2
+                "duration": 1
               },
               {
                 "type": "LOG",
@@ -81,7 +81,7 @@
               },
               {
                 "type": "WAIT",
-                "duration": 2
+                "duration": 1
               },
               {
                 "type": "LOG",
@@ -89,11 +89,19 @@
               },
               {
                 "type": "WAIT",
-                "duration": 2
+                "duration": 1
               },
               {
                 "type": "LOG",
                 "message": "Enter Norah 3"
+              },
+              {
+                "type": "WAIT",
+                "duration": 1
+              },
+              {
+                "type": "LOAD",
+                "path": "action/log.json"
               }
             ]
           }
@@ -101,8 +109,17 @@
         {
           "type": "MOUSE_LEAVE",
           "todo": {
-            "type": "SET_MOUSE_LABEL",
-            "label": "OUT"
+            "type": "PARALLEL",
+            "todos": [
+              {
+                "type": "LOAD",
+                "path": "action/transition.json"
+              },
+              {
+                "type": "SET_MOUSE_LABEL",
+                "label": "OUT"
+              }
+            ]
           }
         },
         {
