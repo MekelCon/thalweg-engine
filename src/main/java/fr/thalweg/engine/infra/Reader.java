@@ -45,19 +45,14 @@ public class Reader {
         }
     }
 
-    public static class TaskSerializer<T extends TaskComp> implements Json.Serializer<T> {
-
-        @Override
-        public void write(Json json, TaskComp object, Class knownType) {
-            // TODO ?
-        }
+    public static class TaskSerializer<T extends TaskComp> extends Json.ReadOnlySerializer<T> {
 
         @Override
         @SuppressWarnings("unchecked")
         public T read(Json json, JsonValue jsonData, Class type) {
-            var result = (T) Reader.ENGINE.createComponent(type);
+            var result = Reader.ENGINE.createComponent(type);
             json.readFields(result, jsonData);
-            return result;
+            return (T) result;
         }
     }
 }

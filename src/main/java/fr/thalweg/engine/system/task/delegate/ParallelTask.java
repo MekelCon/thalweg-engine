@@ -26,11 +26,9 @@ public class ParallelTask extends Task {
         var parallelTaskComponent = cm.get(entity);
         if (!parallelTaskComponent._started) { // The task is not started
             parallelTaskComponent._started = true;
-            parallelTaskComponent._executors = new Array<>(parallelTaskComponent.todos.size);
             for (TaskComp component : parallelTaskComponent.todos) {
                 addAllParallel(parallelTaskComponent._executors, component);
             }
-
         } else if (parallelTaskComponent._executors.size != 0) { // Subtask started but not ended
             for (Iterator<Entity> iterator = parallelTaskComponent._executors.iterator(); iterator.hasNext(); ) {
                 var executor = iterator.next();

@@ -15,16 +15,13 @@ public class LoadTaskComp extends TaskComp {
     public void reset() {
         super.reset();
         path = null;
-        _executor = null;
     }
 
     @Override
     public void build() {
         super.build();
-        _todo = Reader.getInstance().read(
+        _todo = ThalwegGame.INSTANCE.getEcsEngine().createTaskComponent(Reader.getInstance().read(
                 Gdx.files.internal(ThalwegGame.INSTANCE.getRoot().getSubFolder(path)),
-                TaskComp.class);
+                TaskComp.class));
     }
-
-
 }

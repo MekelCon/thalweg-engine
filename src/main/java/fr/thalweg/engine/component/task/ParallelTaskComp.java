@@ -11,7 +11,7 @@ public class ParallelTaskComp extends ArrayTaskComp {
     @Override
     public void build() {
         super.build();
-        _executors.setSize(todos.size);
+        //   _executors.shrink();
     }
 
     @Override
